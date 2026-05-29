@@ -1,0 +1,261 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verito Garga Inmobiliaria</title>
+    <meta name="description" content="Venta, alquiler, tasaciones y propuestas inmobiliarias en Argentina. Contacto directo por WhatsApp, Instagram y mail." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <h1>Verito Garga Inmobiliaria</h1>
+        <button id="menuToggle" class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mainNav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav id="mainNav">
+          <a href="#venta">Venta</a>
+          <a href="#alquiler">Alquiler</a>
+          <a href="#reels">Reels</a>
+          <a href="#tasaciones">Tasaciones</a>
+          <a href="#credito">Credito</a>
+          <a href="#propuestas">Propuestas</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <p class="hero-tag">Asesoria inmobiliaria personalizada</p>
+          <h2>Encontra propiedades con filtros reales y resultados claros</h2>
+          <p class="hero-sub">Casas, departamentos y lotes seleccionados con asesoramiento humano en cada etapa.</p>
+          <div class="hero-actions">
+            <a class="icon-btn icon-whatsapp" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20asesoramiento%20inmobiliario" aria-label="WhatsApp">
+              <img src="https://cdn.simpleicons.org/whatsapp/ffffff" alt="WhatsApp" />
+            </a>
+            <a class="icon-btn icon-light" target="_blank" rel="noreferrer" href="https://www.instagram.com/verito.garga/?hl=es" aria-label="Instagram">
+              <img src="https://cdn.simpleicons.org/instagram/17344a" alt="Instagram" />
+            </a>
+            <a class="icon-btn icon-light" target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga" aria-label="TikTok">
+              <img src="https://cdn.simpleicons.org/tiktok/17344a" alt="TikTok" />
+            </a>
+            <a class="icon-btn icon-light" href="mailto:gargaglioneveronica@gmail.com" aria-label="Gmail">
+              <img src="https://cdn.simpleicons.org/gmail/17344a" alt="Gmail" />
+            </a>
+          </div>
+          <div class="hero-badges">
+            <span>⌂ Hogares verificados</span>
+            <span>◈ Atencion personalizada</span>
+            <span>▣ Acompanamiento legal</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="filters-wrap">
+        <div class="container">
+          <div class="filters-card">
+            <div class="filters-grid">
+              <label>
+                Operacion
+                <select id="filterOperation">
+                  <option value="all">Todas</option>
+                  <option value="venta">Venta</option>
+                  <option value="alquiler">Alquiler</option>
+                </select>
+              </label>
+              <label>
+                Ubicacion
+                <input id="filterLocation" type="text" placeholder="Ej: General Rodriguez" />
+              </label>
+              <label>
+                Precio maximo (USD)
+                <input id="filterPrice" type="number" min="0" placeholder="Ej: 200000" />
+              </label>
+              <label>
+                Minimo de ambientes
+                <select id="filterRooms">
+                  <option value="0">Cualquiera</option>
+                  <option value="1">1+</option>
+                  <option value="2">2+</option>
+                  <option value="3">3+</option>
+                  <option value="4">4+</option>
+                </select>
+              </label>
+              <label>
+                Minimo de banos
+                <select id="filterBathrooms">
+                  <option value="0">Cualquiera</option>
+                  <option value="1">1+</option>
+                  <option value="2">2+</option>
+                  <option value="3">3+</option>
+                </select>
+              </label>
+              <button id="clearFilters" type="button" class="btn-secondary">Limpiar filtros</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="venta" class="section section-tone-1">
+        <div class="container">
+          <div class="section-title">
+            <h2>⌂ Propiedades en Venta</h2>
+            <span id="ventaCount" class="count"></span>
+          </div>
+          <div id="ventaGrid" class="cards-grid"></div>
+        </div>
+      </section>
+
+      <section id="alquiler" class="section section-tone-2">
+        <div class="container">
+          <div class="section-title">
+            <h2>⌂ Propiedades en Alquiler</h2>
+            <span id="alquilerCount" class="count"></span>
+          </div>
+          <div id="alquilerGrid" class="cards-grid"></div>
+        </div>
+      </section>
+
+      <section id="reels" class="section section-tone-3">
+        <div class="container">
+          <div class="section-title">
+            <h2>Reels y Recorridos</h2>
+            <a class="btn-secondary" target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga">Ver TikTok</a>
+          </div>
+          <div class="reels-grid">
+            <article class="reel-card">
+              <video controls playsinline preload="metadata" poster="">
+                <source src="./reels/WhatsApp%20Video%202026-05-29%20at%2015.17.49.mp4" type="video/mp4" />
+              </video>
+              <p>Tour de propiedad destacada</p>
+            </article>
+            <article class="reel-card">
+              <video controls playsinline preload="metadata" poster="">
+                <source src="./reels/WhatsApp%20Video%202026-05-29%20at%2015.17.51.mp4" type="video/mp4" />
+              </video>
+              <p>Recorrido express para redes</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="tasaciones" class="section section-tone-4">
+        <div class="container">
+          <h2>Tasaciones</h2>
+          <div class="tasacion-layout">
+            <div class="tasacion-card">
+              <p class="proposal-tag">Valor real de tu propiedad</p>
+              <h3>Tasacion profesional con enfoque comercial</h3>
+              <p>
+                Te entregamos una valuacion clara basada en comparables, demanda actual y estrategia para vender o alquilar mejor.
+              </p>
+              <ul class="proposal-list">
+                <li>Analisis de zona y valores actuales</li>
+                <li>Estimacion de precio sugerido</li>
+                <li>Recomendacion de publicacion</li>
+              </ul>
+            </div>
+            <form class="tasacion-form" action="https://wa.me/5491153175943" method="get" target="_blank">
+              <label>Nombre<input type="text" name="text" placeholder="Hola Verito, soy..." required /></label>
+              <label>Zona de la propiedad<input type="text" placeholder="Ej: General Rodriguez" required /></label>
+              <label>Tipo de propiedad
+                <select required>
+                  <option value="">Seleccionar</option>
+                  <option>Casa</option>
+                  <option>Departamento</option>
+                  <option>Lote</option>
+                  <option>PH</option>
+                </select>
+              </label>
+              <button type="submit" class="btn-primary">Consultar tasacion por WhatsApp</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="credito" class="section section-tone-5">
+        <div class="container">
+          <h2>Credito Hipotecario</h2>
+          <div class="credit-card">
+            <p class="proposal-tag">Financiacion y oportunidades</p>
+            <h3>Aceptamos propiedades a credito y operaciones combinadas</h3>
+            <p>
+              Te asesoramos para comprar con credito hipotecario, presentar carpetas bancarias y evaluar propiedades aptas para financiacion.
+            </p>
+            <ul class="proposal-list">
+              <li>Propiedades aptas credito</li>
+              <li>Asistencia con documentacion</li>
+              <li>Analisis de cuotas y viabilidad</li>
+            </ul>
+            <div class="hero-actions">
+              <a class="btn-primary" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20comprar%20con%20credito%20hipotecario">Consultar por credito</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="propuestas" class="section section-tone-6">
+        <div class="container">
+          <h2>Propuestas</h2>
+          <div class="proposal-card">
+            <div>
+              <p class="proposal-tag">Atencion directa</p>
+              <h3>Envia tu propuesta y te respondemos rapido</h3>
+              <p>
+                Si queres ofertar por una propiedad en venta o alquiler, enviame los datos y preparo una estrategia de negociacion clara para avanzar con seguridad.
+              </p>
+              <ul class="proposal-list">
+                <li>Analisis de propuesta en 24 hs</li>
+                <li>Revision de condiciones y documentacion</li>
+                <li>Acompanamiento hasta el cierre</li>
+              </ul>
+            </div>
+            <div class="proposal-actions">
+              <a class="btn-primary" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20enviar%20una%20propuesta">Enviar por WhatsApp</a>
+              <a class="btn-secondary" href="mailto:gargaglioneveronica@gmail.com?subject=Propuesta%20inmobiliaria">Enviar por Email</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <div>
+            <h3>Verito Garga Inmobiliaria</h3>
+            <p>Atencion personalizada para venta, alquiler y tasaciones.</p>
+          </div>
+          <div class="footer-contact">
+            <a target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20asesoramiento%20inmobiliario">WhatsApp: +54 11 5317-5943</a>
+            <a target="_blank" rel="noreferrer" href="https://www.instagram.com/verito.garga/?hl=es">Instagram: @verito.garga</a>
+            <a target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga">TikTok: @veritogarga</a>
+            <a href="mailto:gargaglioneveronica@gmail.com">gargaglioneveronica@gmail.com</a>
+            <div class="social-logos">
+              <a target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20asesoramiento%20inmobiliario" aria-label="WhatsApp">
+                <img src="https://cdn.simpleicons.org/whatsapp/17344a" alt="Logo WhatsApp" />
+              </a>
+              <a target="_blank" rel="noreferrer" href="https://www.instagram.com/verito.garga/?hl=es" aria-label="Instagram">
+                <img src="https://cdn.simpleicons.org/instagram/17344a" alt="Logo Instagram" />
+              </a>
+              <a target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga" aria-label="TikTok">
+                <img src="https://cdn.simpleicons.org/tiktok/17344a" alt="Logo TikTok" />
+              </a>
+              <a href="mailto:gargaglioneveronica@gmail.com" aria-label="Gmail">
+                <img src="https://cdn.simpleicons.org/gmail/17344a" alt="Logo Gmail" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <a class="wa-float" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20asesoramiento%20inmobiliario">WhatsApp</a>
+    <script src="./script.js"></script>
+  </body>
+</html>

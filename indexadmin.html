@@ -1,0 +1,55 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Verito Garga Inmobiliaria</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <h1>Panel Admin</h1>
+        <nav>
+          <a href="./index.html">Volver al sitio</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <h2>Cargar propiedad</h2>
+        <form id="adminForm" class="admin-form">
+          <label>Titulo<input name="title" required /></label>
+          <label>Operacion
+            <select name="operation">
+              <option value="venta">Venta</option>
+              <option value="alquiler">Alquiler</option>
+            </select>
+          </label>
+          <label>Precio visible (ej: USD 185.000)<input name="priceLabel" required /></label>
+          <label>Precio numerico USD (para filtro)<input name="priceUsd" type="number" min="0" required /></label>
+          <label>Ubicacion<input name="location" required /></label>
+          <label>Metros m2<input name="meters" type="number" min="0" required /></label>
+          <label>Ambientes<input name="rooms" type="number" min="1" required /></label>
+          <label>Banos<input name="bathrooms" type="number" min="1" required /></label>
+          <label>Adicionales<input name="extras" placeholder="Pileta, parrilla, cochera" /></label>
+          <label>Fotos (URLs separadas por coma)
+            <input name="photos" placeholder="https://..., https://..." required />
+          </label>
+          <label>Link de Google Maps (pegar URL)
+            <input name="mapLink" placeholder="https://maps.google.com/..." />
+          </label>
+          <button type="submit" class="btn-secondary">Guardar propiedad</button>
+        </form>
+
+        <p id="adminMsg" class="muted"></p>
+
+        <h2>Propiedades cargadas</h2>
+        <div id="adminList" class="cards-grid"></div>
+      </div>
+    </main>
+
+    <script src="./admin.js"></script>
+  </body>
+</html>
