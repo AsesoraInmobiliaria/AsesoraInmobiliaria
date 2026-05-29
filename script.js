@@ -1,5 +1,5 @@
 ﻿const STORAGE_KEY = 'vg_properties'
-const WHATSAPP_LINK = 'https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20informacion%20de%20esta%20propiedad'
+const WHATSAPP_NUMBER = '5491153175943'
 
 const baseProperties = [
   {
@@ -48,7 +48,7 @@ const baseProperties = [
     meters: 78,
     bathrooms: 1,
     rooms: 3,
-    extras: 'Balcon, SUM, seguridad 24h',
+    extras: 'Balcón, SUM, seguridad 24h',
     mapLink: 'Lujan Centro, Buenos Aires, Argentina',
     photos: [
       'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80',
@@ -99,6 +99,10 @@ function getEmbedMapUrl(link) {
   return `https://www.google.com/maps?q=${encodeURIComponent(trimmed)}&output=embed`
 }
 
+function getWhatsAppLink(message) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+}
+
 const refs = {
   ventaGrid: document.getElementById('ventaGrid'),
   alquilerGrid: document.getElementById('alquilerGrid'),
@@ -114,6 +118,7 @@ const refs = {
 
 const menuToggle = document.getElementById('menuToggle')
 const mainNav = document.getElementById('mainNav')
+const tasacionForm = document.getElementById('tasacionForm')
 
 if (menuToggle && mainNav) {
   menuToggle.addEventListener('click', () => {
@@ -126,6 +131,18 @@ if (menuToggle && mainNav) {
       mainNav.classList.remove('is-open')
       menuToggle.setAttribute('aria-expanded', 'false')
     })
+  })
+}
+
+if (tasacionForm) {
+  tasacionForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const nombre = document.getElementById('tasacionNombre')?.value.trim() || ''
+    const zona = document.getElementById('tasacionZona')?.value.trim() || ''
+    const tipo = document.getElementById('tasacionTipo')?.value.trim() || ''
+
+    const message = `Hola Verito, quiero consultar una tasación. Nombre: ${nombre}. Zona: ${zona}. Tipo de propiedad: ${tipo}.`
+    window.open(getWhatsAppLink(message), '_blank', 'noopener,noreferrer')
   })
 }
 
@@ -169,24 +186,27 @@ function createCard(property) {
     ? `<iframe class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${getEmbedMapUrl(property.mapLink)}"></iframe>`
     : '<p class="muted">Mapa disponible a solicitud.</p>'
 
+  const propertyMessage = `Hola Verito, me interesa esta propiedad: ${property.title} (${property.operation}) en ${property.location}. Precio: ${property.priceLabel}.`
+  const propertyWhatsappLink = getWhatsAppLink(propertyMessage)
+
   body.innerHTML = `
     <h3>${property.title}</h3>
     <p class="price">${property.priceLabel}</p>
     <p class="muted">${property.location}</p>
     <div class="card-actions">
-      <button class="more-btn" type="button">Ver mas</button>
+      <button class="more-btn" type="button">Ver más</button>
       <button class="more-btn map-btn" type="button">Ver mapa</button>
     </div>
     <div class="card-extra">
       <div class="meta">
         <span>${property.meters} m2</span>
         <span>${property.rooms} amb.</span>
-        <span>${property.bathrooms} banos</span>
+        <span>${property.bathrooms} baños</span>
       </div>
       <p class="muted">${property.extras || ''}</p>
     </div>
     <div class="map-box">${mapHtml}</div>
-    <p class="muted"><a class="btn-primary" target="_blank" rel="noreferrer" href="${WHATSAPP_LINK}">Consultar por WhatsApp</a></p>
+    <p class="muted"><a class="btn-primary" target="_blank" rel="noreferrer" href="${propertyWhatsappLink}">Consultar por WhatsApp</a></p>
   `
 
   card.append(carousel, body)
@@ -196,7 +216,7 @@ function createCard(property) {
   const mapBox = body.querySelector('.map-box')
   moreBtn.addEventListener('click', () => {
     const isOpen = extra.classList.toggle('is-open')
-    moreBtn.textContent = isOpen ? 'Ver menos' : 'Ver mas'
+    moreBtn.textContent = isOpen ? 'Ver menos' : 'Ver más'
   })
   mapBtn.addEventListener('click', () => {
     const isOpen = mapBox.classList.toggle('is-open')
