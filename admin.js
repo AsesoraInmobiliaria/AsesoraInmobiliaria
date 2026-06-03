@@ -2,7 +2,20 @@ const SUPABASE_URL = 'https://kxtbuqgqpgaseiaoclri.supabase.co'
 const SUPABASE_KEY = 'sb_publishable_KiAQsHfP0ACCEWhAI2_qZg_Ng2KDSas'
 const STATS_KEY = 'vg_stats' // Para leer las visitas locales de las propiedades base
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+let supabase = null
+try {
+  if (window.supabase && typeof window.supabase.createClient === 'function') {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  } else {
+    console.warn('Supabase SDK not loaded or window.supabase is undefined. Running in offline/fallback mode.')
+  }
+} catch (err) {
+  console.error('Error initializing Supabase client:', err)
+}
+
+// Prevent default drag/drop behaviors across the window to avoid opening files in browser
+window.addEventListener('dragover', (e) => e.preventDefault(), false)
+window.addEventListener('drop', (e) => e.preventDefault(), false)
 
 // Sin propiedades demo: solo se muestran las propiedades reales de Supabase
 const baseProperties = []
@@ -67,7 +80,9 @@ if (fileInput) {
 
 function handleFiles(files) {
   Array.from(files).forEach((file) => {
-    if (!file.type.startsWith('image/')) return
+    const ext = file.name.split('.').pop().toLowerCase()
+    const isImage = file.type.startsWith('image/') || ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)
+    if (!isImage) return
     const reader = new FileReader()
     reader.onload = (event) => {
       const id = 'img_' + Math.random().toString(36).substr(2, 9)
@@ -137,7 +152,7 @@ function handleDrop(e) {
   e.stopPropagation()
   e.preventDefault()
 
-  if (dragSrcEl !== this) {
+  if (dragSrcEl && dragSrcEl !== this) {
     const fromIndex = parseInt(dragSrcEl.dataset.index)
     const toIndex = parseInt(this.dataset.index)
 
@@ -157,6 +172,10 @@ function handleDragEnd() {
 
 async function renderList() {
   if (!list) return
+  if (!supabase) {
+    list.innerHTML = '<p class="muted" style="color:#dc3545; padding: 14px; border: 1px dashed #dc3545; border-radius:10px;">Error: No se pudo conectar con Supabase. Revisa tu conexión o desactiva bloqueadores de publicidad.</p>'
+    return
+  }
   list.innerHTML = '<p class="muted">Cargando propiedades de Supabase...</p>'
   
   try {
@@ -201,6 +220,10 @@ async function renderList() {
       const deleteBtn = card.querySelector('.delete-prop-btn')
       deleteBtn.addEventListener('click', async (e) => {
         e.stopPropagation()
+        if (!supabase) {
+          alert('Error: No se pudo conectar con Supabase.')
+          return
+        }
         if (confirm(`¿Seguro que querés eliminar la propiedad "${p.title}" de forma permanente?`)) {
           deleteBtn.disabled = true
           deleteBtn.textContent = 'Borrando...'
@@ -245,6 +268,12 @@ async function renderList() {
 if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
+    
+    if (!supabase) {
+      msg.textContent = 'Error: No se pudo conectar con Supabase. No se pueden guardar propiedades.'
+      alert('Error: No hay conexión con Supabase.')
+      return
+    }
     
     if (!currentPhotos.length) {
       msg.textContent = 'Tenes que cargar al menos una foto.'
@@ -371,7 +400,13 @@ let chartDistInstance = null
 
 async function initDashboard() {
   const tbody = document.getElementById('statsTableBody')
+  if (!tbody) return
   tbody.innerHTML = '<tr><td colspan="6" class="muted" style="text-align: center;">Cargando métricas...</td></tr>'
+
+  if (!supabase) {
+    tbody.innerHTML = '<tr><td colspan="6" class="muted" style="text-align: center; color:#dc3545;">Error: No se pudo conectar con Supabase.</td></tr>'
+    return
+  }
 
   try {
     const { data: dbProperties, error } = await supabase

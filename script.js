@@ -2,7 +2,16 @@ const SUPABASE_URL = 'https://kxtbuqgqpgaseiaoclri.supabase.co'
 const SUPABASE_KEY = 'sb_publishable_KiAQsHfP0ACCEWhAI2_qZg_Ng2KDSas'
 const WHATSAPP_NUMBER = '5491153175943'
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+let supabase = null
+try {
+  if (window.supabase && typeof window.supabase.createClient === 'function') {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  } else {
+    console.warn('Supabase SDK could not be loaded or window.supabase is undefined. Running in offline/fallback mode.')
+  }
+} catch (err) {
+  console.error('Error initializing Supabase client:', err)
+}
 
 // ─── Menú hamburguesa móvil ────────────────────────────────────────────────
 const menuToggle = document.getElementById('menuToggle')
@@ -39,6 +48,7 @@ async function trackView(propertyId) {
   if (trackedViews.has(propertyId)) return
   trackedViews.add(propertyId)
 
+  if (!supabase) return
   try {
     // Si es un ID numérico válido, llamamos al RPC de Supabase
     if (propertyId && !isNaN(propertyId)) {
@@ -50,6 +60,7 @@ async function trackView(propertyId) {
 }
 
 async function trackClick(propertyId) {
+  if (!supabase) return
   try {
     if (propertyId && !isNaN(propertyId)) {
       await supabase.rpc('increment_clicks', { prop_id: Number(propertyId) })
@@ -69,6 +80,12 @@ function getAllProperties() {
 }
 
 async function loadProperties() {
+  if (!supabase) {
+    console.warn('Supabase not connected. Loading offline properties.')
+    allProperties = [...baseProperties]
+    render()
+    return
+  }
   try {
     const { data, error } = await supabase
       .from('propiedades')
@@ -140,8 +157,7 @@ if (tasacionForm) {
     if (!nombre || !zona || !tipo) return
 
     const message = `¡Hola Verito! 📊 Me gustaría consultar por una tasación profesional.\n\n👤 *Nombre:* ${nombre}\n📍 *Zona de la propiedad:* ${zona}\n🏠 *Tipo:* ${tipo}\n\nQuedo a la espera de tu respuesta para coordinar. ¡Muchas gracias! 😊`
-    // Usar location.href en lugar de window.open para compatibilidad total con móviles
-    window.location.href = getWhatsAppLink(message)
+    window.open(getWhatsAppLink(message), '_blank')
   })
 }
 
