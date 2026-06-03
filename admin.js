@@ -457,98 +457,102 @@ async function initDashboard() {
     const viewsData = allProperties.slice(0, 10).map((p) => p.views)
     const clicksData = allProperties.slice(0, 10).map((p) => p.clicks)
 
-    const ctxViews = document.getElementById('chartViews').getContext('2d')
-    if (chartViewsInstance) {
-      chartViewsInstance.destroy()
-    }
-
-    chartViewsInstance = new Chart(ctxViews, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Visitas',
-            data: viewsData,
-            backgroundColor: '#17344a',
-            borderColor: '#17344a',
-            borderWidth: 1,
-            borderRadius: 4
-          },
-          {
-            label: 'Interacciones',
-            data: clicksData,
-            backgroundColor: '#b89052',
-            borderColor: '#b89052',
-            borderWidth: 1,
-            borderRadius: 4
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              color: '#eee'
-            }
-          },
-          x: {
-            grid: {
-              display: false
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            position: 'top',
-            labels: {
-              font: {
-                family: 'Manrope'
-              }
-            }
-          }
-        }
-      }
-    })
-
     const countVentas = allProperties.filter((p) => p.operation === 'venta').length
     const countAlquileres = allProperties.filter((p) => p.operation === 'alquiler').length
 
-    const ctxDist = document.getElementById('chartDistribution').getContext('2d')
-    if (chartDistInstance) {
-      chartDistInstance.destroy()
-    }
+    // Usamos setTimeout para dar tiempo al DOM de cambiar el display de none a block
+    // y permitir que Chart.js lea las dimensiones correctas en móvil.
+    setTimeout(() => {
+      const ctxViews = document.getElementById('chartViews').getContext('2d')
+      if (chartViewsInstance) {
+        chartViewsInstance.destroy()
+      }
 
-    chartDistInstance = new Chart(ctxDist, {
-      type: 'doughnut',
-      data: {
-        labels: ['Venta', 'Alquiler'],
-        datasets: [
-          {
-            data: [countVentas, countAlquileres],
-            backgroundColor: ['#17344a', '#b89052'],
-            hoverOffset: 4
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              font: {
-                family: 'Manrope'
+      chartViewsInstance = new Chart(ctxViews, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Visitas',
+              data: viewsData,
+              backgroundColor: '#17344a',
+              borderColor: '#17344a',
+              borderWidth: 1,
+              borderRadius: 4
+            },
+            {
+              label: 'Interacciones',
+              data: clicksData,
+              backgroundColor: '#b89052',
+              borderColor: '#b89052',
+              borderWidth: 1,
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: '#eee'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                font: {
+                  family: 'Manrope'
+                }
               }
             }
           }
         }
+      })
+
+      const ctxDist = document.getElementById('chartDistribution').getContext('2d')
+      if (chartDistInstance) {
+        chartDistInstance.destroy()
       }
-    })
+
+      chartDistInstance = new Chart(ctxDist, {
+        type: 'doughnut',
+        data: {
+          labels: ['Venta', 'Alquiler'],
+          datasets: [
+            {
+              data: [countVentas, countAlquileres],
+              backgroundColor: ['#17344a', '#b89052'],
+              hoverOffset: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                  family: 'Manrope'
+                }
+              }
+            }
+          }
+        }
+      })
+    }, 100)
 
   } catch (err) {
     console.error('Error rendering dashboard:', err)
