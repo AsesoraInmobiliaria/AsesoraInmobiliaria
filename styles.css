@@ -1022,6 +1022,14 @@ select:focus {
   height: 28px;
 }
 
+.wa-float-img {
+  width: 46px;
+  height: 46px;
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
 /* Drag & Drop Zone */
 .drop-zone {
   border: 2px dashed #b89052;
