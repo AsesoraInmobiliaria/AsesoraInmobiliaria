@@ -4,6 +4,35 @@ const WHATSAPP_NUMBER = '5491153175943'
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 
+// ─── Menú hamburguesa móvil ────────────────────────────────────────────────
+const menuToggle = document.getElementById('menuToggle')
+const mainNav = document.getElementById('mainNav')
+
+if (menuToggle && mainNav) {
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation()
+    const open = mainNav.classList.toggle('is-open')
+    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+  })
+
+  // Cerrar al tocar fuera del menú
+  document.addEventListener('click', (e) => {
+    if (mainNav.classList.contains('is-open') && !mainNav.contains(e.target) && e.target !== menuToggle) {
+      mainNav.classList.remove('is-open')
+      menuToggle.setAttribute('aria-expanded', 'false')
+    }
+  })
+
+  // Cerrar al tocar un link del menú
+  mainNav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      mainNav.classList.remove('is-open')
+      menuToggle.setAttribute('aria-expanded', 'false')
+    })
+  })
+}
+// ──────────────────────────────────────────────────────────────────────────
+
 const trackedViews = new Set()
 
 async function trackView(propertyId) {
@@ -30,80 +59,8 @@ async function trackClick(propertyId) {
   }
 }
 
-const baseProperties = [
-  {
-    id: 1,
-    operation: 'venta',
-    title: 'Casa moderna 4 ambientes',
-    priceUsd: 185000,
-    priceLabel: 'USD 185.000',
-    location: 'General Rodriguez',
-    meters: 180,
-    bathrooms: 2,
-    rooms: 4,
-    extras: 'Pileta, parrilla, cochera x2',
-    mapLink: 'General Rodriguez, Buenos Aires, Argentina',
-    photos: [
-      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80'
-    ]
-  },
-  {
-    id: 2,
-    operation: 'venta',
-    title: 'Lote residencial en esquina',
-    priceUsd: 38000,
-    priceLabel: 'USD 38.000',
-    location: 'Francisco Alvarez',
-    meters: 420,
-    bathrooms: 1,
-    rooms: 1,
-    extras: 'Todos los servicios, excelente acceso',
-    mapLink: 'Francisco Alvarez, Buenos Aires, Argentina',
-    photos: [
-      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1200&q=80'
-    ]
-  },
-  {
-    id: 3,
-    operation: 'alquiler',
-    title: 'Departamento 3 ambientes',
-    priceUsd: 780,
-    priceLabel: 'USD 780 / mes',
-    location: 'Lujan Centro',
-    meters: 78,
-    bathrooms: 1,
-    rooms: 3,
-    extras: 'Balcón, SUM, seguridad 24h',
-    mapLink: 'Lujan Centro, Buenos Aires, Argentina',
-    photos: [
-      'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1616594039964-3de79f7e82f9?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=1200&q=80'
-    ]
-  },
-  {
-    id: 4,
-    operation: 'alquiler',
-    title: 'Casa 3 ambientes con patio',
-    priceUsd: 950,
-    priceLabel: 'USD 950 / mes',
-    location: 'Moreno',
-    meters: 120,
-    bathrooms: 2,
-    rooms: 3,
-    extras: 'Patio, cochera, apta mascotas',
-    mapLink: 'Moreno, Buenos Aires, Argentina',
-    photos: [
-      'https://images.unsplash.com/photo-1599423300746-b62533397364?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1600566753151-384129cf4e3e?auto=format&fit=crop&w=1200&q=80'
-    ]
-  }
-]
+// Sin propiedades demo: solo se muestran las propiedades reales cargadas desde Supabase
+const baseProperties = []
 
 let allProperties = []
 
@@ -196,8 +153,11 @@ if (tasacionForm) {
     const zona = document.getElementById('tasacionZona')?.value.trim() || ''
     const tipo = document.getElementById('tasacionTipo')?.value.trim() || ''
 
+    if (!nombre || !zona || !tipo) return
+
     const message = `¡Hola Verito! 📊 Me gustaría consultar por una tasación profesional.\n\n👤 *Nombre:* ${nombre}\n📍 *Zona de la propiedad:* ${zona}\n🏠 *Tipo:* ${tipo}\n\nQuedo a la espera de tu respuesta para coordinar. ¡Muchas gracias! 😊`
-    window.open(getWhatsAppLink(message), '_blank', 'noopener,noreferrer')
+    // Usar location.href en lugar de window.open para compatibilidad total con móviles
+    window.location.href = getWhatsAppLink(message)
   })
 }
 

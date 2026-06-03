@@ -4,13 +4,8 @@ const STATS_KEY = 'vg_stats' // Para leer las visitas locales de las propiedades
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 
-// Propiedades base que están en index/script.js para tener datos agregados
-const baseProperties = [
-  { id: 1, title: 'Casa moderna 4 ambientes', operation: 'venta', priceLabel: 'USD 185.000' },
-  { id: 2, title: 'Lote residencial en esquina', operation: 'venta', priceLabel: 'USD 38.000' },
-  { id: 3, title: 'Departamento 3 ambientes', operation: 'alquiler', priceLabel: 'USD 780 / mes' },
-  { id: 4, title: 'Casa 3 ambientes con patio', operation: 'alquiler', priceLabel: 'USD 950 / mes' }
-]
+// Sin propiedades demo: solo se muestran las propiedades reales de Supabase
+const baseProperties = []
 
 function getStats() {
   const raw = localStorage.getItem(STATS_KEY)
@@ -460,8 +455,8 @@ async function initDashboard() {
     const countVentas = allProperties.filter((p) => p.operation === 'venta').length
     const countAlquileres = allProperties.filter((p) => p.operation === 'alquiler').length
 
-    // Usamos setTimeout para dar tiempo al DOM de cambiar el display de none a block
-    // y permitir que Chart.js lea las dimensiones correctas en móvil.
+    // Aumentar el timeout a 400ms para que el DOM en móvil tenga tiempo
+    // de renderizar el tab antes de que Chart.js calcule dimensiones.
     setTimeout(() => {
       const ctxViews = document.getElementById('chartViews').getContext('2d')
       if (chartViewsInstance) {
@@ -552,7 +547,7 @@ async function initDashboard() {
           }
         }
       })
-    }, 100)
+    }, 400)
 
   } catch (err) {
     console.error('Error rendering dashboard:', err)
