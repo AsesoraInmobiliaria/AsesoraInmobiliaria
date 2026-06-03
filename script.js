@@ -128,23 +128,7 @@ const refs = {
   clear: document.getElementById('clearFilters')
 }
 
-const menuToggle = document.getElementById('menuToggle')
-const mainNav = document.getElementById('mainNav')
 const tasacionForm = document.getElementById('tasacionForm')
-
-if (menuToggle && mainNav) {
-  menuToggle.addEventListener('click', () => {
-    const open = mainNav.classList.toggle('is-open')
-    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false')
-  })
-
-  mainNav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      mainNav.classList.remove('is-open')
-      menuToggle.setAttribute('aria-expanded', 'false')
-    })
-  })
-}
 
 if (tasacionForm) {
   tasacionForm.addEventListener('submit', (event) => {

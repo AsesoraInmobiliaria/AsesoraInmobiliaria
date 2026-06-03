@@ -191,9 +191,9 @@ async function renderList() {
           <p class="price">${p.price_label}</p>
           <p class="muted">${p.location}</p>
           <div class="meta">
-            <span>${p.meters} m2</span>
+            <span>${p.meters} m²</span>
             <span>${p.rooms} amb.</span>
-            <span>${p.bathrooms} banos</span>
+            <span>${p.bathrooms} baños</span>
           </div>
         </div>
       `
@@ -308,7 +308,7 @@ if (form) {
 
     } catch (err) {
       console.error('Error in upload process:', err)
-      msg.textContent = `Error al guardar: ${err.message}. Asegurate de tener creado el bucket "fotos" público y las políticas RLS habilitadas.`
+      msg.textContent = `Error al guardar: ${err.message}. Asegurate de tener creado el bucket "Verito Garga Inmobiliaria" público y las políticas RLS habilitadas.`
     }
   })
 }
@@ -507,7 +507,7 @@ async function initDashboard() {
               position: 'top',
               labels: {
                 font: {
-                  family: 'Manrope'
+                  family: 'Plus Jakarta Sans'
                 }
               }
             }
@@ -540,7 +540,7 @@ async function initDashboard() {
               position: 'bottom',
               labels: {
                 font: {
-                  family: 'Manrope'
+                  family: 'Plus Jakarta Sans'
                 }
               }
             }
