@@ -310,6 +310,7 @@ select:focus {
   justify-content: space-between;
   align-items: baseline;
   gap: 12px;
+  margin-bottom: 18px;
 }
 
 .section h2 {
@@ -321,6 +322,7 @@ select:focus {
   position: relative;
   display: inline-block;
   letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 .section h2::after {
@@ -336,6 +338,15 @@ select:focus {
 .count {
   font-size: 14px;
   color: #5a6d80;
+}
+
+.section-title .count {
+  background: rgba(23, 52, 74, 0.08);
+  color: var(--brand);
+  border: 1px solid rgba(23, 52, 74, 0.1);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 700;
 }
 
 .cards-grid {
@@ -647,6 +658,56 @@ select:focus {
   border-top: 4px solid var(--gold);
 }
 
+.footer-spotlight {
+  position: relative;
+  margin-top: 56px;
+  padding: 0 0 18px;
+}
+
+.footer-spotlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.spotlight-card {
+  background:
+    radial-gradient(circle at top right, rgba(184, 144, 82, 0.16), transparent 38%),
+    linear-gradient(180deg, #fffdfa 0%, #f6f1e8 100%);
+  border: 1px solid rgba(184, 144, 82, 0.28);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 14px 34px rgba(17, 34, 48, 0.08);
+}
+
+.spotlight-card strong {
+  display: block;
+  margin: 4px 0 8px;
+  color: var(--brand);
+  font-size: 22px;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.spotlight-card p {
+  margin: 0;
+  color: #516474;
+  line-height: 1.6;
+}
+
+.spotlight-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(23, 52, 74, 0.08);
+  color: var(--brand);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .footer-inner {
   padding: 48px 0 32px;
   display: grid;
@@ -820,12 +881,16 @@ select:focus {
   background: linear-gradient(135deg, #25d366, #128c7e);
   color: #fff;
   width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  min-height: 60px;
+  border-radius: 999px;
   box-shadow: 0 8px 24px rgba(18, 140, 126, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  padding: 0 18px;
+  font-weight: 800;
+  text-decoration: none;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
 }
 
@@ -864,6 +929,12 @@ select:focus {
   height: 32px;
   fill: #fff;
   display: block;
+  flex-shrink: 0;
+}
+
+.wa-float span {
+  color: #fff;
+  font-size: 14px;
 }
 
 /* Drag & Drop Zone */
@@ -880,11 +951,17 @@ select:focus {
   justify-content: center;
   min-height: 100px;
   margin-bottom: 10px;
+  outline: none;
 }
 
 .drop-zone.dragover {
   background: #fdf5e6;
   border-color: #17344a;
+  transform: translateY(-1px);
+}
+
+.drop-zone:focus-visible {
+  box-shadow: 0 0 0 4px rgba(184, 144, 82, 0.22);
 }
 
 .drop-zone-text {
@@ -945,8 +1022,53 @@ select:focus {
   z-index: 10;
 }
 
+.preview-item-order {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(23, 52, 74, 0.88);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .preview-item-remove:hover {
   background: rgb(220, 53, 69);
+}
+
+.admin-card-cover {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 14px 14px 0 0;
+  display: block;
+}
+
+.admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.delete-prop-btn {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.delete-prop-btn:hover {
+  background: rgba(220, 53, 69, 0.16);
 }
 
 @media (max-width: 780px) {
@@ -1016,6 +1138,10 @@ select:focus {
   .hero-actions, .hero-badges {
     justify-content: center;
   }
+
+  .spotlight-card {
+    text-align: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1034,6 +1160,26 @@ select:focus {
   }
   .reel-card video {
     height: 380px;
+  }
+
+  .section-title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wa-float {
+    right: 14px;
+    bottom: 14px;
+    min-height: 56px;
+    padding: 0 16px;
+  }
+
+  .wa-float span {
+    font-size: 13px;
   }
 }
 
@@ -1244,6 +1390,46 @@ select:focus {
   display: block;
 }
 
+.admin-quick-tabs {
+  display: none;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.quick-tab {
+  flex: 1;
+  border: 1px solid var(--line);
+  background: #fffdfa;
+  color: var(--brand);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-weight: 800;
+}
+
+.quick-tab.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+.op-badge {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.op-sale {
+  background: #eef8f2;
+  color: #0f7b43;
+}
+
+.op-rent {
+  background: #eef4fb;
+  color: #17344a;
+}
+
 @media (max-width: 900px) {
   .dashboard-charts {
     grid-template-columns: 1fr;
@@ -1262,6 +1448,10 @@ select:focus {
 
   .topbar-nav-desktop {
     display: none;
+  }
+
+  .admin-quick-tabs {
+    display: flex;
   }
 
   .admin-sidebar {

@@ -52,6 +52,10 @@
 
       <!-- Contenido Principal -->
       <main class="admin-content">
+        <div class="admin-quick-tabs">
+          <button type="button" class="quick-tab active" data-tab="tab-upload">Cargar propiedad</button>
+          <button type="button" class="quick-tab" data-tab="tab-dashboard">Centro de control</button>
+        </div>
         <!-- Pestaña 1: Carga de Propiedades -->
         <section id="tab-upload" class="tab-pane active">
           <h2>Cargar propiedad</h2>
@@ -72,7 +76,7 @@
             <label>Baños<input name="bathrooms" type="number" min="1" required /></label>
             <label>Adicionales<input name="extras" placeholder="Pileta, parrilla, cochera" /></label>
             <label>Fotos de la propiedad
-              <div id="dropZone" class="drop-zone">
+              <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Seleccionar o arrastrar fotos">
                 <span class="drop-zone-text">Arrastrá las fotos acá o hace clic para seleccionarlas</span>
                 <input type="file" id="fileInput" name="photos_files" accept="image/*" multiple style="display: none;" />
               </div>

@@ -1,122 +1,60 @@
 const SUPABASE_URL = 'https://kxtbuqgqpgaseiaoclri.supabase.co'
 const SUPABASE_KEY = 'sb_publishable_KiAQsHfP0ACCEWhAI2_qZg_Ng2KDSas'
 const WHATSAPP_NUMBER = '5491153175943'
+const FALLBACK_IMAGE =
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420">' +
+      '<defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1">' +
+        '<stop stop-color="#17344a"/><stop offset="1" stop-color="#315e82"/>' +
+      '</linearGradient></defs>' +
+      '<rect width="640" height="420" fill="url(#g)"/>' +
+      '<circle cx="160" cy="120" r="64" fill="rgba(255,255,255,0.14)"/>' +
+      '<circle cx="520" cy="80" r="38" fill="rgba(255,255,255,0.1)"/>' +
+      '<path d="M120 280L240 190l94 70 74-58 112 78v72H120z" fill="rgba(255,255,255,0.16)"/>' +
+      '<text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#fffdfa" font-family="Arial" font-size="30">Verito Garga Inmobiliaria</text>' +
+    '</svg>'
+  )
 
-let supabase = null
-try {
-  if (window.supabase && typeof window.supabase.createClient === 'function') {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-  } else {
-    console.warn('Supabase SDK could not be loaded or window.supabase is undefined. Running in offline/fallback mode.')
-  }
-} catch (err) {
-  console.error('Error initializing Supabase client:', err)
-}
+function waitForSupabase(maxAttempts = 40, delayMs = 150) {
+  return new Promise((resolve) => {
+    let attempts = 0
 
-// ─── Menú hamburguesa móvil ────────────────────────────────────────────────
-const menuToggle = document.getElementById('menuToggle')
-const mainNav = document.getElementById('mainNav')
+    const check = () => {
+      if (window.supabase?.createClient) {
+        resolve(window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY))
+        return
+      }
 
-if (menuToggle && mainNav) {
-  menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation()
-    const open = mainNav.classList.toggle('is-open')
-    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false')
-  })
+      attempts += 1
+      if (attempts >= maxAttempts) {
+        resolve(null)
+        return
+      }
 
-  // Cerrar al tocar fuera del menú
-  document.addEventListener('click', (e) => {
-    if (mainNav.classList.contains('is-open') && !mainNav.contains(e.target) && e.target !== menuToggle) {
-      mainNav.classList.remove('is-open')
-      menuToggle.setAttribute('aria-expanded', 'false')
+      window.setTimeout(check, delayMs)
     }
-  })
 
-  // Cerrar al tocar un link del menú
-  mainNav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      mainNav.classList.remove('is-open')
-      menuToggle.setAttribute('aria-expanded', 'false')
-    })
+    check()
   })
 }
-// ──────────────────────────────────────────────────────────────────────────
 
-const trackedViews = new Set()
-
-async function trackView(propertyId) {
-  if (trackedViews.has(propertyId)) return
-  trackedViews.add(propertyId)
-
-  if (!supabase) return
-  try {
-    // Si es un ID numérico válido, llamamos al RPC de Supabase
-    if (propertyId && !isNaN(propertyId)) {
-      await supabase.rpc('increment_views', { prop_id: Number(propertyId) })
-    }
-  } catch (err) {
-    console.warn('Error incrementing views on Supabase:', err)
-  }
+function getWhatsAppLink(message) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }
 
-async function trackClick(propertyId) {
-  if (!supabase) return
-  try {
-    if (propertyId && !isNaN(propertyId)) {
-      await supabase.rpc('increment_clicks', { prop_id: Number(propertyId) })
-    }
-  } catch (err) {
-    console.warn('Error incrementing clicks on Supabase:', err)
-  }
-}
+function openWhatsApp(message) {
+  const url = getWhatsAppLink(message)
+  const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent)
 
-// Sin propiedades demo: solo se muestran las propiedades reales cargadas desde Supabase
-const baseProperties = []
-
-let allProperties = []
-
-function getAllProperties() {
-  return allProperties
-}
-
-async function loadProperties() {
-  if (!supabase) {
-    console.warn('Supabase not connected. Loading offline properties.')
-    allProperties = [...baseProperties]
-    render()
+  if (isMobile) {
+    window.location.href = url
     return
   }
-  try {
-    const { data, error } = await supabase
-      .from('propiedades')
-      .select('*')
-      .order('created_at', { ascending: false })
 
-    if (error) throw error
-
-    const dbProperties = (data || []).map((p) => ({
-      id: Number(p.id),
-      code: p.code || '',
-      operation: p.operation,
-      title: p.title,
-      priceUsd: Number(p.price_usd),
-      priceLabel: p.price_label,
-      location: p.location,
-      meters: Number(p.meters),
-      rooms: Number(p.rooms),
-      bathrooms: Number(p.bathrooms),
-      extras: p.extras || '',
-      photos: p.photos || [],
-      mapLink: p.map_link || ''
-    }))
-
-    allProperties = [...baseProperties, ...dbProperties]
-    render()
-  } catch (err) {
-    console.error('Error loading properties from Supabase:', err)
-    // Fallback simple a propiedades estáticas en caso de error
-    allProperties = [...baseProperties]
-    render()
+  const popup = window.open(url, '_blank', 'noopener,noreferrer')
+  if (!popup) {
+    window.location.href = url
   }
 }
 
@@ -128,189 +66,329 @@ function getEmbedMapUrl(link) {
   return `https://www.google.com/maps?q=${encodeURIComponent(trimmed)}&output=embed`
 }
 
-function getWhatsAppLink(message) {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+function normalizeProperty(row) {
+  const photos = Array.isArray(row.photos) ? row.photos.filter(Boolean) : []
+
+  return {
+    id: Number(row.id),
+    code: row.code || '',
+    operation: row.operation || 'venta',
+    title: row.title || 'Propiedad disponible',
+    priceUsd: Number(row.price_usd || 0),
+    priceLabel: row.price_label || 'Consultar precio',
+    location: row.location || 'Ubicacion a confirmar',
+    meters: Number(row.meters || 0),
+    rooms: Number(row.rooms || 0),
+    bathrooms: Number(row.bathrooms || 0),
+    extras: row.extras || '',
+    photos: photos.length ? photos : [FALLBACK_IMAGE],
+    mapLink: row.map_link || ''
+  }
 }
 
-const refs = {
-  ventaGrid: document.getElementById('ventaGrid'),
-  alquilerGrid: document.getElementById('alquilerGrid'),
-  ventaCount: document.getElementById('ventaCount'),
-  alquilerCount: document.getElementById('alquilerCount'),
-  operation: document.getElementById('filterOperation'),
-  location: document.getElementById('filterLocation'),
-  price: document.getElementById('filterPrice'),
-  rooms: document.getElementById('filterRooms'),
-  bathrooms: document.getElementById('filterBathrooms'),
-  clear: document.getElementById('clearFilters')
-}
+function createMenuController(toggleButton, panel) {
+  if (!toggleButton || !panel) return { close() {} }
 
-const tasacionForm = document.getElementById('tasacionForm')
+  const close = () => {
+    panel.classList.remove('is-open')
+    toggleButton.setAttribute('aria-expanded', 'false')
+  }
 
-if (tasacionForm) {
-  tasacionForm.addEventListener('submit', (event) => {
+  const open = () => {
+    panel.classList.add('is-open')
+    toggleButton.setAttribute('aria-expanded', 'true')
+  }
+
+  toggleButton.addEventListener('click', (event) => {
     event.preventDefault()
-    const nombre = document.getElementById('tasacionNombre')?.value.trim() || ''
-    const zona = document.getElementById('tasacionZona')?.value.trim() || ''
-    const tipo = document.getElementById('tasacionTipo')?.value.trim() || ''
-
-    if (!nombre || !zona || !tipo) return
-
-    const message = `¡Hola Verito! 📊 Me gustaría consultar por una tasación profesional.\n\n👤 *Nombre:* ${nombre}\n📍 *Zona de la propiedad:* ${zona}\n🏠 *Tipo:* ${tipo}\n\nQuedo a la espera de tu respuesta para coordinar. ¡Muchas gracias! 😊`
-    window.open(getWhatsAppLink(message), '_blank')
+    event.stopPropagation()
+    const shouldOpen = !panel.classList.contains('is-open')
+    if (shouldOpen) open()
+    else close()
   })
+
+  document.addEventListener('click', (event) => {
+    if (!panel.classList.contains('is-open')) return
+    if (panel.contains(event.target) || toggleButton.contains(event.target)) return
+    close()
+  })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') close()
+  })
+
+  return { close }
 }
 
-function createCard(property) {
-  // Registrar visualización de la propiedad
-  trackView(property.id)
+function bootSite() {
+  const refs = {
+    ventaGrid: document.getElementById('ventaGrid'),
+    alquilerGrid: document.getElementById('alquilerGrid'),
+    ventaCount: document.getElementById('ventaCount'),
+    alquilerCount: document.getElementById('alquilerCount'),
+    operation: document.getElementById('filterOperation'),
+    location: document.getElementById('filterLocation'),
+    price: document.getElementById('filterPrice'),
+    rooms: document.getElementById('filterRooms'),
+    bathrooms: document.getElementById('filterBathrooms'),
+    clear: document.getElementById('clearFilters')
+  }
 
-  const card = document.createElement('article')
-  card.className = 'card'
+  const menu = createMenuController(
+    document.getElementById('menuToggle'),
+    document.getElementById('mainNav')
+  )
 
-  const carousel = document.createElement('div')
-  carousel.className = 'carousel'
-
-  const img = document.createElement('img')
-  let index = 0
-  img.src = property.photos[index]
-  img.alt = property.title
-
-  const prevBtn = document.createElement('button')
-  prevBtn.className = 'carousel-btn prev'
-  prevBtn.type = 'button'
-  prevBtn.textContent = '‹'
-
-  const nextBtn = document.createElement('button')
-  nextBtn.className = 'carousel-btn next'
-  nextBtn.type = 'button'
-  nextBtn.textContent = '›'
-
-  prevBtn.addEventListener('click', () => {
-    index = (index - 1 + property.photos.length) % property.photos.length
-    img.src = property.photos[index]
+  document.querySelectorAll('#mainNav a').forEach((link) => {
+    link.addEventListener('click', () => menu.close())
   })
 
-  nextBtn.addEventListener('click', () => {
-    index = (index + 1) % property.photos.length
-    img.src = property.photos[index]
-  })
+  const tasacionForm = document.getElementById('tasacionForm')
+  if (tasacionForm) {
+    tasacionForm.addEventListener('submit', (event) => {
+      event.preventDefault()
 
-  carousel.append(img, prevBtn, nextBtn)
+      const nombre = document.getElementById('tasacionNombre')?.value.trim() || ''
+      const zona = document.getElementById('tasacionZona')?.value.trim() || ''
+      const tipo = document.getElementById('tasacionTipo')?.value.trim() || ''
 
-  const body = document.createElement('div')
-  body.className = 'card-body'
-  const mapHtml = property.mapLink
-    ? `<iframe class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${getEmbedMapUrl(property.mapLink)}"></iframe>`
-    : '<p class="muted">Mapa disponible a solicitud.</p>'
+      if (!nombre || !zona || !tipo) {
+        alert('Completa nombre, zona y tipo de propiedad para enviar la consulta.')
+        return
+      }
 
-  const propertyMessage = `¡Hola Verito! 👋 Estoy interesado/a en la propiedad:\n✨ *${property.title}*\n🔑 *Operación:* ${property.operation.toUpperCase()}\n📍 *Ubicación:* ${property.location}\n💰 *Precio:* ${property.priceLabel}\n\nMe gustaría recibir más detalles y coordinar una visita. 📲`
-  const propertyWhatsappLink = getWhatsAppLink(propertyMessage)
+      const message =
+        `Hola Verito! Quiero consultar por una tasacion.\n\n` +
+        `Nombre: ${nombre}\n` +
+        `Zona de la propiedad: ${zona}\n` +
+        `Tipo de propiedad: ${tipo}\n\n` +
+        `Quedo atento/a para coordinar. Muchas gracias.`
 
-  const codeBadge = property.code ? `<span class="ref-code-badge">Ref: #${property.code}</span>` : ''
-  body.innerHTML = `
-    ${codeBadge}
-    <h3>${property.title}</h3>
-    <p class="price">${property.priceLabel}</p>
-    <p class="muted">${property.location}</p>
-    <div class="card-actions">
-      <button class="more-btn" type="button">Ver más</button>
-      <button class="more-btn map-btn" type="button">Ver mapa</button>
-    </div>
-    <div class="card-extra">
-      <div class="meta">
-        <span><svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.82 2.82 0 0 1 0 4c-1 1-2.5 1-3.5 0L2.3 3.8a2.82 2.82 0 0 1 0-4c1-1 2.5-1 3.5 0Z"/><path d="M5.6 7.2 7.2 5.6"/><path d="m7.2 10.4 1.6-1.6"/><path d="m10.4 12 1.6-1.6"/><path d="m13.6 15.2 1.6-1.6"/><path d="m16.8 16.8 1.6-1.6"/></svg>${property.meters} m²</span>
-        <span><svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 14h18"/><path d="M6 8v6"/></svg>${property.rooms} amb.</span>
-        <span><svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.6 3 4 3.6 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M2 11h20"/><path d="M12 2v4"/><path d="M8 5h3"/></svg>${property.bathrooms} baños</span>
-      </div>
-      <p class="muted">${property.extras || ''}</p>
-    </div>
-    <div class="map-box">${mapHtml}</div>
-    <p class="muted"><a class="btn-primary wa-contact-btn" target="_blank" rel="noreferrer" href="${propertyWhatsappLink}">Consultar por WhatsApp</a></p>
-  `
-
-  card.append(carousel, body)
-  const moreBtn = body.querySelector('.more-btn')
-  const mapBtn = body.querySelector('.map-btn')
-  const extra = body.querySelector('.card-extra')
-  const mapBox = body.querySelector('.map-box')
-  const waContactBtn = body.querySelector('.wa-contact-btn')
-
-  moreBtn.addEventListener('click', () => {
-    const isOpen = extra.classList.toggle('is-open')
-    moreBtn.textContent = isOpen ? 'Ver menos' : 'Ver más'
-    if (isOpen) trackClick(property.id)
-  })
-
-  mapBtn.addEventListener('click', () => {
-    const isOpen = mapBox.classList.toggle('is-open')
-    mapBtn.textContent = isOpen ? 'Ocultar mapa' : 'Ver mapa'
-    if (isOpen) trackClick(property.id)
-  })
-
-  if (waContactBtn) {
-    waContactBtn.addEventListener('click', () => {
-      trackClick(property.id)
+      openWhatsApp(message)
     })
   }
 
-  return card
-}
+  const trackedViews = new Set()
+  let supabase = null
+  let allProperties = []
 
-function applyFilters(items) {
-  const op = refs.operation.value
-  const locationTerm = refs.location.value.trim().toLowerCase()
-  const maxPrice = Number(refs.price.value || 0)
-  const minRooms = Number(refs.rooms.value)
-  const minBathrooms = Number(refs.bathrooms.value)
+  async function trackView(propertyId) {
+    if (!supabase || trackedViews.has(propertyId) || Number.isNaN(Number(propertyId))) return
+    trackedViews.add(propertyId)
 
-  return items.filter((p) => {
-    const matchOp = op === 'all' || p.operation === op
-    const matchLocation = !locationTerm || p.location.toLowerCase().includes(locationTerm)
-    const matchPrice = !maxPrice || p.priceUsd <= maxPrice
-    const matchRooms = p.rooms >= minRooms
-    const matchBathrooms = p.bathrooms >= minBathrooms
-
-    return matchOp && matchLocation && matchPrice && matchRooms && matchBathrooms
-  })
-}
-
-function renderSection(container, list, emptyText) {
-  container.innerHTML = ''
-  if (!list.length) {
-    const p = document.createElement('p')
-    p.className = 'empty'
-    p.textContent = emptyText
-    container.appendChild(p)
-    return
+    try {
+      await supabase.rpc('increment_views', { prop_id: Number(propertyId) })
+    } catch (error) {
+      console.warn('No se pudo registrar la vista:', error)
+    }
   }
-  list.forEach((item) => container.appendChild(createCard(item)))
+
+  async function trackClick(propertyId) {
+    if (!supabase || Number.isNaN(Number(propertyId))) return
+
+    try {
+      await supabase.rpc('increment_clicks', { prop_id: Number(propertyId) })
+    } catch (error) {
+      console.warn('No se pudo registrar el click:', error)
+    }
+  }
+
+  function createCard(property) {
+    trackView(property.id)
+
+    const card = document.createElement('article')
+    card.className = 'card'
+
+    const carousel = document.createElement('div')
+    carousel.className = 'carousel'
+
+    const img = document.createElement('img')
+    let index = 0
+    img.src = property.photos[index] || FALLBACK_IMAGE
+    img.alt = property.title
+    img.loading = 'lazy'
+
+    const prevBtn = document.createElement('button')
+    prevBtn.className = 'carousel-btn prev'
+    prevBtn.type = 'button'
+    prevBtn.setAttribute('aria-label', 'Foto anterior')
+    prevBtn.textContent = '<'
+
+    const nextBtn = document.createElement('button')
+    nextBtn.className = 'carousel-btn next'
+    nextBtn.type = 'button'
+    nextBtn.setAttribute('aria-label', 'Foto siguiente')
+    nextBtn.textContent = '>'
+
+    const updateImage = () => {
+      img.src = property.photos[index] || FALLBACK_IMAGE
+    }
+
+    prevBtn.addEventListener('click', () => {
+      index = (index - 1 + property.photos.length) % property.photos.length
+      updateImage()
+    })
+
+    nextBtn.addEventListener('click', () => {
+      index = (index + 1) % property.photos.length
+      updateImage()
+    })
+
+    carousel.append(img)
+    if (property.photos.length > 1) {
+      carousel.append(prevBtn, nextBtn)
+    }
+
+    const body = document.createElement('div')
+    body.className = 'card-body'
+
+    const propertyMessage =
+      `Hola Verito! Estoy interesado/a en esta propiedad.\n\n` +
+      `${property.title}\n` +
+      `Operacion: ${property.operation.toUpperCase()}\n` +
+      `Ubicacion: ${property.location}\n` +
+      `Precio: ${property.priceLabel}\n\n` +
+      `Me gustaria recibir mas detalles y coordinar una visita.`
+
+    const codeBadge = property.code ? `<span class="ref-code-badge">Ref: #${property.code}</span>` : ''
+    const mapHtml = property.mapLink
+      ? `<iframe class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${getEmbedMapUrl(property.mapLink)}"></iframe>`
+      : '<p class="muted">Mapa disponible a solicitud.</p>'
+
+    body.innerHTML = `
+      ${codeBadge}
+      <h3>${property.title}</h3>
+      <p class="price">${property.priceLabel}</p>
+      <p class="muted">${property.location}</p>
+      <div class="card-actions">
+        <button class="more-btn" type="button">Ver mas</button>
+        <button class="more-btn map-btn" type="button">Ver mapa</button>
+      </div>
+      <div class="card-extra">
+        <div class="meta">
+          <span>${property.meters} m2</span>
+          <span>${property.rooms} amb.</span>
+          <span>${property.bathrooms} banos</span>
+        </div>
+        <p class="muted">${property.extras || 'Consultanos para recibir la ficha completa.'}</p>
+      </div>
+      <div class="map-box">${mapHtml}</div>
+      <p class="muted"><a class="btn-primary wa-contact-btn" target="_blank" rel="noreferrer" href="${getWhatsAppLink(propertyMessage)}">Consultar por WhatsApp</a></p>
+    `
+
+    card.append(carousel, body)
+
+    const moreBtn = body.querySelector('.more-btn')
+    const mapBtn = body.querySelector('.map-btn')
+    const extra = body.querySelector('.card-extra')
+    const mapBox = body.querySelector('.map-box')
+    const waContactBtn = body.querySelector('.wa-contact-btn')
+
+    moreBtn?.addEventListener('click', () => {
+      const isOpen = extra.classList.toggle('is-open')
+      moreBtn.textContent = isOpen ? 'Ver menos' : 'Ver mas'
+      if (isOpen) trackClick(property.id)
+    })
+
+    mapBtn?.addEventListener('click', () => {
+      const isOpen = mapBox.classList.toggle('is-open')
+      mapBtn.textContent = isOpen ? 'Ocultar mapa' : 'Ver mapa'
+      if (isOpen) trackClick(property.id)
+    })
+
+    waContactBtn?.addEventListener('click', () => trackClick(property.id))
+
+    return card
+  }
+
+  function applyFilters(items) {
+    const op = refs.operation?.value || 'all'
+    const locationTerm = refs.location?.value.trim().toLowerCase() || ''
+    const maxPrice = Number(refs.price?.value || 0)
+    const minRooms = Number(refs.rooms?.value || 0)
+    const minBathrooms = Number(refs.bathrooms?.value || 0)
+
+    return items.filter((property) => {
+      const matchOp = op === 'all' || property.operation === op
+      const matchLocation = !locationTerm || property.location.toLowerCase().includes(locationTerm)
+      const matchPrice = !maxPrice || property.priceUsd <= maxPrice
+      const matchRooms = property.rooms >= minRooms
+      const matchBathrooms = property.bathrooms >= minBathrooms
+      return matchOp && matchLocation && matchPrice && matchRooms && matchBathrooms
+    })
+  }
+
+  function renderSection(container, list, emptyText) {
+    if (!container) return
+    container.innerHTML = ''
+
+    if (!list.length) {
+      const emptyState = document.createElement('p')
+      emptyState.className = 'empty'
+      emptyState.textContent = emptyText
+      container.appendChild(emptyState)
+      return
+    }
+
+    list.forEach((item) => container.appendChild(createCard(item)))
+  }
+
+  function render() {
+    const filtered = applyFilters(allProperties)
+    const venta = filtered.filter((property) => property.operation === 'venta')
+    const alquiler = filtered.filter((property) => property.operation === 'alquiler')
+
+    renderSection(refs.ventaGrid, venta, 'No hay propiedades en venta con esos filtros.')
+    renderSection(refs.alquilerGrid, alquiler, 'No hay propiedades en alquiler con esos filtros.')
+
+    if (refs.ventaCount) refs.ventaCount.textContent = `${venta.length} resultado(s)`
+    if (refs.alquilerCount) refs.alquilerCount.textContent = `${alquiler.length} resultado(s)`
+  }
+
+  ;[refs.operation, refs.location, refs.price, refs.rooms, refs.bathrooms]
+    .filter(Boolean)
+    .forEach((element) => {
+      element.addEventListener('input', render)
+      element.addEventListener('change', render)
+    })
+
+  refs.clear?.addEventListener('click', () => {
+    if (refs.operation) refs.operation.value = 'all'
+    if (refs.location) refs.location.value = ''
+    if (refs.price) refs.price.value = ''
+    if (refs.rooms) refs.rooms.value = '0'
+    if (refs.bathrooms) refs.bathrooms.value = '0'
+    render()
+  })
+
+  async function loadProperties() {
+    supabase = await waitForSupabase()
+
+    if (!supabase) {
+      console.warn('Supabase no estuvo disponible. Se muestra la pagina sin propiedades remotas.')
+      allProperties = []
+      render()
+      return
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('propiedades')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+
+      allProperties = (data || []).map(normalizeProperty)
+      render()
+    } catch (error) {
+      console.error('Error cargando propiedades:', error)
+      allProperties = []
+      render()
+    }
+  }
+
+  loadProperties()
 }
 
-function render() {
-  const filtered = applyFilters(getAllProperties())
-  const venta = filtered.filter((p) => p.operation === 'venta')
-  const alquiler = filtered.filter((p) => p.operation === 'alquiler')
-
-  renderSection(refs.ventaGrid, venta, 'No hay propiedades en venta con esos filtros.')
-  renderSection(refs.alquilerGrid, alquiler, 'No hay propiedades en alquiler con esos filtros.')
-
-  refs.ventaCount.textContent = `${venta.length} resultado(s)`
-  refs.alquilerCount.textContent = `${alquiler.length} resultado(s)`
-}
-
-;[refs.operation, refs.location, refs.price, refs.rooms, refs.bathrooms].forEach((el) => {
-  el.addEventListener('input', render)
-  el.addEventListener('change', render)
-})
-
-refs.clear.addEventListener('click', () => {
-  refs.operation.value = 'all'
-  refs.location.value = ''
-  refs.price.value = ''
-  refs.rooms.value = '0'
-  refs.bathrooms.value = '0'
-  render()
-})
-
-loadProperties()
+bootSite()
