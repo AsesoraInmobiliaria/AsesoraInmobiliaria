@@ -1,0 +1,112 @@
+PLANTILLA PARA CARGAR UNA BUENA PROPIEDAD
+=======================================
+
+Usá esta ficha cada vez que quieras sumar una propiedad al sitio.
+La idea es que todas mantengan el mismo nivel de calidad y se vean prolijas.
+
+
+DATOS PRINCIPALES
+-----------------
+
+Título:
+Ejemplo: Casa 4 ambientes con patio y cochera
+
+Operación:
+venta / alquiler
+
+Precio visible:
+Ejemplo: USD 148.000
+
+Precio numérico:
+Ejemplo: 148000
+
+Ubicación:
+Ejemplo: General Rodríguez
+
+Metros:
+Ejemplo: 165
+
+Ambientes:
+Ejemplo: 4
+
+Baños:
+Ejemplo: 2
+
+Extras:
+Ejemplo: Parque, cochera cubierta, parrilla, lavadero, cocina comedor, apta crédito
+
+Fotos:
+Pegá de 3 a 6 URLs separadas por coma
+Ejemplo:
+https://...
+https://...
+https://...
+
+Mapa o zona:
+Ejemplo: General Rodríguez, Buenos Aires, Argentina
+
+
+CÓMO HACER QUE LA PROPIEDAD SE VEA BIEN
+---------------------------------------
+
+1. El título tiene que ser corto, claro y atractivo.
+2. La ubicación debe ser real o creíble.
+3. El precio tiene que ser coherente con el tipo de propiedad.
+4. Los extras tienen que ser concretos y útiles.
+5. Las fotos tienen que mantener un estilo parecido.
+6. No conviene exagerar datos porque después resta confianza.
+
+
+EXTRAS QUE SUMAN MUCHO
+----------------------
+
+- Cochera
+- Patio
+- Parque
+- Parrilla
+- Pileta
+- Lavadero
+- Balcón
+- Terraza
+- Apta crédito
+- Lote propio
+- Seguridad
+- Todos los servicios
+- Excelente acceso
+- Zona tranquila
+- Muy luminosa
+
+
+PLANTILLA VACÍA PARA COMPLETAR
+------------------------------
+
+Título:
+Operación:
+Precio visible:
+Precio numérico:
+Ubicación:
+Metros:
+Ambientes:
+Baños:
+Extras:
+Fotos:
+Mapa o zona:
+
+
+EJEMPLO COMPLETO
+----------------
+
+Título: Casa 4 ambientes con parque y cochera
+Operación: venta
+Precio visible: USD 148.000
+Precio numérico: 148000
+Ubicación: General Rodríguez
+Metros: 165
+Ambientes: 4
+Baños: 2
+Extras: Parque, cochera cubierta, parrilla, lavadero, cocina comedor, apta crédito
+Fotos: https://..., https://..., https://..., https://...
+Mapa o zona: General Rodríguez, Buenos Aires, Argentina
+
+Descripción sugerida:
+Propiedad amplia y luminosa, ideal para familia. Cuenta con 4 ambientes bien distribuidos, parque, cochera y sector de parrilla. Ubicada en una zona tranquila con buen acceso.

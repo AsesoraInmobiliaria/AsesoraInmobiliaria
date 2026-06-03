@@ -1,54 +1,158 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin | Verito Garga Inmobiliaria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
+    <!-- Chart.js para los gráficos interactivos del dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
     <header class="topbar">
       <div class="container topbar-inner">
-        <h1>Panel Admin</h1>
-        <nav>
+        <div class="brand-wrap">
+          <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <h1>Panel Admin</h1>
+        </div>
+        <button id="sidebarToggle" class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="adminSidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="topbar-nav-desktop">
           <a href="./index.html">Volver al sitio</a>
         </nav>
       </div>
     </header>
 
-    <main class="section">
-      <div class="container">
-        <h2>Cargar propiedad</h2>
-        <form id="adminForm" class="admin-form">
-          <label>Título<input name="title" required /></label>
-          <label>Operación
-            <select name="operation">
-              <option value="venta">Venta</option>
-              <option value="alquiler">Alquiler</option>
-            </select>
-          </label>
-          <label>Precio visible (ej: USD 185.000)<input name="priceLabel" required /></label>
-          <label>Precio numérico USD (para filtro)<input name="priceUsd" type="number" min="0" required /></label>
-          <label>Ubicación<input name="location" required /></label>
-          <label>Metros m2<input name="meters" type="number" min="0" required /></label>
-          <label>Ambientes<input name="rooms" type="number" min="1" required /></label>
-          <label>Baños<input name="bathrooms" type="number" min="1" required /></label>
-          <label>Adicionales<input name="extras" placeholder="Pileta, parrilla, cochera" /></label>
-          <label>Fotos (URLs separadas por coma)
-            <input name="photos" placeholder="https://..., https://..." required />
-          </label>
-          <label>Link de Google Maps (pegar URL)
-            <input name="mapLink" placeholder="https://maps.google.com/..." />
-          </label>
-          <button type="submit" class="btn-secondary">Guardar propiedad</button>
-        </form>
+    <div class="admin-wrapper container">
+      <!-- Sidebar de navegación -->
+      <aside class="admin-sidebar" id="adminSidebar">
+        <nav class="sidebar-nav">
+          <button type="button" class="sidebar-link active" data-tab="tab-upload">
+            <span>⌂ Cargar Propiedad</span>
+          </button>
+          <button type="button" class="sidebar-link" data-tab="tab-dashboard">
+            <span>📊 Centro de Control</span>
+          </button>
+          <a href="./index.html" class="sidebar-link link-out">
+            <span>➔ Volver al sitio</span>
+          </a>
+        </nav>
+      </aside>
 
-        <p id="adminMsg" class="muted"></p>
+      <!-- Contenido Principal -->
+      <main class="admin-content">
+        <!-- Pestaña 1: Carga de Propiedades -->
+        <section id="tab-upload" class="tab-pane active">
+          <h2>Cargar propiedad</h2>
+          <form id="adminForm" class="admin-form">
+            <label>Código de Referencia (Opcional - Autogenerado si queda vacío)<input name="code" placeholder="Ej: 1844 o FR-1844" /></label>
+            <label>Título<input name="title" required /></label>
+            <label>Operación
+              <select name="operation">
+                <option value="venta">Venta</option>
+                <option value="alquiler">Alquiler</option>
+              </select>
+            </label>
+            <label>Precio visible (ej: USD 185.000)<input name="priceLabel" required /></label>
+            <label>Precio numérico USD (para filtro)<input name="priceUsd" type="number" min="0" required /></label>
+            <label>Ubicación<input name="location" required /></label>
+            <label>Metros m2<input name="meters" type="number" min="0" required /></label>
+            <label>Ambientes<input name="rooms" type="number" min="1" required /></label>
+            <label>Baños<input name="bathrooms" type="number" min="1" required /></label>
+            <label>Adicionales<input name="extras" placeholder="Pileta, parrilla, cochera" /></label>
+            <label>Fotos de la propiedad
+              <div id="dropZone" class="drop-zone">
+                <span class="drop-zone-text">Arrastrá las fotos acá o hace clic para seleccionarlas</span>
+                <input type="file" id="fileInput" name="photos_files" accept="image/*" multiple style="display: none;" />
+              </div>
+              <div id="previewContainer" class="preview-container"></div>
+            </label>
+            <label>Link de Google Maps (pegar URL)
+              <input name="mapLink" placeholder="https://maps.google.com/..." />
+            </label>
+            <button type="submit" class="btn-secondary" style="height: 44px;">Guardar propiedad</button>
+          </form>
 
-        <h2>Propiedades cargadas</h2>
-        <div id="adminList" class="cards-grid"></div>
-      </div>
-    </main>
+          <p id="adminMsg" class="muted"></p>
+
+          <h2>Propiedades cargadas</h2>
+          <div id="adminList" class="cards-grid"></div>
+        </section>
+
+        <!-- Pestaña 2: Estadísticas / Centro de Control -->
+        <section id="tab-dashboard" class="tab-pane">
+          <h2>Centro de Control</h2>
+          
+          <!-- KPI Cards -->
+          <div class="dashboard-kpis">
+            <div class="kpi-card">
+              <span class="kpi-title">Visitas Totales</span>
+              <span class="kpi-value" id="kpiTotalViews">0</span>
+              <span class="kpi-sub">Visualizaciones en home</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-title">Consultas / WhatsApp</span>
+              <span class="kpi-value" id="kpiTotalClicks">0</span>
+              <span class="kpi-sub">Interacciones directas</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-title">Conversión Promedio</span>
+              <span class="kpi-value" id="kpiConversionRate">0%</span>
+              <span class="kpi-sub">Clicks / Visitas</span>
+            </div>
+          </div>
+
+          <!-- Charts Layout -->
+          <div class="dashboard-charts">
+            <div class="chart-card">
+              <h3>Visitas e Interacciones por Propiedad</h3>
+              <div class="chart-container">
+                <canvas id="chartViews"></canvas>
+              </div>
+            </div>
+            <div class="chart-card">
+              <h3>Distribución por Operación</h3>
+              <div class="chart-container">
+                <canvas id="chartDistribution"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table Card -->
+          <div class="dashboard-table-card">
+            <h3>Métricas Detalladas</h3>
+            <div class="table-responsive">
+              <table class="stats-table">
+                <thead>
+                  <tr>
+                    <th style="text-align: left;">Propiedad</th>
+                    <th>Operación</th>
+                    <th>Precio</th>
+                    <th>Visitas</th>
+                    <th>Conversiones</th>
+                    <th>CTR (Tasa de conversion)</th>
+                  </tr>
+                </thead>
+                <tbody id="statsTableBody">
+                  <!-- Contenido dinámico -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script src="./admin.js"></script>
   </body>

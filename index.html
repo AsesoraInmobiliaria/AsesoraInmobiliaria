@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -7,14 +7,19 @@
     <meta name="description" content="Venta, alquiler, tasaciones y propuestas inmobiliarias en Argentina. Contacto directo por WhatsApp, Instagram y mail." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
     <header class="topbar">
       <div class="container topbar-inner">
         <div class="brand-wrap">
-          <img class="brand-logo" src="./assets/friedrich-logo.png" alt="Inmobiliaria Friedrich" onerror="this.style.display='none'" />
+          <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
           <h1>Verito Garga Inmobiliaria</h1>
         </div>
         <button id="menuToggle" class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
@@ -40,7 +45,7 @@
           <h2>Encontrá propiedades con filtros reales y resultados claros</h2>
           <p class="hero-sub">Casas, departamentos y lotes seleccionados con asesoramiento humano en cada etapa.</p>
           <div class="hero-actions">
-            <a class="icon-btn icon-whatsapp" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20vi%20la%20web%20y%20quiero%20asesoramiento%20general" aria-label="WhatsApp">
+            <a class="icon-btn icon-whatsapp" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%91%8B%20Vi%20tu%20p%C3%A1gina%20web%20y%20me%20gustar%C3%ADa%20recibir%20asesoramiento%20general%20sobre%20las%20propiedades%20disponibles.%20%F0%9F%8F%A1%E2%9C%A8" aria-label="WhatsApp">
               <img src="https://cdn.simpleicons.org/whatsapp/ffffff" alt="WhatsApp" />
             </a>
             <a class="icon-btn icon-light" target="_blank" rel="noreferrer" href="https://www.instagram.com/verito.garga/?hl=es" aria-label="Instagram">
@@ -198,7 +203,7 @@
               <li>Análisis de cuotas y viabilidad</li>
             </ul>
             <div class="hero-actions">
-              <a class="btn-primary" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20informacion%20sobre%20compra%20con%20credito%20hipotecario">Consultar por crédito</a>
+              <a class="btn-primary" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%8F%A7%20Estuve%20viendo%20la%20secci%C3%B3n%20de%20Cr%C3%A9dito%20Hipotecario%20en%20la%20web%20y%20me%20gustar%C3%ADa%20recibir%20asesoramiento%20sobre%20las%20carpetas%20bancarias%20y%20qu%C3%A9%20propiedades%20ten%C3%A9s%20aptas%20cr%C3%A9dito.%20%F0%9F%93%88">Consultar por crédito</a>
             </div>
           </div>
         </div>
@@ -221,7 +226,7 @@
               </ul>
             </div>
             <div class="proposal-actions">
-              <a class="btn-primary" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20quiero%20enviar%20una%20propuesta%20por%20una%20propiedad">Enviar por WhatsApp</a>
+              <a class="btn-primary" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%E2%9C%8D%EF%B8%8F%20Quiero%20realizar%20una%20propuesta%20formal%20por%20una%20propiedad.%20%C2%BFMe%20podr%C3%ADas%20indicar%20cu%C3%A1les%20son%20los%20pasos%20a%20seguir%20para%20presentarla%20y%20avanzar%20con%20la%20negociaci%C3%B3n%3F%20%F0%9F%A4%9D">Enviar por WhatsApp</a>
               <a class="btn-secondary" href="mailto:gargaglioneveronica@gmail.com?subject=Propuesta%20inmobiliaria">Enviar por Email</a>
             </div>
           </div>
@@ -231,18 +236,27 @@
       <footer class="site-footer">
         <div class="container footer-inner">
           <div>
-            <img class="footer-logo" src="./assets/friedrich-logo.png" alt="Inmobiliaria Friedrich" onerror="this.style.display='none'" />
-            <h3>Verito Garga Inmobiliaria</h3>
+            <div class="brand-wrap" style="margin-bottom: 8px;">
+              <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              <h3>Verito Garga Inmobiliaria</h3>
+            </div>
             <p>Atención personalizada para venta, alquiler y tasaciones.</p>
           </div>
           <div class="footer-contact">
-            <a target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20te%20escribo%20desde%20la%20seccion%20de%20contacto%20de%20la%20web">WhatsApp: +54 11 5317-5943</a>
+            <a target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%91%8B%20Te%20escribo%20desde%20el%20footer%20de%20la%20web.">WhatsApp Principal: +54 11 5317-5943</a>
+            <a target="_blank" rel="noreferrer" href="https://wa.me/5491178242373?text=%C2%A1Hola!%20%F0%9F%91%8B%20Te%20escribo%20al%20Contacto%20de%20Respaldo%20desde%20la%20web.">Contacto de Respaldo: +54 9 11 7824-2373</a>
             <a target="_blank" rel="noreferrer" href="https://www.instagram.com/verito.garga/?hl=es">Instagram: @verito.garga</a>
             <a target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga">TikTok: @veritogarga</a>
             <a href="mailto:gargaglioneveronica@gmail.com">gargaglioneveronica@gmail.com</a>
             <div class="social-logos">
-              <a target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20te%20escribo%20desde%20los%20iconos%20de%20contacto%20del%20footer" aria-label="WhatsApp">
-                <img src="https://cdn.simpleicons.org/whatsapp/17344a" alt="Logo WhatsApp" />
+              <a target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%91%8B%20Te%20escribo%20desde%20la%20web." aria-label="WhatsApp Principal">
+                <img src="https://cdn.simpleicons.org/whatsapp/17344a" alt="Logo WhatsApp Principal" />
+              </a>
+              <a target="_blank" rel="noreferrer" href="https://wa.me/5491178242373?text=%C2%A1Hola!%20%F0%9F%91%8B%20Te%20escribo%20desde%20la%20web." aria-label="Contacto de Respaldo">
+                <img src="https://cdn.simpleicons.org/whatsapp/b89052" alt="Logo WhatsApp Respaldo" />
               </a>
               <a target="_blank" rel="noreferrer" href="https://www.instagram.com/verito.garga/?hl=es" aria-label="Instagram">
                 <img src="https://cdn.simpleicons.org/instagram/17344a" alt="Logo Instagram" />
@@ -250,16 +264,17 @@
               <a target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga" aria-label="TikTok">
                 <img src="https://cdn.simpleicons.org/tiktok/17344a" alt="Logo TikTok" />
               </a>
-              <a href="mailto:gargaglioneveronica@gmail.com" aria-label="Gmail">
-                <img src="https://cdn.simpleicons.org/gmail/17344a" alt="Logo Gmail" />
-              </a>
             </div>
           </div>
         </div>
       </footer>
     </main>
 
-    <a class="wa-float" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=Hola%20Verito%2C%20te%20hablo%20desde%20el%20boton%20flotante%20de%20la%20web">WhatsApp</a>
+    <a class="wa-float" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%93%B2%20Te%20escribo%20desde%20el%20bot%C3%B3n%20flotante%20de%20la%20web%20para%20hacerte%20una%20consulta.%20%F0%9F%92%AC" aria-label="Contacto por WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436.002 9.858-4.419 9.86-9.86 0-2.636-1.027-5.115-2.89-6.979C16.578 1.908 14.1 .881 11.99.881c-5.439 0-9.86 4.421-9.863 9.863 0 1.772.475 3.502 1.374 5.027L2.5 21.07l5.147-1.354zm11.393-6.52c-.3-.15-1.771-.875-2.046-.975-.276-.1-.476-.15-.676.15-.2.3-.775.975-.95 1.175-.175.2-.35.225-.65.075-3.037-1.514-4.717-3.238-5.59-4.747-.233-.4-.025-.615.176-.816.18-.182.4-.475.6-.713.2-.237.267-.4.4-.675.133-.275.067-.512-.033-.712-.1-.2-.875-2.113-1.2-2.9-.317-.762-.64-.663-.875-.675-.225-.011-.482-.012-.738-.012-.256 0-.675.096-.981.438-.306.342-1.169 1.144-1.169 2.79 0 1.647 1.2 3.238 1.369 3.463.169.225 2.362 3.606 5.72 5.06 2.817 1.218 3.403 1.01 4.619.9 1.217-.11 2.772-.738 3.159-1.455.388-.717.388-1.332.271-1.455-.117-.123-.417-.273-.717-.423z"/>
+      </svg>
+    </a>
     <script src="./script.js"></script>
   </body>
 </html>
