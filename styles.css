@@ -20,7 +20,8 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
   color: var(--ink);
   touch-action: manipulation;
   overscroll-behavior-x: none;
@@ -34,9 +35,9 @@ h1, h2, h3, h4, h5, h6,
 .topbar h1, .hero h2, .section h2, .card h3,
 .tasacion-card h3, .proposal-card h3, .credit-card h3,
 .footer-inner h3 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: normal;
 }
 
 .container {
@@ -77,8 +78,8 @@ h1, h2, h3, h4, h5, h6,
 .topbar h1 {
   margin: 0;
   font-size: 24px;
-  font-family: 'Cormorant Garamond', serif;
-  letter-spacing: 0.02em;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: normal;
 }
 
 .topbar nav {
@@ -142,7 +143,7 @@ h1, h2, h3, h4, h5, h6,
 .hero h2 {
   margin: 0;
   max-width: 860px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: clamp(28px, 4.2vw, 48px);
   line-height: 1.1;
 }
@@ -370,13 +371,13 @@ select:focus {
 
 .section h2 {
   margin: 0 0 16px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 700;
   font-size: clamp(32px, 4vw, 44px);
   color: var(--brand);
   position: relative;
   display: inline-block;
-  letter-spacing: -0.01em;
+  letter-spacing: normal;
   text-wrap: balance;
 }
 
@@ -585,7 +586,7 @@ select:focus {
 .card h3 {
   margin: 0 0 6px;
   font-size: 22px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .price {
@@ -651,7 +652,7 @@ select:focus {
 .tasacion-card h3 {
   margin: 0 0 8px;
   font-size: 26px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .tasacion-card p {
@@ -698,7 +699,7 @@ select:focus {
 .proposal-card h3 {
   margin: 0 0 8px;
   font-size: 26px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .proposal-card p {
@@ -717,7 +718,7 @@ select:focus {
 .credit-card h3 {
   margin: 0 0 8px;
   font-size: 26px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .credit-card p {
@@ -780,7 +781,7 @@ select:focus {
   margin: 4px 0 8px;
   color: var(--brand);
   font-size: 22px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .spotlight-card p {
@@ -814,7 +815,7 @@ select:focus {
   color: var(--gold);
   font-size: 20px;
   margin: 0 0 16px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 700;
   letter-spacing: 0.05em;
   position: relative;
@@ -1507,7 +1508,7 @@ select:focus {
 .chart-card h3 {
   margin: 0 0 16px;
   font-size: 16px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--ink);
 }
 
@@ -1530,7 +1531,7 @@ select:focus {
 .dashboard-table-card h3 {
   margin: 0 0 16px;
   font-size: 16px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--ink);
 }
 
