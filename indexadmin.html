@@ -6,11 +6,13 @@
     <title>Admin | Verito Garga Inmobiliaria</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css?v=1.3" />
-    <!-- Chart.js para los gráficos interactivos del dashboard -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
@@ -18,8 +20,8 @@
       <div class="container topbar-inner">
         <div class="brand-wrap">
           <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
           </svg>
           <h1>Panel Admin</h1>
         </div>
@@ -35,34 +37,42 @@
     </header>
 
     <div class="admin-wrapper container">
-      <!-- Sidebar de navegación -->
       <aside class="admin-sidebar" id="adminSidebar">
         <nav class="sidebar-nav">
           <button type="button" class="sidebar-link active" data-tab="tab-upload">
-            <span>⌂ Cargar Propiedad</span>
+            <span>Cargar propiedad</span>
           </button>
           <button type="button" class="sidebar-link" data-tab="tab-dashboard">
-            <span>📊 Centro de Control</span>
+            <span>Centro de control</span>
           </button>
           <a href="./index.html" class="sidebar-link link-out">
-            <span>➔ Volver al sitio</span>
+            <span>Volver al sitio</span>
           </a>
         </nav>
       </aside>
 
-      <!-- Contenido Principal -->
       <main class="admin-content">
         <div class="admin-quick-tabs">
           <button type="button" class="quick-tab active" data-tab="tab-upload">Cargar propiedad</button>
           <button type="button" class="quick-tab" data-tab="tab-dashboard">Centro de control</button>
         </div>
-        <!-- Pestaña 1: Carga de Propiedades -->
+
         <section id="tab-upload" class="tab-pane active">
-          <h2>Cargar propiedad</h2>
+          <div class="dashboard-header">
+            <div>
+              <h2 id="adminFormTitle">Cargar propiedad</h2>
+              <p class="section-aside">Podés crear, editar, reordenar y borrar fotos desde este mismo formulario.</p>
+            </div>
+            <button type="button" id="cancelEditBtn" class="btn-secondary" hidden>Cancelar edición</button>
+          </div>
+
           <form id="adminForm" class="admin-form">
-            <label>Código de Referencia (Opcional - Autogenerado si queda vacío)<input name="code" placeholder="Ej: 1844 o FR-1844" /></label>
+            <input type="hidden" name="propertyId" id="propertyId" />
+
+            <label>Código de referencia (opcional - autogenerado si queda vacío)<input name="code" placeholder="Ej: 1844 o FR-1844" /></label>
             <label>Título<input name="title" required /></label>
-            <label>Operación
+            <label>
+              Operación
               <select name="operation">
                 <option value="venta">Venta</option>
                 <option value="alquiler">Alquiler</option>
@@ -71,21 +81,24 @@
             <label>Precio visible (ej: USD 185.000)<input name="priceLabel" required /></label>
             <label>Precio numérico USD (para filtro)<input name="priceUsd" type="number" min="0" required /></label>
             <label>Ubicación<input name="location" required /></label>
-            <label>Metros m2<input name="meters" type="number" min="0" required /></label>
+            <label>Metros m²<input name="meters" type="number" min="0" required /></label>
             <label>Ambientes<input name="rooms" type="number" min="1" required /></label>
             <label>Baños<input name="bathrooms" type="number" min="1" required /></label>
             <label>Adicionales<input name="extras" placeholder="Pileta, parrilla, cochera" /></label>
-            <label>Fotos de la propiedad
+            <label>
+              Fotos de la propiedad
               <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Seleccionar o arrastrar fotos">
-                <span class="drop-zone-text">Arrastrá las fotos acá o hace clic para seleccionarlas</span>
+                <span class="drop-zone-text">Arrastrá las fotos acá o hacé clic para seleccionarlas</span>
                 <input type="file" id="fileInput" name="photos_files" accept="image/*" multiple style="display: none;" />
               </div>
+              <p class="drop-zone-help">Podés arrastrar, reordenar y eliminar fotos antes de guardar.</p>
               <div id="previewContainer" class="preview-container"></div>
             </label>
-            <label>Link de Google Maps (pegar URL)
+            <label>
+              Link de Google Maps (pegar URL)
               <input name="mapLink" placeholder="https://maps.google.com/..." />
             </label>
-            <button type="submit" class="btn-secondary" style="height: 44px;">Guardar propiedad</button>
+            <button type="submit" id="savePropertyBtn" class="btn-secondary" style="height: 44px;">Guardar propiedad</button>
           </form>
 
           <p id="adminMsg" class="muted"></p>
@@ -94,14 +107,18 @@
           <div id="adminList" class="cards-grid"></div>
         </section>
 
-        <!-- Pestaña 2: Estadísticas / Centro de Control -->
         <section id="tab-dashboard" class="tab-pane">
-          <h2>Centro de Control</h2>
-          
-          <!-- KPI Cards -->
+          <div class="dashboard-header">
+            <div>
+              <h2>Centro de control</h2>
+              <p class="section-aside">Métricas listas para revisar o compartir desde el celular.</p>
+            </div>
+            <button type="button" id="shareDashboardBtn" class="btn-secondary">Compartir panel</button>
+          </div>
+
           <div class="dashboard-kpis">
             <div class="kpi-card">
-              <span class="kpi-title">Visitas Totales</span>
+              <span class="kpi-title">Visitas totales</span>
               <span class="kpi-value" id="kpiTotalViews">0</span>
               <span class="kpi-sub">Visualizaciones en home</span>
             </div>
@@ -111,31 +128,29 @@
               <span class="kpi-sub">Interacciones directas</span>
             </div>
             <div class="kpi-card">
-              <span class="kpi-title">Conversión Promedio</span>
+              <span class="kpi-title">Conversión promedio</span>
               <span class="kpi-value" id="kpiConversionRate">0%</span>
               <span class="kpi-sub">Clicks / Visitas</span>
             </div>
           </div>
 
-          <!-- Charts Layout -->
           <div class="dashboard-charts">
             <div class="chart-card">
-              <h3>Visitas e Interacciones por Propiedad</h3>
+              <h3>Visitas e interacciones por propiedad</h3>
               <div class="chart-container">
                 <canvas id="chartViews"></canvas>
               </div>
             </div>
             <div class="chart-card">
-              <h3>Distribución por Operación</h3>
+              <h3>Distribución por operación</h3>
               <div class="chart-container">
                 <canvas id="chartDistribution"></canvas>
               </div>
             </div>
           </div>
 
-          <!-- Table Card -->
           <div class="dashboard-table-card">
-            <h3>Métricas Detalladas</h3>
+            <h3>Métricas detalladas</h3>
             <div class="table-responsive">
               <table class="stats-table">
                 <thead>
@@ -148,9 +163,7 @@
                     <th>CTR (Tasa de conversión)</th>
                   </tr>
                 </thead>
-                <tbody id="statsTableBody">
-                  <!-- Contenido dinámico -->
-                </tbody>
+                <tbody id="statsTableBody"></tbody>
               </table>
             </div>
           </div>

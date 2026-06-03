@@ -1,5 +1,6 @@
 const SUPABASE_URL = 'https://kxtbuqgqpgaseiaoclri.supabase.co'
 const SUPABASE_KEY = 'sb_publishable_KiAQsHfP0ACCEWhAI2_qZg_Ng2KDSas'
+const WHATSAPP_NUMBER = '5491153175943'
 const STATS_KEY = 'vg_stats'
 const MAX_PHOTOS = 10
 const MAX_IMAGE_SIDE = 1600
@@ -35,6 +36,10 @@ function escapeHtml(value) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;')
+}
+
+function getWhatsAppLink(message) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }
 
 function getStats() {
@@ -100,9 +105,8 @@ function createMenuController(toggleButton, panel) {
   toggleButton.addEventListener('click', (event) => {
     event.preventDefault()
     event.stopPropagation()
-    const shouldOpen = !panel.classList.contains('is-open')
-    if (shouldOpen) open()
-    else close()
+    if (panel.classList.contains('is-open')) close()
+    else open()
   })
 
   document.addEventListener('click', (event) => {
@@ -127,8 +131,13 @@ function bootAdmin() {
   const previewContainer = document.getElementById('previewContainer')
   const sidebarToggle = document.getElementById('sidebarToggle')
   const adminSidebar = document.getElementById('adminSidebar')
+  const shareDashboardBtn = document.getElementById('shareDashboardBtn')
   const tabPanes = document.querySelectorAll('.tab-pane')
   const tabTriggers = document.querySelectorAll('[data-tab]')
+  const propertyIdInput = document.getElementById('propertyId')
+  const adminFormTitle = document.getElementById('adminFormTitle')
+  const cancelEditBtn = document.getElementById('cancelEditBtn')
+  const savePropertyBtn = document.getElementById('savePropertyBtn')
   const menu = createMenuController(sidebarToggle, adminSidebar)
 
   window.addEventListener('dragover', (event) => event.preventDefault(), false)
@@ -139,11 +148,36 @@ function bootAdmin() {
   let chartDistInstance = null
   let currentPhotos = []
   let dragSourceIndex = null
+  let editingPropertyId = null
 
   function setMessage(text, isError = false) {
     if (!msg) return
     msg.textContent = text
     msg.style.color = isError ? '#b42318' : '#435869'
+  }
+
+  function setEditingState(isEditing) {
+    if (adminFormTitle) {
+      adminFormTitle.textContent = isEditing ? 'Editar propiedad' : 'Cargar propiedad'
+    }
+
+    if (savePropertyBtn) {
+      savePropertyBtn.textContent = isEditing ? 'Guardar cambios' : 'Guardar propiedad'
+    }
+
+    if (cancelEditBtn) {
+      cancelEditBtn.hidden = !isEditing
+    }
+  }
+
+  function resetFormState() {
+    editingPropertyId = null
+    if (propertyIdInput) propertyIdInput.value = ''
+    form?.reset()
+    currentPhotos = []
+    dragSourceIndex = null
+    renderPreviews()
+    setEditingState(false)
   }
 
   function syncTabButtons(activeTabId) {
@@ -171,6 +205,15 @@ function bootAdmin() {
       if (!targetTab) return
       await activateTab(targetTab)
     })
+  })
+
+  cancelEditBtn?.addEventListener('click', () => {
+    resetFormState()
+    setMessage('Edición cancelada.')
+  })
+
+  shareDashboardBtn?.addEventListener('click', async () => {
+    await shareDashboard()
   })
 
   function bindDropZone() {
@@ -218,7 +261,7 @@ function bootAdmin() {
   async function handleFiles(files) {
     const incoming = files.filter((file) => file.type.startsWith('image/'))
     if (!incoming.length) {
-      setMessage('Selecciona imagenes validas para la propiedad.', true)
+      setMessage('Seleccioná imágenes válidas para la propiedad.', true)
       return
     }
 
@@ -240,7 +283,7 @@ function bootAdmin() {
     }
 
     renderPreviews()
-    setMessage(`${currentPhotos.length} foto(s) lista(s) para publicar.`)
+    setMessage(`${currentPhotos.length} foto(s) lista(s) para guardar.`)
   }
 
   function renderPreviews() {
@@ -253,8 +296,8 @@ function bootAdmin() {
       item.draggable = true
       item.dataset.index = String(index)
       item.innerHTML = `
-        <img src="${photo.preview}" alt="${escapeHtml(photo.name)}" />
-        <button type="button" class="preview-item-remove" aria-label="Quitar foto">x</button>
+        <img src="${photo.preview}" alt="${escapeHtml(photo.name || `Foto ${index + 1}`)}" />
+        <button type="button" class="preview-item-remove" aria-label="Quitar foto">×</button>
         <span class="preview-item-order">${index + 1}</span>
       `
 
@@ -285,10 +328,65 @@ function bootAdmin() {
         event.stopPropagation()
         currentPhotos.splice(index, 1)
         renderPreviews()
+        setMessage('Foto quitada del listado.')
       })
 
       previewContainer.appendChild(item)
     })
+  }
+
+  function fillForm(property) {
+    if (!form || !property) return
+
+    form.elements.code.value = property.code || ''
+    form.elements.title.value = property.title || ''
+    form.elements.operation.value = property.operation || 'venta'
+    form.elements.priceLabel.value = property.price_label || ''
+    form.elements.priceUsd.value = property.price_usd || ''
+    form.elements.location.value = property.location || ''
+    form.elements.meters.value = property.meters || ''
+    form.elements.rooms.value = property.rooms || ''
+    form.elements.bathrooms.value = property.bathrooms || ''
+    form.elements.extras.value = property.extras || ''
+    form.elements.mapLink.value = property.map_link || ''
+  }
+
+  async function startEdit(property) {
+    editingPropertyId = property.id
+    if (propertyIdInput) propertyIdInput.value = String(property.id)
+    fillForm(property)
+    currentPhotos = Array.isArray(property.photos)
+      ? property.photos.map((preview, index) => ({
+          id: `existing_${property.id}_${index}`,
+          name: `Foto ${index + 1}`,
+          preview: String(preview || '')
+        }))
+      : []
+    renderPreviews()
+    setEditingState(true)
+    await activateTab('tab-upload')
+    form?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setMessage(`Editando "${property.title}".`)
+  }
+
+  async function deleteProperty(property) {
+    if (!window.confirm(`Vas a eliminar "${property.title}". ¿Querés seguir?`)) return
+
+    const { error } = await supabase.from('propiedades').delete().eq('id', property.id)
+    if (error) {
+      setMessage(`No se pudo borrar la propiedad: ${error.message}`, true)
+      return
+    }
+
+    if (editingPropertyId === property.id) {
+      resetFormState()
+    }
+
+    setMessage('Propiedad eliminada con éxito.')
+    await renderList()
+    if (document.getElementById('tab-dashboard')?.classList.contains('active')) {
+      await initDashboard()
+    }
   }
 
   async function renderList() {
@@ -296,7 +394,7 @@ function bootAdmin() {
 
     if (!supabase) {
       list.innerHTML =
-        '<p class="empty">No se pudo conectar con Supabase. Revisa la conexion o el cargado del SDK.</p>'
+        '<p class="empty">No se pudo conectar con Supabase. Revisá la conexión o la carga del SDK.</p>'
       return
     }
 
@@ -311,7 +409,7 @@ function bootAdmin() {
       if (error) throw error
 
       if (!data?.length) {
-        list.innerHTML = '<p class="empty">Todavia no hay propiedades cargadas.</p>'
+        list.innerHTML = '<p class="empty">Todavía no hay propiedades cargadas.</p>'
         return
       }
 
@@ -329,35 +427,27 @@ function bootAdmin() {
                 ${property.code ? `<span class="ref-code-badge">Ref: #${escapeHtml(property.code)}</span>` : ''}
                 <h3>${escapeHtml(property.title)}</h3>
               </div>
-              <button class="delete-prop-btn" type="button" data-id="${property.id}">Eliminar</button>
+              <div class="admin-card-actions">
+                <button class="edit-prop-btn" type="button">Editar</button>
+                <button class="delete-prop-btn" type="button">Eliminar</button>
+              </div>
             </div>
             <p class="price">${escapeHtml(property.price_label || 'Consultar precio')}</p>
             <p class="muted">${escapeHtml(property.location || '')}</p>
             <div class="meta">
-              <span>${Number(property.meters || 0)} m2</span>
+              <span>${Number(property.meters || 0)} m²</span>
               <span>${Number(property.rooms || 0)} amb.</span>
-              <span>${Number(property.bathrooms || 0)} banos</span>
+              <span>${Number(property.bathrooms || 0)} baños</span>
             </div>
           </div>
         `
 
+        article.querySelector('.edit-prop-btn')?.addEventListener('click', async () => {
+          await startEdit(property)
+        })
+
         article.querySelector('.delete-prop-btn')?.addEventListener('click', async () => {
-          if (!window.confirm(`Vas a eliminar "${property.title}". Queres seguir?`)) return
-
-          const { error: deleteError } = await supabase
-            .from('propiedades')
-            .delete()
-            .eq('id', property.id)
-
-          if (deleteError) {
-            alert(`No se pudo borrar la propiedad: ${deleteError.message}`)
-            return
-          }
-
-          await renderList()
-          if (document.getElementById('tab-dashboard')?.classList.contains('active')) {
-            await initDashboard()
-          }
+          await deleteProperty(property)
         })
 
         if (property.map_link) {
@@ -377,17 +467,81 @@ function bootAdmin() {
     }
   }
 
+  async function shareDashboard() {
+    const dashboardSection = document.getElementById('tab-dashboard')
+    const totalViews = document.getElementById('kpiTotalViews')?.textContent || '0'
+    const totalClicks = document.getElementById('kpiTotalClicks')?.textContent || '0'
+    const totalRate = document.getElementById('kpiConversionRate')?.textContent || '0%'
+
+    const summary =
+      `Hola Verito. Te comparto el resumen del panel.\n\n` +
+      `Visitas totales: ${totalViews}\n` +
+      `Consultas / WhatsApp: ${totalClicks}\n` +
+      `Conversión promedio: ${totalRate}`
+
+    if (!dashboardSection || typeof window.html2canvas !== 'function') {
+      window.open(getWhatsAppLink(summary), '_blank', 'noopener,noreferrer')
+      return
+    }
+
+    setMessage('Preparando captura del panel...')
+
+    try {
+      const canvas = await window.html2canvas(dashboardSection, {
+        backgroundColor: '#f2efe9',
+        scale: Math.min(window.devicePixelRatio || 1, 2),
+        useCORS: true
+      })
+
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'))
+      if (!blob) throw new Error('No se pudo generar la captura.')
+
+      const file = new File([blob], `panel-verito-${Date.now()}.png`, { type: 'image/png' })
+      const canNativeShare =
+        navigator.canShare &&
+        navigator.canShare({ files: [file] }) &&
+        typeof navigator.share === 'function'
+
+      if (canNativeShare) {
+        await navigator.share({
+          title: 'Panel Verito Garga',
+          text: summary,
+          files: [file]
+        })
+        setMessage('Captura lista para compartir por WhatsApp.')
+        return
+      }
+
+      const blobUrl = URL.createObjectURL(blob)
+      const downloadLink = document.createElement('a')
+      downloadLink.href = blobUrl
+      downloadLink.download = file.name
+      downloadLink.click()
+      window.setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
+      window.open(
+        getWhatsAppLink(`${summary}\n\nSe descargó la captura del panel para adjuntarla.`),
+        '_blank',
+        'noopener,noreferrer'
+      )
+      setMessage('Descargué la captura y abrí WhatsApp con el resumen.')
+    } catch (error) {
+      console.error('Error compartiendo dashboard:', error)
+      setMessage(`No se pudo compartir el panel: ${error.message}`, true)
+      window.open(getWhatsAppLink(summary), '_blank', 'noopener,noreferrer')
+    }
+  }
+
   if (form) {
     form.addEventListener('submit', async (event) => {
       event.preventDefault()
 
       if (!supabase) {
-        setMessage('No hay conexion con Supabase.', true)
+        setMessage('No hay conexión con Supabase.', true)
         return
       }
 
       if (!currentPhotos.length) {
-        setMessage('Carga al menos una foto antes de guardar.', true)
+        setMessage('Cargá al menos una foto antes de guardar.', true)
         return
       }
 
@@ -409,21 +563,30 @@ function bootAdmin() {
       }
 
       if (!property.title || !property.price_label || !property.location) {
-        setMessage('Completa titulo, precio visible y ubicacion.', true)
+        setMessage('Completá título, precio visible y ubicación.', true)
         return
       }
 
-      setMessage('Guardando propiedad...')
+      setMessage(editingPropertyId ? 'Guardando cambios...' : 'Guardando propiedad...')
 
       try {
-        const { error } = await supabase.from('propiedades').insert([property])
-        if (error) throw error
+        let query = supabase.from('propiedades')
 
-        form.reset()
-        currentPhotos = []
-        renderPreviews()
-        setMessage('Propiedad guardada con exito.')
+        if (editingPropertyId) {
+          const { error } = await query.update(property).eq('id', editingPropertyId)
+          if (error) throw error
+          setMessage('Propiedad actualizada con éxito.')
+        } else {
+          const { error } = await query.insert([property])
+          if (error) throw error
+          setMessage('Propiedad guardada con éxito.')
+        }
+
+        resetFormState()
         await renderList()
+        if (document.getElementById('tab-dashboard')?.classList.contains('active')) {
+          await initDashboard()
+        }
       } catch (error) {
         console.error('Error guardando propiedad:', error)
         setMessage(`Error al guardar: ${error.message}`, true)
@@ -435,7 +598,7 @@ function bootAdmin() {
     const tbody = document.getElementById('statsTableBody')
     if (!tbody) return
 
-    tbody.innerHTML = '<tr><td colspan="6" class="muted" style="text-align:center;">Cargando metricas...</td></tr>'
+    tbody.innerHTML = '<tr><td colspan="6" class="muted" style="text-align:center;">Cargando métricas...</td></tr>'
 
     if (!supabase) {
       tbody.innerHTML =
@@ -461,20 +624,17 @@ function bootAdmin() {
       }))
 
       const localStats = getStats()
-      const baseProperties = []
-      const localProperties = baseProperties.map((property) => {
-        const stats = localStats[property.id] || { views: 0, clicks: 0 }
-        return {
-          id: property.id,
-          title: property.title,
-          operation: property.operation,
-          priceLabel: property.priceLabel,
-          views: Number(stats.views || 0),
-          clicks: Number(stats.clicks || 0)
-        }
-      })
+      const properties = dbProperties
+        .map((property) => {
+          const fallbackStats = localStats[property.id] || {}
+          return {
+            ...property,
+            views: property.views || Number(fallbackStats.views || 0),
+            clicks: property.clicks || Number(fallbackStats.clicks || 0)
+          }
+        })
+        .sort((a, b) => b.views - a.views)
 
-      const properties = [...localProperties, ...dbProperties].sort((a, b) => b.views - a.views)
       const totalViews = properties.reduce((sum, property) => sum + property.views, 0)
       const totalClicks = properties.reduce((sum, property) => sum + property.clicks, 0)
       const conversionRate = totalViews ? ((totalClicks / totalViews) * 100).toFixed(1) : '0.0'
@@ -485,7 +645,7 @@ function bootAdmin() {
 
       if (!properties.length) {
         tbody.innerHTML =
-          '<tr><td colspan="6" class="muted" style="text-align:center;">Todavia no hay propiedades para analizar.</td></tr>'
+          '<tr><td colspan="6" class="muted" style="text-align:center;">Todavía no hay propiedades para analizar.</td></tr>'
       } else {
         tbody.innerHTML = properties
           .map((property) => {
@@ -596,6 +756,7 @@ function bootAdmin() {
 
   async function init() {
     bindDropZone()
+    setEditingState(false)
     supabase = await waitForSupabase()
     if (!supabase) {
       setMessage('No se pudo cargar Supabase en el panel.', true)

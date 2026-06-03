@@ -76,7 +76,7 @@ function normalizeProperty(row) {
     title: row.title || 'Propiedad disponible',
     priceUsd: Number(row.price_usd || 0),
     priceLabel: row.price_label || 'Consultar precio',
-    location: row.location || 'Ubicacion a confirmar',
+    location: row.location || 'Ubicación a confirmar',
     meters: Number(row.meters || 0),
     rooms: Number(row.rooms || 0),
     bathrooms: Number(row.bathrooms || 0),
@@ -158,7 +158,7 @@ function bootSite() {
       }
 
       const message =
-        `Hola Verito! Quiero consultar por una tasacion.\n\n` +
+        `Hola Verito! Quiero consultar por una tasación.\n\n` +
         `Nombre: ${nombre}\n` +
         `Zona de la propiedad: ${zona}\n` +
         `Tipo de propiedad: ${tipo}\n\n` +
@@ -224,6 +224,9 @@ function bootSite() {
       img.src = property.photos[index] || FALLBACK_IMAGE
     }
 
+    let touchStartX = 0
+    let touchDeltaX = 0
+
     prevBtn.addEventListener('click', () => {
       index = (index - 1 + property.photos.length) % property.photos.length
       updateImage()
@@ -233,6 +236,40 @@ function bootSite() {
       index = (index + 1) % property.photos.length
       updateImage()
     })
+
+    carousel.addEventListener(
+      'touchstart',
+      (event) => {
+        touchStartX = event.changedTouches[0]?.clientX || 0
+        touchDeltaX = 0
+        carousel.classList.add('is-swiping')
+      },
+      { passive: true }
+    )
+
+    carousel.addEventListener(
+      'touchmove',
+      (event) => {
+        const currentX = event.changedTouches[0]?.clientX || 0
+        touchDeltaX = currentX - touchStartX
+      },
+      { passive: true }
+    )
+
+    carousel.addEventListener(
+      'touchend',
+      () => {
+        carousel.classList.remove('is-swiping')
+        if (Math.abs(touchDeltaX) < 40 || property.photos.length < 2) return
+        if (touchDeltaX < 0) {
+          index = (index + 1) % property.photos.length
+        } else {
+          index = (index - 1 + property.photos.length) % property.photos.length
+        }
+        updateImage()
+      },
+      { passive: true }
+    )
 
     carousel.append(img)
     if (property.photos.length > 1) {
@@ -245,10 +282,10 @@ function bootSite() {
     const propertyMessage =
       `Hola Verito! Estoy interesado/a en esta propiedad.\n\n` +
       `${property.title}\n` +
-      `Operacion: ${property.operation.toUpperCase()}\n` +
-      `Ubicacion: ${property.location}\n` +
+      `Operación: ${property.operation.toUpperCase()}\n` +
+      `Ubicación: ${property.location}\n` +
       `Precio: ${property.priceLabel}\n\n` +
-      `Me gustaria recibir mas detalles y coordinar una visita.`
+      `Me gustaría recibir más detalles y coordinar una visita.`
 
     const codeBadge = property.code ? `<span class="ref-code-badge">Ref: #${property.code}</span>` : ''
     const mapHtml = property.mapLink
@@ -261,14 +298,14 @@ function bootSite() {
       <p class="price">${property.priceLabel}</p>
       <p class="muted">${property.location}</p>
       <div class="card-actions">
-        <button class="more-btn" type="button">Ver mas</button>
+        <button class="more-btn" type="button">Ver más</button>
         <button class="more-btn map-btn" type="button">Ver mapa</button>
       </div>
       <div class="card-extra">
         <div class="meta">
-          <span>${property.meters} m2</span>
+          <span>${property.meters} m²</span>
           <span>${property.rooms} amb.</span>
-          <span>${property.bathrooms} banos</span>
+          <span>${property.bathrooms} baños</span>
         </div>
         <p class="muted">${property.extras || 'Consultanos para recibir la ficha completa.'}</p>
       </div>
@@ -286,7 +323,7 @@ function bootSite() {
 
     moreBtn?.addEventListener('click', () => {
       const isOpen = extra.classList.toggle('is-open')
-      moreBtn.textContent = isOpen ? 'Ver menos' : 'Ver mas'
+      moreBtn.textContent = isOpen ? 'Ver menos' : 'Ver más'
       if (isOpen) trackClick(property.id)
     })
 
@@ -365,7 +402,7 @@ function bootSite() {
     supabase = await waitForSupabase()
 
     if (!supabase) {
-      console.warn('Supabase no estuvo disponible. Se muestra la pagina sin propiedades remotas.')
+      console.warn('Supabase no estuvo disponible. Se muestra la página sin propiedades remotas.')
       allProperties = []
       render()
       return

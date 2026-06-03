@@ -4,12 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Verito Garga Inmobiliaria</title>
-    <meta name="description" content="Venta, alquiler, tasaciones y propuestas inmobiliarias en Argentina. Contacto directo por WhatsApp, Instagram y mail." />
+    <meta
+      name="description"
+      content="Venta, alquiler, tasaciones y propuestas inmobiliarias en Argentina. Contacto directo por WhatsApp, Instagram y mail."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css?v=1.3" />
-    <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
@@ -17,8 +22,8 @@
       <div class="container topbar-inner">
         <div class="brand-wrap">
           <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
           </svg>
           <h1>Verito Garga Inmobiliaria</h1>
         </div>
@@ -45,23 +50,46 @@
           <h2>Encontrá propiedades con filtros reales y resultados claros</h2>
           <p class="hero-sub">Casas, departamentos y lotes seleccionados con asesoramiento humano en cada etapa.</p>
           <div class="hero-actions">
-            <a class="icon-btn icon-whatsapp" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%91%8B%20Vi%20tu%20p%C3%A1gina%20web%20y%20me%20gustar%C3%ADa%20recibir%20asesoramiento%20general%20sobre%20las%20propiedades%20disponibles.%20%F0%9F%8F%A1%E2%9C%A8" aria-label="WhatsApp">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#ffffff"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436.002 9.858-4.419 9.86-9.86 0-2.636-1.027-5.115-2.89-6.979C16.578 1.908 14.1.881 11.99.881c-5.439 0-9.86 4.421-9.863 9.863 0 1.772.475 3.502 1.374 5.027L2.5 21.07l5.147-1.354zm11.393-6.52c-.3-.15-1.771-.875-2.046-.975-.276-.1-.476-.15-.676.15-.2.3-.775.975-.95 1.175-.175.2-.35.225-.65.075-3.037-1.514-4.717-3.238-5.59-4.747-.233-.4-.025-.615.176-.816.18-.182.4-.475.6-.713.2-.237.267-.4.4-.675.133-.275.067-.512-.033-.712-.1-.2-.875-2.113-1.2-2.9-.317-.762-.64-.663-.875-.675-.225-.011-.482-.012-.738-.012-.256 0-.675.096-.981.438-.306.342-1.169 1.144-1.169 2.79 0 1.647 1.2 3.238 1.369 3.463.169.225 2.362 3.606 5.72 5.06 2.817 1.218 3.403 1.01 4.619.9 1.217-.11 2.772-.738 3.159-1.455.388-.717.388-1.332.271-1.455-.117-.123-.417-.273-.717-.423z"/></svg>
+            <a
+              class="icon-btn icon-whatsapp icon-whatsapp-hero"
+              target="_blank"
+              rel="noreferrer"
+              href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%91%8B%20Vi%20tu%20p%C3%A1gina%20web%20y%20me%20gustar%C3%ADa%20recibir%20asesoramiento%20general%20sobre%20las%20propiedades%20disponibles.%20%F0%9F%8F%A1%E2%9C%A8"
+              aria-label="WhatsApp"
+            >
+              <svg class="wa-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="31" fill="#ffffff" />
+                <circle cx="32" cy="32" r="25" fill="#25d366" />
+                <path
+                  fill="#ffffff"
+                  d="M20.8 49.8l2.2-8A13.76 13.76 0 1 1 27.4 46l-6.6 3.8Zm7.7-5.5c1.1.6 2.3 1 3.5 1 7.1 0 12.9-5.8 12.9-12.9 0-3.4-1.3-6.7-3.8-9.1a12.8 12.8 0 0 0-9.1-3.8c-7.1 0-12.9 5.8-12.9 12.9 0 2.4.7 4.7 1.9 6.6l.3.5-1.3 4.7 4.8-1.3.5.4Zm7.8-7.1c-.4-.2-2.2-1.1-2.6-1.2-.3-.1-.5-.2-.8.2-.2.4-.9 1.2-1.1 1.4-.2.2-.4.3-.8.1-2.2-1.1-3.7-2.7-4.5-4.1-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.2-.4.4-.7.1-.3 0-.5 0-.7 0-.2-.8-2-1.1-2.7-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.4 1.4 3.6c.2.2 2.4 3.8 5.9 5.3.8.4 1.5.6 2 .8.9.3 1.7.2 2.3.1.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.7.2-1.8 0-.2-.3-.3-.7-.5Z"
+                />
+              </svg>
+              <span>WhatsApp</span>
             </a>
             <a class="icon-btn icon-light" target="_blank" rel="noreferrer" href="https://www.instagram.com/verito.garga/?hl=es" aria-label="Instagram">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17344a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17344a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+              </svg>
             </a>
             <a class="icon-btn icon-light" target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga" aria-label="TikTok">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#17344a"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.79a8.18 8.18 0 0 0 4.78 1.52V6.85a4.85 4.85 0 0 1-1.01-.16z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#17344a">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.79a8.18 8.18 0 0 0 4.78 1.52V6.85a4.85 4.85 0 0 1-1.01-.16z" />
+              </svg>
             </a>
             <a class="icon-btn icon-light" href="mailto:gargaglioneveronica@gmail.com" aria-label="Gmail">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17344a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17344a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
             </a>
           </div>
           <div class="hero-badges">
-            <span>⌂ Hogares verificados</span>
-            <span>◈ Atención personalizada</span>
-            <span>▣ Acompañamiento legal</span>
+            <span>Hogares verificados</span>
+            <span>Atención personalizada</span>
+            <span>Acompañamiento legal</span>
           </div>
         </div>
       </section>
@@ -114,7 +142,7 @@
       <section id="venta" class="section section-tone-1">
         <div class="container">
           <div class="section-title">
-            <h2>⌂ Propiedades en Venta</h2>
+            <h2>Propiedades en Venta</h2>
             <span id="ventaCount" class="count"></span>
           </div>
           <div id="ventaGrid" class="cards-grid"></div>
@@ -124,7 +152,7 @@
       <section id="alquiler" class="section section-tone-2">
         <div class="container">
           <div class="section-title">
-            <h2>⌂ Propiedades en Alquiler</h2>
+            <h2>Propiedades en Alquiler</h2>
             <span id="alquilerCount" class="count"></span>
           </div>
           <div id="alquilerGrid" class="cards-grid"></div>
@@ -135,16 +163,28 @@
         <div class="container">
           <div class="section-title">
             <h2>Reels y Recorridos</h2>
-            <a class="btn-secondary" target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga">Ver TikTok</a>
+            <p class="section-aside">Recorridos verticales listos para ver desde el celular.</p>
           </div>
           <div class="reels-grid">
             <article class="reel-card">
+              <a class="reel-badge" target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga" aria-label="Ver TikTok">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.79a8.18 8.18 0 0 0 4.78 1.52V6.85a4.85 4.85 0 0 1-1.01-.16z" />
+                </svg>
+                <span>@veritogarga</span>
+              </a>
               <video autoplay muted loop playsinline preload="auto">
                 <source src="./reels/WhatsApp%20Video%202026-05-29%20at%2015.17.49.mp4" type="video/mp4" />
               </video>
               <p>Tour de propiedad destacada</p>
             </article>
             <article class="reel-card">
+              <a class="reel-badge" target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga" aria-label="Ver TikTok">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.79a8.18 8.18 0 0 0 4.78 1.52V6.85a4.85 4.85 0 0 1-1.01-.16z" />
+                </svg>
+                <span>@veritogarga</span>
+              </a>
               <video autoplay muted loop playsinline preload="auto">
                 <source src="./reels/WhatsApp%20Video%202026-05-29%20at%2015.17.51.mp4" type="video/mp4" />
               </video>
@@ -161,9 +201,7 @@
             <div class="tasacion-card">
               <p class="proposal-tag">Valor real de tu propiedad</p>
               <h3>Tasación profesional con enfoque comercial</h3>
-              <p>
-                Te entregamos una valuación clara basada en comparables, demanda actual y estrategia para vender o alquilar mejor.
-              </p>
+              <p>Te entregamos una valuación clara basada en comparables, demanda actual y estrategia para vender o alquilar mejor.</p>
               <ul class="proposal-list">
                 <li>Análisis de zona y valores actuales</li>
                 <li>Estimación de precio sugerido</li>
@@ -171,9 +209,10 @@
               </ul>
             </div>
             <form class="tasacion-form" id="tasacionForm">
-              <label>Nombre<input type="text" id="tasacionNombre" placeholder="Ej: Juan Perez" required /></label>
-              <label>Zona de la propiedad<input type="text" id="tasacionZona" placeholder="Ej: General Rodriguez" required /></label>
-              <label>Tipo de propiedad
+              <label>Nombre<input type="text" id="tasacionNombre" placeholder="Ej: Juan Pérez" required /></label>
+              <label>Zona de la propiedad<input type="text" id="tasacionZona" placeholder="Ej: General Rodríguez" required /></label>
+              <label>
+                Tipo de propiedad
                 <select id="tasacionTipo" required>
                   <option value="">Seleccionar</option>
                   <option>Casa</option>
@@ -194,16 +233,21 @@
           <div class="credit-card">
             <p class="proposal-tag">Financiación y oportunidades</p>
             <h3>Aceptamos propiedades a crédito y operaciones combinadas</h3>
-            <p>
-              Te asesoramos para comprar con crédito hipotecario, presentar carpetas bancarias y evaluar propiedades aptas para financiación.
-            </p>
+            <p>Te asesoramos para comprar con crédito hipotecario, presentar carpetas bancarias y evaluar propiedades aptas para financiación.</p>
             <ul class="proposal-list">
               <li>Propiedades aptas crédito</li>
               <li>Asistencia con documentación</li>
               <li>Análisis de cuotas y viabilidad</li>
             </ul>
             <div class="hero-actions">
-              <a class="btn-primary" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%8F%A7%20Estuve%20viendo%20la%20secci%C3%B3n%20de%20Cr%C3%A9dito%20Hipotecario%20en%20la%20web%20y%20me%20gustar%C3%ADa%20recibir%20asesoramiento%20sobre%20las%20carpetas%20bancarias%20y%20qu%C3%A9%20propiedades%20ten%C3%A9s%20aptas%20cr%C3%A9dito.%20%F0%9F%93%88">Consultar por crédito</a>
+              <a
+                class="btn-primary"
+                target="_blank"
+                rel="noreferrer"
+                href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%8F%A7%20Estuve%20viendo%20la%20secci%C3%B3n%20de%20Cr%C3%A9dito%20Hipotecario%20en%20la%20web%20y%20me%20gustar%C3%ADa%20recibir%20asesoramiento%20sobre%20las%20carpetas%20bancarias%20y%20qu%C3%A9%20propiedades%20ten%C3%A9s%20aptas%20cr%C3%A9dito.%20%F0%9F%93%88"
+              >
+                Consultar por crédito
+              </a>
             </div>
           </div>
         </div>
@@ -216,9 +260,7 @@
             <div>
               <p class="proposal-tag">Atención directa</p>
               <h3>Enviá tu propuesta y te respondemos rápido</h3>
-              <p>
-                Si querés ofertar por una propiedad en venta o alquiler, enviame los datos y preparo una estrategia de negociación clara para avanzar con seguridad.
-              </p>
+              <p>Si querés ofertar por una propiedad en venta o alquiler, enviame los datos y preparo una estrategia de negociación clara para avanzar con seguridad.</p>
               <ul class="proposal-list">
                 <li>Análisis de propuesta en 24 hs</li>
                 <li>Revisión de condiciones y documentación</li>
@@ -226,7 +268,14 @@
               </ul>
             </div>
             <div class="proposal-actions">
-              <a class="btn-primary" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%E2%9C%8D%EF%B8%8F%20Quiero%20realizar%20una%20propuesta%20formal%20por%20una%20propiedad.%20%C2%BFMe%20podr%C3%ADas%20indicar%20cu%C3%A1les%20son%20los%20pasos%20a%20seguir%20para%20presentarla%20y%20avanzar%20con%20la%20negociaci%C3%B3n%3F%20%F0%9F%A4%9D">Enviar por WhatsApp</a>
+              <a
+                class="btn-primary"
+                target="_blank"
+                rel="noreferrer"
+                href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%E2%9C%8D%EF%B8%8F%20Quiero%20realizar%20una%20propuesta%20formal%20por%20una%20propiedad.%20%C2%BFMe%20podr%C3%ADas%20indicar%20cu%C3%A1les%20son%20los%20pasos%20a%20seguir%20para%20presentarla%20y%20avanzar%20con%20la%20negociaci%C3%B3n%3F%20%F0%9F%A4%9D"
+              >
+                Enviar por WhatsApp
+              </a>
               <a class="btn-secondary" href="mailto:gargaglioneveronica@gmail.com?subject=Propuesta%20inmobiliaria">Enviar por Email</a>
             </div>
           </div>
@@ -258,8 +307,8 @@
           <div class="footer-col">
             <div class="brand-wrap" style="margin-bottom: 12px;">
               <svg class="brand-icon" style="stroke: var(--gold);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
               <h3 style="color: #fff; padding-bottom: 0; margin-bottom: 0; font-family: 'Cormorant Garamond', serif;">Verito Garga</h3>
             </div>
@@ -276,7 +325,7 @@
               </a>
             </div>
           </div>
-          
+
           <div class="footer-col">
             <h3 style="font-family: 'Cormorant Garamond', serif;">Secciones</h3>
             <ul>
@@ -287,20 +336,27 @@
               <li><a href="#propuestas">Propuestas</a></li>
             </ul>
           </div>
-          
+
           <div class="footer-col">
             <h3 style="font-family: 'Cormorant Garamond', serif;">Contacto</h3>
             <div class="footer-contact-list">
               <a class="footer-contact-item" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%91%8B%20Te%20escribo%20desde%20el%20footer%20de%20la%20web.">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
                 <span>WhatsApp: +54 11 5317-5943</span>
               </a>
               <a class="footer-contact-item" target="_blank" rel="noreferrer" href="https://wa.me/5491178242373?text=%C2%A1Hola!%20%F0%9F%91%8B%20Te%20escribo%20desde%20la%20web.">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
                 <span>Respaldo: +54 9 11 7824-2373</span>
               </a>
               <a class="footer-contact-item" href="mailto:gargaglioneveronica@gmail.com">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><rect width="20" height="16" x="2" y="4" rx="2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                </svg>
                 <span>gargaglioneveronica@gmail.com</span>
               </a>
             </div>
@@ -314,13 +370,23 @@
       </footer>
     </main>
 
-    <a class="wa-float" target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%93%B2%20Te%20escribo%20desde%20el%20bot%C3%B3n%20flotante%20de%20la%20web%20para%20hacerte%20una%20consulta.%20%F0%9F%92%AC" aria-label="Contacto por WhatsApp">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436.002 9.858-4.419 9.86-9.86 0-2.636-1.027-5.115-2.89-6.979C16.578 1.908 14.1 .881 11.99.881c-5.439 0-9.86 4.421-9.863 9.863 0 1.772.475 3.502 1.374 5.027L2.5 21.07l5.147-1.354zm11.393-6.52c-.3-.15-1.771-.875-2.046-.975-.276-.1-.476-.15-.676.15-.2.3-.775.975-.95 1.175-.175.2-.35.225-.65.075-3.037-1.514-4.717-3.238-5.59-4.747-.233-.4-.025-.615.176-.816.18-.182.4-.475.6-.713.2-.237.267-.4.4-.675.133-.275.067-.512-.033-.712-.1-.2-.875-2.113-1.2-2.9-.317-.762-.64-.663-.875-.675-.225-.011-.482-.012-.738-.012-.256 0-.675.096-.981.438-.306.342-1.169 1.144-1.169 2.79 0 1.647 1.2 3.238 1.369 3.463.169.225 2.362 3.606 5.72 5.06 2.817 1.218 3.403 1.01 4.619.9 1.217-.11 2.772-.738 3.159-1.455.388-.717.388-1.332.271-1.455-.117-.123-.417-.273-.717-.423z"/>
+    <a
+      class="wa-float"
+      target="_blank"
+      rel="noreferrer"
+      href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%93%B2%20Te%20escribo%20desde%20el%20bot%C3%B3n%20flotante%20de%20la%20web%20para%20hacerte%20una%20consulta.%20%F0%9F%92%AC"
+      aria-label="Contacto por WhatsApp"
+    >
+      <svg class="wa-mark wa-mark-float" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="31" fill="#ffffff" />
+        <circle cx="32" cy="32" r="25" fill="#25d366" />
+        <path
+          fill="#ffffff"
+          d="M20.8 49.8l2.2-8A13.76 13.76 0 1 1 27.4 46l-6.6 3.8Zm7.7-5.5c1.1.6 2.3 1 3.5 1 7.1 0 12.9-5.8 12.9-12.9 0-3.4-1.3-6.7-3.8-9.1a12.8 12.8 0 0 0-9.1-3.8c-7.1 0-12.9 5.8-12.9 12.9 0 2.4.7 4.7 1.9 6.6l.3.5-1.3 4.7 4.8-1.3.5.4Zm7.8-7.1c-.4-.2-2.2-1.1-2.6-1.2-.3-.1-.5-.2-.8.2-.2.4-.9 1.2-1.1 1.4-.2.2-.4.3-.8.1-2.2-1.1-3.7-2.7-4.5-4.1-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.2-.4.4-.7.1-.3 0-.5 0-.7 0-.2-.8-2-1.1-2.7-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9s1.2 3.4 1.4 3.6c.2.2 2.4 3.8 5.9 5.3.8.4 1.5.6 2 .8.9.3 1.7.2 2.3.1.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.7.2-1.8 0-.2-.3-.3-.7-.5Z"
+        />
       </svg>
       <span>WhatsApp</span>
     </a>
     <script src="./script.js?v=1.3"></script>
   </body>
 </html>
-
