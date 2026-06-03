@@ -76,7 +76,7 @@ function normalizeProperty(row) {
     title: row.title || 'Propiedad disponible',
     priceUsd: Number(row.price_usd || 0),
     priceLabel: row.price_label || 'Consultar precio',
-    location: row.location || 'Ubicación a confirmar',
+    location: row.location || 'Ubicacion a confirmar',
     meters: Number(row.meters || 0),
     rooms: Number(row.rooms || 0),
     bathrooms: Number(row.bathrooms || 0),
@@ -158,7 +158,7 @@ function bootSite() {
       }
 
       const message =
-        `Hola Verito! Quiero consultar por una tasación.\n\n` +
+        `Hola Verito! Quiero consultar por una tasacion.\n\n` +
         `Nombre: ${nombre}\n` +
         `Zona de la propiedad: ${zona}\n` +
         `Tipo de propiedad: ${tipo}\n\n` +
@@ -282,10 +282,10 @@ function bootSite() {
     const propertyMessage =
       `Hola Verito! Estoy interesado/a en esta propiedad.\n\n` +
       `${property.title}\n` +
-      `Operación: ${property.operation.toUpperCase()}\n` +
-      `Ubicación: ${property.location}\n` +
+      `Operacion: ${property.operation.toUpperCase()}\n` +
+      `Ubicacion: ${property.location}\n` +
       `Precio: ${property.priceLabel}\n\n` +
-      `Me gustaría recibir más detalles y coordinar una visita.`
+      `Me gustaria recibir mas detalles y coordinar una visita.`
 
     const codeBadge = property.code ? `<span class="ref-code-badge">Ref: #${property.code}</span>` : ''
     const mapHtml = property.mapLink
@@ -298,14 +298,14 @@ function bootSite() {
       <p class="price">${property.priceLabel}</p>
       <p class="muted">${property.location}</p>
       <div class="card-actions">
-        <button class="more-btn" type="button">Ver más</button>
+        <button class="more-btn" type="button">Ver mas</button>
         <button class="more-btn map-btn" type="button">Ver mapa</button>
       </div>
       <div class="card-extra">
         <div class="meta">
-          <span>${property.meters} m²</span>
+          <span>${property.meters} m2</span>
           <span>${property.rooms} amb.</span>
-          <span>${property.bathrooms} baños</span>
+          <span>${property.bathrooms} banos</span>
         </div>
         <p class="muted">${property.extras || 'Consultanos para recibir la ficha completa.'}</p>
       </div>
@@ -323,7 +323,7 @@ function bootSite() {
 
     moreBtn?.addEventListener('click', () => {
       const isOpen = extra.classList.toggle('is-open')
-      moreBtn.textContent = isOpen ? 'Ver menos' : 'Ver más'
+      moreBtn.textContent = isOpen ? 'Ver menos' : 'Ver mas'
       if (isOpen) trackClick(property.id)
     })
 
@@ -402,7 +402,7 @@ function bootSite() {
     supabase = await waitForSupabase()
 
     if (!supabase) {
-      console.warn('Supabase no estuvo disponible. Se muestra la página sin propiedades remotas.')
+      console.warn('Supabase no estuvo disponible. Se muestra la pagina sin propiedades remotas.')
       allProperties = []
       render()
       return

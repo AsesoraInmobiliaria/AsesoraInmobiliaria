@@ -6,9 +6,9 @@
     <title>Verito Garga Inmobiliaria</title>
     <meta
       name="description"
-      content="Venta, alquiler, tasaciones y propuestas inmobiliarias en Argentina. Contacto directo por WhatsApp, Instagram y mail."
+      content="Venta, alquiler y tasaciones inmobiliarias. Contacto directo por WhatsApp, Instagram y correo."
     />
-    <link rel="stylesheet" href="./styles.css?v=1.3" />
+    <link rel="stylesheet" href="./styles.css?v=1.4" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
@@ -21,7 +21,7 @@
           </svg>
           <h1>Verito Garga Inmobiliaria</h1>
         </div>
-        <button id="menuToggle" class="menu-toggle" type="button" aria-label="Abrir menÃº" aria-expanded="false" aria-controls="mainNav">
+        <button id="menuToggle" class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
           <span></span>
           <span></span>
           <span></span>
@@ -31,7 +31,7 @@
           <a href="#alquiler">Alquiler</a>
           <a href="#reels">Reels</a>
           <a href="#tasaciones">Tasaciones</a>
-          <a href="#credito">CrÃ©dito</a>
+          <a href="#credito">Crédito</a>
           <a href="#propuestas">Propuestas</a>
         </nav>
       </div>
@@ -40,9 +40,9 @@
     <main>
       <section class="hero">
         <div class="container">
-          <p class="hero-tag">AsesorÃ­a inmobiliaria personalizada</p>
-          <h2>EncontrÃ¡ propiedades con filtros reales y resultados claros</h2>
-          <p class="hero-sub">Casas, departamentos y lotes seleccionados con asesoramiento humano en cada etapa.</p>
+          <p class="hero-tag">Venta, alquiler y tasaciones</p>
+          <h2>Encontrá la propiedad que estás buscando</h2>
+          <p class="hero-sub">Casas, departamentos y lotes con atención personalizada en cada etapa.</p>
           <div class="hero-actions">
             <a
               class="icon-btn icon-whatsapp icon-whatsapp-hero"
@@ -83,9 +83,9 @@
             </a>
           </div>
           <div class="hero-badges">
-            <span>Hogares verificados</span>
-            <span>AtenciÃ³n personalizada</span>
-            <span>AcompaÃ±amiento legal</span>
+            <span>Propiedades destacadas</span>
+            <span>Atención personalizada</span>
+            <span>Asesoramiento profesional</span>
           </div>
         </div>
       </section>
@@ -95,7 +95,7 @@
           <div class="filters-card">
             <div class="filters-grid">
               <label>
-                OperaciÃ³n
+                Operación
                 <select id="filterOperation">
                   <option value="all">Todas</option>
                   <option value="venta">Venta</option>
@@ -103,15 +103,15 @@
                 </select>
               </label>
               <label>
-                UbicaciÃ³n
-                <input id="filterLocation" type="text" placeholder="Ej: General RodrÃ­guez" />
+                Ubicación
+                <input id="filterLocation" type="text" placeholder="Ej: General Rodríguez" />
               </label>
               <label>
-                Precio mÃ¡ximo (USD)
+                Precio máximo (USD)
                 <input id="filterPrice" type="number" min="0" placeholder="Ej: 200000" />
               </label>
               <label>
-                MÃ­nimo de ambientes
+                Mínimo de ambientes
                 <select id="filterRooms">
                   <option value="0">Cualquiera</option>
                   <option value="1">1+</option>
@@ -121,7 +121,7 @@
                 </select>
               </label>
               <label>
-                MÃ­nimo de baÃ±os
+                Mínimo de baños
                 <select id="filterBathrooms">
                   <option value="0">Cualquiera</option>
                   <option value="1">1+</option>
@@ -159,14 +159,14 @@
         <div class="container">
           <div class="section-title">
             <h2>Reels y Recorridos</h2>
-            <p class="section-aside">Recorridos verticales listos para ver desde el celular.</p>
+            <p class="section-aside">Videos cortos para ver las propiedades desde el celular.</p>
           </div>
           <div class="reels-grid">
             <article class="reel-card">
               <video autoplay muted loop playsinline preload="auto">
                 <source src="./reels/WhatsApp%20Video%202026-05-29%20at%2015.17.49.mp4" type="video/mp4" />
               </video>
-              <p>Tour de propiedad destacada</p>
+              <p>Recorrido de una propiedad destacada</p>
               <a class="reel-link" target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga" aria-label="Ver TikTok">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.79a8.18 8.18 0 0 0 4.78 1.52V6.85a4.85 4.85 0 0 1-1.01-.16z" />
@@ -178,7 +178,7 @@
               <video autoplay muted loop playsinline preload="auto">
                 <source src="./reels/WhatsApp%20Video%202026-05-29%20at%2015.17.51.mp4" type="video/mp4" />
               </video>
-              <p>Recorrido exprés para redes</p>
+              <p>Recorrido breve para redes</p>
               <a class="reel-link" target="_blank" rel="noreferrer" href="https://www.tiktok.com/@veritogarga" aria-label="Ver TikTok">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.79a8.18 8.18 0 0 0 4.78 1.52V6.85a4.85 4.85 0 0 1-1.01-.16z" />
@@ -195,17 +195,17 @@
           <div class="tasacion-layout">
             <div class="tasacion-card">
               <p class="proposal-tag">Valor real de tu propiedad</p>
-              <h3>TasaciÃ³n profesional con enfoque comercial</h3>
-              <p>Te entregamos una valuaciÃ³n clara basada en comparables, demanda actual y estrategia para vender o alquilar mejor.</p>
+              <h3>Tasación profesional de tu propiedad</h3>
+              <p>Te brindamos una valuación clara, basada en la zona, el mercado actual y el tipo de propiedad.</p>
               <ul class="proposal-list">
-                <li>AnÃ¡lisis de zona y valores actuales</li>
-                <li>EstimaciÃ³n de precio sugerido</li>
-                <li>RecomendaciÃ³n de publicaciÃ³n</li>
+                <li>Análisis de zona y valores actuales</li>
+                <li>Estimación de valor de mercado</li>
+                <li>Recomendación para publicar mejor</li>
               </ul>
             </div>
             <form class="tasacion-form" id="tasacionForm">
-              <label>Nombre<input type="text" id="tasacionNombre" placeholder="Ej: Juan PÃ©rez" required /></label>
-              <label>Zona de la propiedad<input type="text" id="tasacionZona" placeholder="Ej: General RodrÃ­guez" required /></label>
+              <label>Nombre<input type="text" id="tasacionNombre" placeholder="Ej: Juan Pérez" required /></label>
+              <label>Zona de la propiedad<input type="text" id="tasacionZona" placeholder="Ej: General Rodríguez" required /></label>
               <label>
                 Tipo de propiedad
                 <select id="tasacionTipo" required>
@@ -216,7 +216,7 @@
                   <option>PH</option>
                 </select>
               </label>
-              <button type="submit" class="btn-primary">Consultar tasaciÃ³n por WhatsApp</button>
+              <button type="submit" class="btn-primary">Consultar tasación por WhatsApp</button>
             </form>
           </div>
         </div>
@@ -224,15 +224,15 @@
 
       <section id="credito" class="section section-tone-5">
         <div class="container">
-          <h2>CrÃ©dito Hipotecario</h2>
+          <h2>Crédito Hipotecario</h2>
           <div class="credit-card">
-            <p class="proposal-tag">FinanciaciÃ³n y oportunidades</p>
-            <h3>Aceptamos propiedades a crÃ©dito y operaciones combinadas</h3>
-            <p>Te asesoramos para comprar con crÃ©dito hipotecario, presentar carpetas bancarias y evaluar propiedades aptas para financiaciÃ³n.</p>
+            <p class="proposal-tag">Crédito hipotecario</p>
+            <h3>Asesoramiento para operaciones con crédito</h3>
+            <p>Te ayudamos a evaluar propiedades aptas, revisar la documentación y avanzar con tu carpeta bancaria.</p>
             <ul class="proposal-list">
-              <li>Propiedades aptas crÃ©dito</li>
-              <li>Asistencia con documentaciÃ³n</li>
-              <li>AnÃ¡lisis de cuotas y viabilidad</li>
+              <li>Propiedades aptas para crédito</li>
+              <li>Asistencia con documentación</li>
+              <li>Análisis de cuotas y viabilidad</li>
             </ul>
             <div class="hero-actions">
               <a
@@ -241,7 +241,7 @@
                 rel="noreferrer"
                 href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%8F%A7%20Estuve%20viendo%20la%20secci%C3%B3n%20de%20Cr%C3%A9dito%20Hipotecario%20en%20la%20web%20y%20me%20gustar%C3%ADa%20recibir%20asesoramiento%20sobre%20las%20carpetas%20bancarias%20y%20qu%C3%A9%20propiedades%20ten%C3%A9s%20aptas%20cr%C3%A9dito.%20%F0%9F%93%88"
               >
-                Consultar por crÃ©dito
+                Consultar por crédito
               </a>
             </div>
           </div>
@@ -253,13 +253,13 @@
           <h2>Propuestas</h2>
           <div class="proposal-card">
             <div>
-              <p class="proposal-tag">AtenciÃ³n directa</p>
-              <h3>EnviÃ¡ tu propuesta y te respondemos rÃ¡pido</h3>
-              <p>Si querÃ©s ofertar por una propiedad en venta o alquiler, enviame los datos y preparo una estrategia de negociaciÃ³n clara para avanzar con seguridad.</p>
+              <p class="proposal-tag">Atención directa</p>
+              <h3>Enviá tu propuesta y la revisamos</h3>
+              <p>Si querés hacer una oferta por una propiedad en venta o alquiler, enviame los datos y te respondo a la brevedad.</p>
               <ul class="proposal-list">
-                <li>AnÃ¡lisis de propuesta en 24 hs</li>
-                <li>RevisiÃ³n de condiciones y documentaciÃ³n</li>
-                <li>AcompaÃ±amiento hasta el cierre</li>
+                <li>Análisis de propuesta en 24 hs</li>
+                <li>Revisión de condiciones y documentación</li>
+                <li>Acompañamiento hasta el cierre</li>
               </ul>
             </div>
             <div class="proposal-actions">
@@ -271,7 +271,7 @@
               >
                 Enviar por WhatsApp
               </a>
-              <a class="btn-secondary" href="mailto:gargaglioneveronica@gmail.com?subject=Propuesta%20inmobiliaria">Enviar por Email</a>
+              <a class="btn-secondary" href="mailto:gargaglioneveronica@gmail.com?subject=Propuesta%20inmobiliaria">Enviar por correo</a>
             </div>
           </div>
         </div>
@@ -280,19 +280,19 @@
       <section class="footer-spotlight">
         <div class="container footer-spotlight-grid">
           <article class="spotlight-card">
-            <span class="spotlight-label">Respuesta rÃ¡pida</span>
+            <span class="spotlight-label">Contacto directo</span>
             <strong>WhatsApp directo</strong>
-            <p>Consultas, visitas y seguimiento comercial desde el celular.</p>
+            <p>Consultas, visitas y seguimiento desde el celular.</p>
           </article>
           <article class="spotlight-card">
-            <span class="spotlight-label">AtenciÃ³n real</span>
-            <strong>Asesoramiento humano</strong>
-            <p>AcompaÃ±amiento claro para vender, alquilar o invertir sin vueltas.</p>
+            <span class="spotlight-label">Atención personalizada</span>
+            <strong>Asesoramiento profesional</strong>
+            <p>Acompañamiento claro para vender, alquilar o comprar.</p>
           </article>
           <article class="spotlight-card">
-            <span class="spotlight-label">Cobertura activa</span>
+            <span class="spotlight-label">Publicaciones activas</span>
             <strong>Venta y alquiler</strong>
-            <p>Propiedades publicadas con filtros Ãºtiles y contacto inmediato.</p>
+            <p>Propiedades disponibles con información clara y contacto inmediato.</p>
           </article>
         </div>
       </section>
@@ -307,7 +307,7 @@
               </svg>
               <h3 style="color: #fff; padding-bottom: 0; margin-bottom: 0;">Verito Garga</h3>
             </div>
-            <p>Asesoramiento humano, legal y comercial para encontrar tu propiedad ideal en cada etapa de tu vida.</p>
+            <p>Asesoramiento comercial y atención personalizada para ayudarte a encontrar tu próxima propiedad.</p>
             <div class="social-logos">
               <a target="_blank" rel="noreferrer" href="https://wa.me/5491153175943?text=%C2%A1Hola%20Verito!%20%F0%9F%91%8B%20Te%20escribo%20desde%20la%20web." aria-label="WhatsApp Principal">
                 <img src="https://cdn.simpleicons.org/whatsapp/b89052" alt="WhatsApp" />
@@ -330,7 +330,7 @@
               <li><a href="#venta">Venta de Propiedades</a></li>
               <li><a href="#alquiler">Alquileres</a></li>
               <li><a href="#tasaciones">Tasaciones</a></li>
-              <li><a href="#credito">CrÃ©dito Hipotecario</a></li>
+              <li><a href="#credito">Crédito Hipotecario</a></li>
               <li><a href="#propuestas">Propuestas</a></li>
             </ul>
           </div>
@@ -362,7 +362,7 @@
         </div>
         <div class="footer-bottom">
           <div class="container">
-            <p>&copy; 2026 Verito Garga Inmobiliaria. Todos los derechos reservados. | DiseÃ±ado por <a href="https://click24.com.ar" target="_blank" rel="noreferrer">Click24</a></p>
+            <p>&copy; 2026 Verito Garga Inmobiliaria. Todos los derechos reservados. | Diseñado por <a href="https://click24.com.ar" target="_blank" rel="noreferrer">Click24</a></p>
           </div>
         </div>
       </footer>
@@ -387,7 +387,7 @@
       </span>
       <span class="wa-float-text">WhatsApp</span>
     </a>
-    <script src="./script.js?v=1.3"></script>
+    <script src="./script.js?v=1.4"></script>
   </body>
 </html>
 
