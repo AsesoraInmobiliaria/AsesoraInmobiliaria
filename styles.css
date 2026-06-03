@@ -183,21 +183,38 @@ h1, h2, h3, h4, h5, h6,
 
 .icon-whatsapp-hero {
   width: auto;
-  min-width: 138px;
-  padding: 0 16px;
-  gap: 10px;
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+  min-width: 168px;
+  height: 56px;
+  padding: 8px 18px 8px 10px;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
 }
 
-.icon-whatsapp-hero span {
+.icon-whatsapp-hero .wa-chip-text {
   color: #fff;
   font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+}
+
+.wa-chip-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
 }
 
 .wa-mark {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   display: block;
   shape-rendering: geometricPrecision;
   flex-shrink: 0;
@@ -431,25 +448,24 @@ select:focus {
   font-weight: 600;
 }
 
-.reel-badge {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  z-index: 2;
+.reel-link {
+  margin: 10px 4px 2px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  justify-content: center;
+  width: fit-content;
+  padding: 10px 14px;
   border-radius: 999px;
-  background: rgba(14, 20, 28, 0.88);
+  background: #101820;
   color: #fff;
   text-decoration: none;
   font-size: 12px;
   font-weight: 800;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
-.reel-badge svg {
+.reel-link svg {
   width: 16px;
   height: 16px;
   fill: #fff;
@@ -960,65 +976,49 @@ select:focus {
   background: linear-gradient(135deg, #25d366, #128c7e);
   color: #fff;
   width: auto;
-  min-height: 60px;
+  min-height: 62px;
   border-radius: 999px;
   box-shadow: 0 8px 24px rgba(18, 140, 126, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 0 18px;
+  padding: 8px 16px 8px 10px;
   font-weight: 800;
   text-decoration: none;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .wa-float:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 12px 28px rgba(18, 140, 126, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(18, 140, 126, 0.42);
 }
 
 .wa-float::after {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
+  display: none;
+}
+
+.wa-float-icon {
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  border: 2px solid #25d366;
-  opacity: 0;
-  animation: wa-pulse 2s infinite;
-  pointer-events: none;
-}
-
-@keyframes wa-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.2);
-    opacity: 0;
-  }
-}
-
-.wa-float svg {
-  width: 32px;
-  height: 32px;
-  fill: #fff;
-  display: block;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
   flex-shrink: 0;
 }
 
-.wa-float span {
+.wa-float-text {
   color: #fff;
   font-size: 14px;
+  letter-spacing: 0.01em;
 }
 
 .wa-mark-float {
-  width: 34px;
-  height: 34px;
+  width: 28px;
+  height: 28px;
 }
 
 /* Drag & Drop Zone */
@@ -1036,6 +1036,16 @@ select:focus {
   min-height: 100px;
   margin-bottom: 10px;
   outline: none;
+  position: relative;
+}
+
+.drop-zone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .drop-zone.dragover {
@@ -1058,6 +1068,16 @@ select:focus {
   margin: 10px 0 0;
   color: var(--muted);
   font-size: 13px;
+}
+
+.photo-picker-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.photo-picker-actions .btn-secondary {
+  min-height: 44px;
 }
 
 /* Preview Container & Items */
@@ -1126,6 +1146,31 @@ select:focus {
   justify-content: center;
   font-size: 12px;
   font-weight: 800;
+}
+
+.preview-item-actions {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 34px;
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.preview-item-move {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 253, 250, 0.94);
+  color: #17344a;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
 }
 
 .preview-item-remove:hover {
@@ -1451,6 +1496,14 @@ select:focus {
   box-shadow: 0 4px 12px rgba(19, 28, 37, 0.04);
 }
 
+.admin-content .card:hover,
+.chart-card:hover,
+.dashboard-table-card:hover,
+.kpi-card:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(19, 28, 37, 0.04);
+}
+
 .chart-card h3 {
   margin: 0 0 16px;
   font-size: 16px;
@@ -1462,6 +1515,7 @@ select:focus {
   position: relative;
   width: 100%;
   height: 280px;
+  min-height: 280px;
 }
 
 /* Stats Table Styling */
@@ -1606,6 +1660,59 @@ select:focus {
 
   .admin-sidebar.is-open {
     display: block;
+  }
+
+  .admin-form {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form .btn-secondary,
+  .photo-picker-actions .btn-secondary,
+  .quick-tab,
+  .sidebar-link,
+  .edit-prop-btn,
+  .delete-prop-btn {
+    min-height: 46px;
+  }
+
+  .admin-card-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .admin-card-actions button {
+    flex: 1;
+  }
+
+  .preview-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .drop-zone {
+    min-height: 88px;
+    padding: 18px 14px;
+  }
+
+  .drop-zone-text {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .photo-picker-actions {
+    justify-content: stretch;
+  }
+
+  .photo-picker-actions .btn-secondary {
+    width: 100%;
+  }
+
+  .preview-item-remove,
+  .preview-item-move {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
   }
 }
 

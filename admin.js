@@ -129,6 +129,7 @@ function bootAdmin() {
   const dropZone = document.getElementById('dropZone')
   const fileInput = document.getElementById('fileInput')
   const previewContainer = document.getElementById('previewContainer')
+  const pickPhotosBtn = document.getElementById('pickPhotosBtn')
   const sidebarToggle = document.getElementById('sidebarToggle')
   const adminSidebar = document.getElementById('adminSidebar')
   const shareDashboardBtn = document.getElementById('shareDashboardBtn')
@@ -149,6 +150,7 @@ function bootAdmin() {
   let currentPhotos = []
   let dragSourceIndex = null
   let editingPropertyId = null
+  let propertiesCache = []
 
   function setMessage(text, isError = false) {
     if (!msg) return
@@ -214,6 +216,10 @@ function bootAdmin() {
 
   shareDashboardBtn?.addEventListener('click', async () => {
     await shareDashboard()
+  })
+
+  pickPhotosBtn?.addEventListener('click', () => {
+    fileInput?.click()
   })
 
   function bindDropZone() {
@@ -331,6 +337,19 @@ function bootAdmin() {
         setMessage('Foto quitada del listado.')
       })
 
+      item.querySelectorAll('.preview-item-move').forEach((button) => {
+        button.addEventListener('click', (event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          const direction = button.getAttribute('data-direction')
+          const targetIndex = direction === 'left' ? index - 1 : index + 1
+          if (targetIndex < 0 || targetIndex >= currentPhotos.length) return
+          const moved = currentPhotos.splice(index, 1)[0]
+          currentPhotos.splice(targetIndex, 0, moved)
+          renderPreviews()
+        })
+      })
+
       previewContainer.appendChild(item)
     })
   }
@@ -352,12 +371,20 @@ function bootAdmin() {
   }
 
   async function startEdit(property) {
-    editingPropertyId = property.id
-    if (propertyIdInput) propertyIdInput.value = String(property.id)
-    fillForm(property)
-    currentPhotos = Array.isArray(property.photos)
-      ? property.photos.map((preview, index) => ({
-          id: `existing_${property.id}_${index}`,
+    const safeProperty =
+      propertiesCache.find((item) => String(item.id) === String(property.id)) || property
+
+    if (!safeProperty) {
+      setMessage('No se encontr? la propiedad para editar.', true)
+      return
+    }
+
+    editingPropertyId = safeProperty.id
+    if (propertyIdInput) propertyIdInput.value = String(safeProperty.id)
+    fillForm(safeProperty)
+    currentPhotos = Array.isArray(safeProperty.photos)
+      ? safeProperty.photos.map((preview, index) => ({
+          id: `existing_${safeProperty.id}_${index}`,
           name: `Foto ${index + 1}`,
           preview: String(preview || '')
         }))
@@ -365,8 +392,8 @@ function bootAdmin() {
     renderPreviews()
     setEditingState(true)
     await activateTab('tab-upload')
-    form?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    setMessage(`Editando "${property.title}".`)
+    form?.scrollIntoView({ behavior: 'auto', block: 'start' })
+    setMessage(`Editando "${safeProperty.title}".`)
   }
 
   async function deleteProperty(property) {
@@ -408,6 +435,8 @@ function bootAdmin() {
 
       if (error) throw error
 
+      propertiesCache = data || []
+
       if (!data?.length) {
         list.innerHTML = '<p class="empty">Todavía no hay propiedades cargadas.</p>'
         return
@@ -442,11 +471,15 @@ function bootAdmin() {
           </div>
         `
 
-        article.querySelector('.edit-prop-btn')?.addEventListener('click', async () => {
+        article.querySelector('.edit-prop-btn')?.addEventListener('click', async (event) => {
+          event.preventDefault()
+          event.stopPropagation()
           await startEdit(property)
         })
 
-        article.querySelector('.delete-prop-btn')?.addEventListener('click', async () => {
+        article.querySelector('.delete-prop-btn')?.addEventListener('click', async (event) => {
+          event.preventDefault()
+          event.stopPropagation()
           await deleteProperty(property)
         })
 
@@ -707,6 +740,7 @@ function bootAdmin() {
           ]
         },
         options: {
+          animation: false,
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
@@ -735,6 +769,7 @@ function bootAdmin() {
           ]
         },
         options: {
+          animation: false,
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
