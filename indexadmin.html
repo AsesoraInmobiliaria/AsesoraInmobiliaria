@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Admin | Verito Garga Inmobiliaria</title>
+    <title>Admin | Verito Garga Asesora Inmobiliaria</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -84,7 +84,59 @@
             <label>Metros m²<input name="meters" type="number" min="0" required /></label>
             <label>Ambientes<input name="rooms" type="number" min="1" required /></label>
             <label>Baños<input name="bathrooms" type="number" min="1" required /></label>
-            <label>Adicionales<input name="extras" placeholder="Pileta, parrilla, cochera" /></label>
+            <label>Adicionales / Descripción<input name="extras" placeholder="Ej: Excelente ubicación, ideal para familia..." /></label>
+            <label>Cochera<input name="cochera" placeholder="Ej: 1 cubierta, 2 descubiertas, No tiene" /></label>
+            
+            <div class="form-checkbox-group">
+              <span class="group-title">Servicios</span>
+              <div class="checkbox-grid">
+                <label class="chk-label"><input type="checkbox" name="servicios" value="Luz" /> Luz</label>
+                <label class="chk-label"><input type="checkbox" name="servicios" value="Gas Natural" /> Gas Natural</label>
+                <label class="chk-label"><input type="checkbox" name="servicios" value="Agua Corriente" /> Agua Corriente</label>
+                <label class="chk-label"><input type="checkbox" name="servicios" value="Cloacas" /> Cloacas</label>
+                <label class="chk-label"><input type="checkbox" name="servicios" value="Internet" /> Internet</label>
+                <label class="chk-label"><input type="checkbox" name="servicios" value="Pavimento" /> Pavimento</label>
+              </div>
+            </div>
+
+            <div class="form-checkbox-group">
+              <span class="group-title">Amenities</span>
+              <div class="checkbox-grid">
+                <label class="chk-label"><input type="checkbox" name="amenities" value="Piscina" /> Piscina</label>
+                <label class="chk-label"><input type="checkbox" name="amenities" value="Parrilla" /> Parrilla</label>
+                <label class="chk-label"><input type="checkbox" name="amenities" value="Solarium" /> Solarium</label>
+                <label class="chk-label"><input type="checkbox" name="amenities" value="SUM" /> SUM</label>
+                <label class="chk-label"><input type="checkbox" name="amenities" value="Gimnasio" /> Gimnasio</label>
+                <label class="chk-label"><input type="checkbox" name="amenities" value="Quincho" /> Quincho</label>
+                <label class="chk-label"><input type="checkbox" name="amenities" value="Seguridad" /> Seguridad</label>
+              </div>
+            </div>
+
+            <div class="form-checkbox-group">
+              <span class="group-title">Características de la propiedad</span>
+              <div class="checkbox-grid">
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Balcón" /> Balcón</label>
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Patio" /> Patio</label>
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Lavadero" /> Lavadero</label>
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Terraza" /> Terraza</label>
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Jardín" /> Jardín</label>
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Vestidor" /> Vestidor</label>
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Playroom" /> Playroom</label>
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Toilette" /> Toilette</label>
+                <label class="chk-label"><input type="checkbox" name="caract_prop" value="Apto Crédito" /> Apto Crédito</label>
+              </div>
+            </div>
+
+            <div class="form-checkbox-group">
+              <span class="group-title">Características del edificio</span>
+              <div class="checkbox-grid">
+                <label class="chk-label"><input type="checkbox" name="caract_edif" value="Ascensor" /> Ascensor</label>
+                <label class="chk-label"><input type="checkbox" name="caract_edif" value="Seguridad 24hs" /> Seguridad 24hs</label>
+                <label class="chk-label"><input type="checkbox" name="caract_edif" value="Calefacción Central" /> Calefacción Central</label>
+                <label class="chk-label"><input type="checkbox" name="caract_edif" value="Grupo Electrógeno" /> Grupo Electrógeno</label>
+                <label class="chk-label"><input type="checkbox" name="caract_edif" value="Apto Profesional" /> Apto Profesional</label>
+              </div>
+            </div>
             <label>
               Fotos de la propiedad
               <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Seleccionar o arrastrar fotos">
@@ -95,8 +147,9 @@
               <div id="previewContainer" class="preview-container"></div>
             </label>
             <label>
-              Link de Google Maps (pegar URL)
-              <input name="mapLink" placeholder="https://maps.google.com/..." />
+              Link de Google Maps o Dirección Textual
+              <input name="mapLink" placeholder="Ej: General Rodríguez, Buenos Aires" />
+              <p class="drop-zone-help" style="margin-top: 4px; font-weight: normal;">Pega la dirección textual, coordenadas, o el código para compartir (Insertar mapa) de Google Maps. Evita usar links cortos de celular (maps.app.goo.gl).</p>
             </label>
             <button type="submit" id="savePropertyBtn" class="btn-secondary" style="height: 44px;">Guardar propiedad</button>
           </form>

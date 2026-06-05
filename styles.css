@@ -1725,3 +1725,119 @@ select:focus {
   }
 }
 
+/* Nuevos estilos para admin y fichas de propiedades */
+.form-checkbox-group {
+  margin-top: 14px;
+  padding: 14px;
+  background: #fffdf9;
+  border: 1px solid #e8dec9;
+  border-radius: 10px;
+}
+
+.form-checkbox-group .group-title {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand);
+  border-bottom: 1px solid #e8dec9;
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.chk-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+.chk-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Estilos de la ficha expandida en el sitio público */
+.card-extra-details {
+  background: #fffdfb;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.details-section {
+  border-bottom: 1px dashed rgba(29, 42, 54, 0.12);
+  padding-bottom: 10px;
+}
+
+.details-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.details-section h4 {
+  font-size: 12px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 6px 0;
+  font-weight: 700;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  font-size: 13px;
+}
+
+.details-grid span {
+  color: var(--ink);
+}
+
+.details-grid strong {
+  color: var(--muted);
+}
+
+.details-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.details-badges span {
+  background: #edf2f6;
+  border: 1px solid #d9e2ec;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: #355774;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.details-text {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+

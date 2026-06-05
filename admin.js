@@ -55,9 +55,42 @@ function getStats() {
 
 function getEmbedMapUrl(link) {
   if (!link) return ''
-  const trimmed = String(link).trim()
+  let trimmed = String(link).trim()
   if (!trimmed) return ''
-  if (trimmed.includes('/maps/embed')) return trimmed
+
+  // 1. Si pegó el código iframe completo de Google Maps, extraer el src
+  if (trimmed.includes('<iframe')) {
+    const srcMatch = trimmed.match(/src=["']([^"']+)["']/i)
+    if (srcMatch && srcMatch[1]) {
+      trimmed = srcMatch[1]
+    }
+  }
+
+  // 2. Si ya es una URL de embed directa
+  if (trimmed.includes('/maps/embed')) {
+    return trimmed
+  }
+
+  // 3. Si es un link largo de Google Maps con /maps/place/
+  if (trimmed.includes('/maps/place/')) {
+    const placeMatch = trimmed.match(/\/maps\/place\/([^\/\?#]+)/)
+    if (placeMatch && placeMatch[1]) {
+      return `https://www.google.com/maps?q=${placeMatch[1]}&output=embed`
+    }
+  }
+
+  // 4. Si contiene coordenadas en la URL (ej: @-34.6158,-58.9811)
+  const coordMatch = trimmed.match(/\@(-?\d+\.\d+),(-?\d+\.\d+)/)
+  if (coordMatch && coordMatch[1] && coordMatch[2]) {
+    return `https://www.google.com/maps?q=${coordMatch[1]},${coordMatch[2]}&output=embed`
+  }
+
+  // 5. Si es un link corto de Google Maps (maps.app.goo.gl o goo.gl/maps)
+  if (trimmed.includes('maps.app.goo.gl') || trimmed.includes('goo.gl/maps')) {
+    return `https://www.google.com/maps?q=${encodeURIComponent(trimmed)}&output=embed`
+  }
+
+  // 6. Por defecto, tratar como dirección de búsqueda textual
   return `https://www.google.com/maps?q=${encodeURIComponent(trimmed)}&output=embed`
 }
 
@@ -368,14 +401,35 @@ function bootAdmin() {
     form.elements.bathrooms.value = property.bathrooms || ''
     form.elements.extras.value = property.extras || ''
     form.elements.mapLink.value = property.map_link || ''
+    form.elements.cochera.value = property.cochera || ''
+
+    // Reset all checkboxes
+    form.querySelectorAll('input[type="checkbox"]').forEach((chk) => {
+      chk.checked = false
+    })
+
+    // Helper to check appropriate boxes
+    const checkBoxes = (name, values) => {
+      if (!Array.isArray(values)) return
+      values.forEach((val) => {
+        const chk = form.querySelector(`input[name="${name}"][value="${val}"]`)
+        if (chk) chk.checked = true
+      })
+    }
+
+    checkBoxes('servicios', property.servicios)
+    checkBoxes('amenities', property.amenities)
+    checkBoxes('caract_prop', property.caract_prop)
+    checkBoxes('caract_edif', property.caract_edif)
   }
+
 
   async function startEdit(property) {
     const safeProperty =
       propertiesCache.find((item) => String(item.id) === String(property.id)) || property
 
     if (!safeProperty) {
-      setMessage('No se encontr? la propiedad para editar.', true)
+      setMessage('No se encontró la propiedad para editar.', true)
       return
     }
 
@@ -580,6 +634,11 @@ function bootAdmin() {
 
       const formData = new FormData(form)
       const rawCode = String(formData.get('code') || '').trim()
+
+      const getCheckedValues = (name) => {
+        return Array.from(form.querySelectorAll(`input[name="${name}"]:checked`)).map((el) => el.value)
+      }
+
       const property = {
         code: rawCode || `REF-${Math.floor(1000 + Math.random() * 9000)}`,
         operation: String(formData.get('operation') || 'venta'),
@@ -592,7 +651,12 @@ function bootAdmin() {
         bathrooms: Number(formData.get('bathrooms') || 0),
         extras: String(formData.get('extras') || '').trim(),
         photos: currentPhotos.map((photo) => photo.preview),
-        map_link: String(formData.get('mapLink') || '').trim()
+        map_link: String(formData.get('mapLink') || '').trim(),
+        cochera: String(formData.get('cochera') || '').trim(),
+        servicios: getCheckedValues('servicios'),
+        amenities: getCheckedValues('amenities'),
+        caract_prop: getCheckedValues('caract_prop'),
+        caract_edif: getCheckedValues('caract_edif')
       }
 
       if (!property.title || !property.price_label || !property.location) {

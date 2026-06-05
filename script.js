@@ -12,7 +12,7 @@ const FALLBACK_IMAGE =
       '<circle cx="160" cy="120" r="64" fill="rgba(255,255,255,0.14)"/>' +
       '<circle cx="520" cy="80" r="38" fill="rgba(255,255,255,0.1)"/>' +
       '<path d="M120 280L240 190l94 70 74-58 112 78v72H120z" fill="rgba(255,255,255,0.16)"/>' +
-      '<text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#fffdfa" font-family="Arial" font-size="30">Verito Garga Inmobiliaria</text>' +
+      '<text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#fffdfa" font-family="Arial" font-size="30">Verito Garga Asesora Inmobiliaria</text>' +
     '</svg>'
   )
 
@@ -60,9 +60,42 @@ function openWhatsApp(message) {
 
 function getEmbedMapUrl(link) {
   if (!link) return ''
-  const trimmed = String(link).trim()
+  let trimmed = String(link).trim()
   if (!trimmed) return ''
-  if (trimmed.includes('/maps/embed')) return trimmed
+
+  // 1. Si pegó el código iframe completo de Google Maps, extraer el src
+  if (trimmed.includes('<iframe')) {
+    const srcMatch = trimmed.match(/src=["']([^"']+)["']/i)
+    if (srcMatch && srcMatch[1]) {
+      trimmed = srcMatch[1]
+    }
+  }
+
+  // 2. Si ya es una URL de embed directa
+  if (trimmed.includes('/maps/embed')) {
+    return trimmed
+  }
+
+  // 3. Si es un link largo de Google Maps con /maps/place/
+  if (trimmed.includes('/maps/place/')) {
+    const placeMatch = trimmed.match(/\/maps\/place\/([^\/\?#]+)/)
+    if (placeMatch && placeMatch[1]) {
+      return `https://www.google.com/maps?q=${placeMatch[1]}&output=embed`
+    }
+  }
+
+  // 4. Si contiene coordenadas en la URL (ej: @-34.6158,-58.9811)
+  const coordMatch = trimmed.match(/\@(-?\d+\.\d+),(-?\d+\.\d+)/)
+  if (coordMatch && coordMatch[1] && coordMatch[2]) {
+    return `https://www.google.com/maps?q=${coordMatch[1]},${coordMatch[2]}&output=embed`
+  }
+
+  // 5. Si es un link corto de Google Maps (maps.app.goo.gl o goo.gl/maps)
+  if (trimmed.includes('maps.app.goo.gl') || trimmed.includes('goo.gl/maps')) {
+    return `https://www.google.com/maps?q=${encodeURIComponent(trimmed)}&output=embed`
+  }
+
+  // 6. Por defecto, tratar como dirección de búsqueda textual
   return `https://www.google.com/maps?q=${encodeURIComponent(trimmed)}&output=embed`
 }
 
@@ -82,7 +115,12 @@ function normalizeProperty(row) {
     bathrooms: Number(row.bathrooms || 0),
     extras: row.extras || '',
     photos: photos.length ? photos : [FALLBACK_IMAGE],
-    mapLink: row.map_link || ''
+    mapLink: row.map_link || '',
+    cochera: row.cochera || '',
+    servicios: Array.isArray(row.servicios) ? row.servicios : [],
+    amenities: Array.isArray(row.amenities) ? row.amenities : [],
+    caractProp: Array.isArray(row.caract_prop) ? row.caract_prop : [],
+    caractEdif: Array.isArray(row.caract_edif) ? row.caract_edif : []
   }
 }
 
@@ -302,12 +340,55 @@ function bootSite() {
         <button class="more-btn map-btn" type="button">Ver mapa</button>
       </div>
       <div class="card-extra">
-        <div class="meta">
-          <span>${property.meters} m2</span>
-          <span>${property.rooms} amb.</span>
-          <span>${property.bathrooms} banos</span>
+        <div class="card-extra-details">
+          <div class="details-section">
+            <h4>Datos básicos</h4>
+            <div class="details-grid">
+              <span><strong>Metros:</strong> ${property.meters} m²</span>
+              <span><strong>Ambientes:</strong> ${property.rooms}</span>
+              <span><strong>Baños:</strong> ${property.bathrooms}</span>
+              ${property.cochera ? `<span><strong>Cochera:</strong> ${property.cochera}</span>` : ''}
+            </div>
+          </div>
+          ${property.servicios.length ? `
+          <div class="details-section">
+            <h4>Servicios</h4>
+            <div class="details-badges">
+              ${property.servicios.map(s => `<span>${s}</span>`).join('')}
+            </div>
+          </div>
+          ` : ''}
+          ${property.caractProp.length ? `
+          <div class="details-section">
+            <h4>Características de la propiedad</h4>
+            <div class="details-badges">
+              ${property.caractProp.map(c => `<span>${c}</span>`).join('')}
+            </div>
+          </div>
+          ` : ''}
+          ${property.amenities.length ? `
+          <div class="details-section">
+            <h4>Amenities</h4>
+            <div class="details-badges">
+              ${property.amenities.map(a => `<span>${a}</span>`).join('')}
+            </div>
+          </div>
+          ` : ''}
+          ${property.caractEdif.length ? `
+          <div class="details-section">
+            <h4>Características del Edificio</h4>
+            <div class="details-badges">
+              ${property.caractEdif.map(e => `<span>${e}</span>`).join('')}
+            </div>
+          </div>
+          ` : ''}
+          ${property.extras ? `
+          <div class="details-section">
+            <h4>Adicionales / Descripción</h4>
+            <p class="details-text">${property.extras}</p>
+          </div>
+          ` : ''}
         </div>
-        <p class="muted">${property.extras || 'Consultanos para recibir la ficha completa.'}</p>
       </div>
       <div class="map-box">${mapHtml}</div>
       <p class="muted"><a class="btn-primary wa-contact-btn" target="_blank" rel="noreferrer" href="${getWhatsAppLink(propertyMessage)}">Consultar por WhatsApp</a></p>
