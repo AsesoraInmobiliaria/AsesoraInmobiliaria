@@ -758,27 +758,6 @@
         if (credito === 'si' && banco) creditoLineas += `\nBanco: ${banco}`
         if (credito === 'si' && monto) creditoLineas += `\nMonto: ${moneda} ${Number(monto).toLocaleString('es-AR')}`
 
-        // Generar enlace dinámico con los parámetros de la solicitud
-        const params = new URLSearchParams()
-        params.set('nombre', nombre)
-        params.set('telefono', telefono)
-        params.set('credito', credito)
-        if (credito === 'si') {
-          if (banco) params.set('banco', banco)
-          params.set('moneda', moneda)
-          if (monto) params.set('monto', monto)
-        }
-        params.set('localidad', localidad)
-        if (ambientes) params.set('ambientes', ambientes)
-        if (supTotalMin) params.set('supTotalMin', supTotalMin)
-        if (supTotalMax) params.set('supTotalMax', supTotalMax)
-        if (supCubMin) params.set('supCubMin', supCubMin)
-        if (supCubMax) params.set('supCubMax', supCubMax)
-
-        const currentUrl = window.location.href
-        const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'))
-        const fichaLink = `${baseUrl}/credito-view.html?${params.toString()}`
-
         const mensaje =
           `¡Hola Verito! 👋 Te envío mis datos para buscar una propiedad con crédito hipotecario 🏡\n\n` +
           `📋 *MIS DATOS*\n` +
@@ -790,7 +769,6 @@
           `• Ambientes: ${ambientesTexto}\n` +
           `• Sup. total: ${supTotalTexto}\n` +
           `• Sup. cubierta: ${supCubTexto}\n\n` +
-          `📄 *Ficha completa y PDF:*\n${fichaLink}\n\n` +
           `Quedo a disposición. ¡Muchas gracias! 🙏`
 
         return mensaje
