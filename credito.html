@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Solicitud de Crédito Hipotecario | Verito Garga Asesora Inmobiliaria</title>
+    <meta name="description" content="Completá tu solicitud de crédito hipotecario y te ayudamos a encontrar la propiedad ideal." />
+    <link rel="stylesheet" href="./styles.css?v=1.4" />
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+      /* ── Estilos específicos de la página de crédito ── */
+      .credito-hero {
+        background: linear-gradient(120deg, #163145, #284b68 58%, #315e82);
+        color: #fff;
+        padding: 52px 0 40px;
+        border-bottom: 4px solid #d3b17b;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .credito-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 15% 50%, rgba(184,144,82,0.12) 0%, transparent 40%),
+          radial-gradient(circle at 85% 20%, rgba(255,255,255,0.06) 0%, transparent 35%);
+        pointer-events: none;
+      }
+
+      .credito-hero .container { position: relative; z-index: 1; }
+
+      .credito-hero .hero-tag {
+        color: #f6d9a8;
+        margin: 0 0 10px;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .credito-hero h1 {
+        margin: 0 0 12px;
+        font-size: clamp(26px, 4vw, 44px);
+        font-weight: 800;
+        line-height: 1.12;
+        color: #fff;
+      }
+
+      .credito-hero h1 span {
+        color: #f6d9a8;
+      }
+
+      .credito-hero > .container > p {
+        color: #deecf7;
+        font-size: 16px;
+        max-width: 520px;
+        margin: 0 auto;
+        line-height: 1.65;
+      }
+
+      /* Info strip dorado */
+      .credito-info-strip {
+        background: linear-gradient(135deg, #fffdf8, #f9f4e8);
+        border-bottom: 1px solid #e8dec9;
+        padding: 13px 0;
+      }
+
+      .credito-info-strip-inner {
+        display: flex;
+        justify-content: center;
+        gap: 28px;
+        flex-wrap: wrap;
+      }
+
+      .credito-info-item {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--brand);
+      }
+
+      .credito-info-item svg {
+        width: 15px;
+        height: 15px;
+        stroke: var(--gold);
+        fill: none;
+        flex-shrink: 0;
+      }
+
+      /* Hero badges */
+      .credito-hero-badges {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .credito-hero-badges span {
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.28);
+        border-radius: 999px;
+        padding: 5px 13px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #f0f7ff;
+      }
+
+      /* Wrap del formulario */
+      .credito-wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 36px 16px 72px;
+      }
+
+      /* Step badge */
+      .step-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, #fff8ea, #fdf0d0);
+        border: 1px solid #e8c97a;
+        border-radius: 999px;
+        padding: 4px 12px 4px 4px;
+        font-size: 11px;
+        font-weight: 800;
+        color: #7a5a1a;
+        margin-bottom: 14px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .step-badge-num {
+        width: 22px;
+        height: 22px;
+        background: linear-gradient(135deg, #17344a, #284b68);
+        color: #d3b17b;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 900;
+        flex-shrink: 0;
+      }
+
+      /* Secciones del form */
+      .form-section {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 26px;
+        margin-bottom: 14px;
+        box-shadow: 0 10px 28px rgba(19, 28, 37, 0.07);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .form-section::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #17344a, #b89052, #17344a);
+        opacity: 0.6;
+      }
+
+      .form-section-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0 0 22px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .form-section-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #17344a, #284b68);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(23,52,74,0.2);
+      }
+
+      .form-section-icon svg {
+        width: 20px;
+        height: 20px;
+        stroke: #d3b17b;
+        fill: none;
+      }
+
+      .form-section-title h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--brand);
+        letter-spacing: normal;
+      }
+
+      .form-section-title h2::after { display: none; }
+
+      /* Grid de campos */
+      .fields-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .fields-grid .full-width { grid-column: 1 / -1; }
+
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .field-group label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #32495f;
+      }
+
+      .field-group input,
+      .field-group select {
+        border: 1.5px solid #c8d2dc;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 15px;
+        background: #fff;
+        color: var(--ink);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+      }
+
+      .field-group input:focus,
+      .field-group select:focus {
+        outline: none;
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(184, 144, 82, 0.15);
+      }
+
+      /* Toggle SI/NO */
+      .toggle-group { display: flex; gap: 10px; margin-top: 2px; }
+
+      .toggle-option { flex: 1; position: relative; }
+
+      .toggle-option input[type="radio"] {
+        position: absolute; opacity: 0; width: 0; height: 0;
+      }
+
+      .toggle-option label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 13px;
+        border: 1.5px solid #c8d2dc;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 14px;
+        color: #5d6d7c;
+        transition: all 0.22s ease;
+        background: #f8fafc;
+        text-align: center;
+      }
+
+      .toggle-option.toggle-si input[type="radio"]:checked + label {
+        border-color: #0f7b43;
+        background: linear-gradient(135deg, #eef8f2, #e0f4ea);
+        color: #0a5e31;
+        box-shadow: 0 0 0 3px rgba(15, 123, 67, 0.12);
+      }
+
+      .toggle-option.toggle-no input[type="radio"]:checked + label {
+        border-color: #c0392b;
+        background: linear-gradient(135deg, #fef0ee, #fde0dc);
+        color: #a02a1f;
+        box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+      }
+
+      /* Campos condicionales banco/monto */
+      .conditional-fields {
+        display: none;
+        grid-column: 1 / -1;
+        background: linear-gradient(135deg, #eef8f2, #e4f3eb);
+        border: 1.5px solid #a8d9be;
+        border-radius: 14px;
+        padding: 18px;
+        margin-top: 6px;
+        animation: fadeSlideIn 0.28s ease;
+      }
+
+      .conditional-fields.visible {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      @keyframes fadeSlideIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      .conditional-label {
+        grid-column: 1 / -1;
+        font-size: 11px;
+        font-weight: 800;
+        color: #0a5e31;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 2px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      /* Monto + moneda */
+      .monto-wrap { display: flex; gap: 8px; }
+
+      .monto-wrap select {
+        width: 90px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        border: 1.5px solid #c8d2dc;
+        padding: 12px 8px;
+        font-size: 14px;
+        font-weight: 700;
+        background: #fff;
+      }
+
+      .monto-wrap input { flex: 1; }
+
+      /* Rango min/max */
+      .range-group { display: flex; gap: 8px; align-items: center; }
+      .range-group input { flex: 1; min-width: 0; }
+      .range-sep { font-size: 14px; color: var(--muted); font-weight: 700; flex-shrink: 0; }
+
+      /* Separador entre secciones */
+      .section-connector {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: -4px 0;
+      }
+
+      .section-connector::before {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--line), var(--line));
+      }
+
+      .section-connector-dot {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, #17344a, #284b68);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(23,52,74,0.22);
+        position: relative;
+        z-index: 1;
+      }
+
+      .section-connector-dot svg {
+        width: 14px;
+        height: 14px;
+        stroke: #d3b17b;
+        fill: none;
+      }
+
+      /* Botones */
+      .credito-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .btn-whatsapp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(135deg, #25d366, #128c7e);
+        color: #fff;
+        font-weight: 800;
+        font-size: 16px;
+        border: none;
+        border-radius: 14px;
+        padding: 17px 24px;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(18, 140, 126, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+        letter-spacing: 0.01em;
+      }
+
+      .btn-whatsapp:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(18, 140, 126, 0.42);
+      }
+
+      .btn-whatsapp svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+
+      .btn-pdf {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: #fff;
+        color: var(--brand);
+        font-weight: 700;
+        font-size: 15px;
+        border: 1.5px solid #d7c39f;
+        border-radius: 14px;
+        padding: 15px 24px;
+        cursor: pointer;
+        transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+        width: 100%;
+      }
+
+      .btn-pdf:hover {
+        background: #fff8ea;
+        border-color: var(--gold);
+        transform: translateY(-1px);
+      }
+
+      .btn-pdf svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; flex-shrink: 0; }
+
+      .form-note {
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 14px;
+        line-height: 1.6;
+      }
+
+      /* ── Print ── */
+      @media print {
+        header, .credito-hero, .credito-info-strip, .credito-actions,
+        .form-note, .section-connector, .step-badge, .wa-float { display: none !important; }
+
+        body { background: #fff !important; }
+        .credito-wrap { padding: 0; max-width: 100%; }
+
+        .form-section {
+          box-shadow: none !important;
+          border: 1px solid #ccc !important;
+          page-break-inside: avoid;
+          margin-bottom: 12px;
+        }
+
+        .form-section::before { display: none; }
+
+        .form-section-icon {
+          background: #17344a !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        input, select { border: 1px solid #aaa !important; background: #fff !important; }
+
+        .toggle-option.toggle-si input[type="radio"]:checked + label,
+        .toggle-option.toggle-no input[type="radio"]:checked + label {
+          font-weight: 900 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .conditional-fields.visible {
+          background: #f0faf4 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .print-header {
+          display: block !important;
+          text-align: center;
+          margin-bottom: 22px;
+          padding-bottom: 16px;
+          border-bottom: 3px solid #b89052;
+        }
+
+        .print-header h2 { font-size: 22px; color: #17344a; margin: 0 0 4px; }
+        .print-header p  { font-size: 13px; color: #666; margin: 0; }
+      }
+
+      .print-header { display: none; }
+
+      @media (max-width: 600px) {
+        .fields-grid { grid-template-columns: 1fr; }
+        .conditional-fields.visible { grid-template-columns: 1fr; }
+        .form-section { padding: 18px 16px; }
+        .credito-info-strip-inner { gap: 14px; }
+        .credito-hero { padding: 38px 0 28px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand-wrap">
+          <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          <h1>
+            <span class="brand-main">Verito Garga</span>
+            <span class="brand-sub">Asesora Inmobiliaria</span>
+          </h1>
+        </div>
+        <nav>
+          <a href="./index.html" style="text-decoration:none; color: var(--brand); font-weight:700; font-size:14px;">← Volver al inicio</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="credito-hero">
+      <div class="container">
+        <p class="hero-tag">Crédito Hipotecario</p>
+        <h1>Encontrá tu casa con <span>crédito hipotecario</span></h1>
+        <p>Completá el formulario y te ayudamos a encontrar la propiedad ideal según tu crédito y preferencias.</p>
+        <div class="credito-hero-badges">
+          <span>🏠 Propiedades aptas crédito</span>
+          <span>📋 Consulta personalizada</span>
+          <span>✅ Asesoramiento sin cargo</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="credito-info-strip">
+      <div class="container credito-info-strip-inner">
+        <span class="credito-info-item">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.11 12 19.79 19.79 0 0 1 1 4.18 2 2 0 0 1 3 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Respuesta rápida por WhatsApp
+        </span>
+        <span class="credito-info-item">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Tus datos son confidenciales
+        </span>
+        <span class="credito-info-item">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Sin compromiso
+        </span>
+      </div>
+    </div>
+
+    <div class="credito-wrap">
+
+      <!-- PRINT HEADER (solo visible al imprimir) -->
+      <div class="print-header">
+        <h2>Verito Garga — Solicitud de Crédito Hipotecario</h2>
+        <p>Formulario completado por el cliente</p>
+      </div>
+
+      <form id="creditoForm" novalidate>
+
+        <!-- SECCIÓN 1: Datos personales -->
+        <div class="step-badge"><span class="step-badge-num">1</span> Tus datos personales</div>
+        <div class="form-section">
+          <div class="form-section-title">
+            <div class="form-section-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h2>Tus datos</h2>
+          </div>
+
+          <div class="fields-grid">
+            <div class="field-group full-width">
+              <label for="nombre">Nombre completo *</label>
+              <input id="nombre" type="text" placeholder="Ej: Juan Pérez" autocomplete="name" />
+            </div>
+
+            <div class="field-group full-width">
+              <label for="telefono">Teléfono de contacto *</label>
+              <input id="telefono" type="tel" placeholder="Ej: 11 5317-5943" autocomplete="tel" />
+            </div>
+
+            <div class="field-group full-width">
+              <label>¿Tenés crédito pre aprobado? *</label>
+              <div class="toggle-group">
+                <div class="toggle-option toggle-si">
+                  <input type="radio" id="creditoSi" name="creditoAprobado" value="si" />
+                  <label for="creditoSi">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Sí, tengo
+                  </label>
+                </div>
+                <div class="toggle-option toggle-no">
+                  <input type="radio" id="creditoNo" name="creditoAprobado" value="no" />
+                  <label for="creditoNo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    Todavía no
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Campos condicionales del crédito -->
+            <div class="conditional-fields" id="camposBanco">
+              <span class="conditional-label">✓ Datos del crédito aprobado</span>
+              <div class="field-group">
+                <label for="banco">Nombre del banco</label>
+                <input id="banco" type="text" placeholder="Ej: Banco Nación" />
+              </div>
+              <div class="field-group">
+                <label for="monto">Monto del crédito</label>
+                <div class="monto-wrap">
+                  <select id="moneda">
+                    <option value="ARS">$ ARS</option>
+                    <option value="USD">U$D</option>
+                  </select>
+                  <input id="monto" type="number" min="0" placeholder="Ej: 50000000" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Separador decorativo -->
+        <div class="section-connector">
+          <div class="section-connector-dot">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: Búsqueda de propiedad -->
+        <div class="step-badge"><span class="step-badge-num">2</span> Tu búsqueda de propiedad</div>
+        <div class="form-section">
+          <div class="form-section-title">
+            <div class="form-section-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h2>Tu búsqueda</h2>
+          </div>
+
+          <div class="fields-grid">
+
+            <div class="field-group full-width">
+              <label for="localidad">Localidad de la propiedad *</label>
+              <input id="localidad" type="text" placeholder="Ej: General Rodríguez, Luján..." />
+            </div>
+
+            <div class="field-group full-width">
+              <label for="ambientes">Cantidad de ambientes</label>
+              <select id="ambientes">
+                <option value="">Cualquiera</option>
+                <option value="1">1 ambiente</option>
+                <option value="2">2 ambientes</option>
+                <option value="3">3 ambientes</option>
+                <option value="4">4 ambientes</option>
+                <option value="5">5 o más ambientes</option>
+              </select>
+            </div>
+
+            <div class="field-group full-width">
+              <label>Superficie total (m²)</label>
+              <div class="range-group">
+                <input id="supTotalMin" type="number" min="0" placeholder="Mín m²" />
+                <span class="range-sep">—</span>
+                <input id="supTotalMax" type="number" min="0" placeholder="Máx m²" />
+              </div>
+            </div>
+
+            <div class="field-group full-width">
+              <label>Superficie cubierta (m²)</label>
+              <div class="range-group">
+                <input id="supCubMin" type="number" min="0" placeholder="Mín m²" />
+                <span class="range-sep">—</span>
+                <input id="supCubMax" type="number" min="0" placeholder="Máx m²" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="credito-actions">
+          <button type="submit" class="btn-whatsapp" id="btnWhatsapp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.05 2C6.496 2 2.003 6.493 2 12.048c-.002 1.962.506 3.88 1.47 5.57L2 22l4.5-1.45a10.05 10.05 0 0 0 5.545 1.634h.004C17.604 22.184 22 17.69 22 12.135 22 6.582 17.604 2 12.05 2z"/></svg>
+            Enviar consulta por WhatsApp
+          </button>
+        </div>
+
+        <p class="form-note">Al enviar se abre WhatsApp con tu información lista para mandar. 💬</p>
+
+      </form>
+    </div>
+
+    <script>
+      const WHATSAPP_NUMBER = '5491153175943'
+
+      // Mostrar / ocultar campos del banco según selección
+      document.querySelectorAll('input[name="creditoAprobado"]').forEach((radio) => {
+        radio.addEventListener('change', () => {
+          const camposBanco = document.getElementById('camposBanco')
+          if (radio.value === 'si' && radio.checked) {
+            camposBanco.classList.add('visible')
+          } else {
+            camposBanco.classList.remove('visible')
+          }
+        })
+      })
+
+      // Validación básica
+      function validarFormulario() {
+        const nombre   = document.getElementById('nombre').value.trim()
+        const telefono = document.getElementById('telefono').value.trim()
+        const localidad = document.getElementById('localidad').value.trim()
+        const creditoAprobado = document.querySelector('input[name="creditoAprobado"]:checked')
+
+        if (!nombre) { alert('Por favor completá tu nombre completo.'); return false }
+        if (!telefono) { alert('Por favor ingresá tu teléfono de contacto.'); return false }
+        if (!creditoAprobado) { alert('Por favor indicá si tenés crédito pre aprobado.'); return false }
+        if (!localidad) { alert('Por favor indicá la localidad de búsqueda.'); return false }
+        return true
+      }
+
+      // Construir mensaje de WhatsApp
+      function construirMensaje() {
+        const nombre    = document.getElementById('nombre').value.trim()
+        const telefono  = document.getElementById('telefono').value.trim()
+        const credito   = document.querySelector('input[name="creditoAprobado"]:checked')?.value
+        const banco     = document.getElementById('banco').value.trim()
+        const moneda    = document.getElementById('moneda').value
+        const monto     = document.getElementById('monto').value.trim()
+        const localidad = document.getElementById('localidad').value.trim()
+        const ambientes = document.getElementById('ambientes').value
+        const supTotalMin = document.getElementById('supTotalMin').value.trim()
+        const supTotalMax = document.getElementById('supTotalMax').value.trim()
+        const supCubMin   = document.getElementById('supCubMin').value.trim()
+        const supCubMax   = document.getElementById('supCubMax').value.trim()
+
+        const ambientesTexto = ambientes ? `${ambientes} ambiente${ambientes !== '1' ? 's' : ''}` : 'Sin preferencia'
+        const supTotalTexto  = (supTotalMin || supTotalMax) ? `${supTotalMin || '—'} a ${supTotalMax || '—'} m²` : 'Sin especificar'
+        const supCubTexto    = (supCubMin || supCubMax)     ? `${supCubMin || '—'} a ${supCubMax || '—'} m²`     : 'Sin especificar'
+
+        let creditoLineas = `Crédito pre aprobado: ${credito === 'si' ? 'SÍ ✅' : 'NO ❌'}`
+        if (credito === 'si' && banco) creditoLineas += `\nBanco: ${banco}`
+        if (credito === 'si' && monto) creditoLineas += `\nMonto: ${moneda} ${Number(monto).toLocaleString('es-AR')}`
+
+        // Generar enlace dinámico con los parámetros de la solicitud
+        const params = new URLSearchParams()
+        params.set('nombre', nombre)
+        params.set('telefono', telefono)
+        params.set('credito', credito)
+        if (credito === 'si') {
+          if (banco) params.set('banco', banco)
+          params.set('moneda', moneda)
+          if (monto) params.set('monto', monto)
+        }
+        params.set('localidad', localidad)
+        if (ambientes) params.set('ambientes', ambientes)
+        if (supTotalMin) params.set('supTotalMin', supTotalMin)
+        if (supTotalMax) params.set('supTotalMax', supTotalMax)
+        if (supCubMin) params.set('supCubMin', supCubMin)
+        if (supCubMax) params.set('supCubMax', supCubMax)
+
+        const currentUrl = window.location.href
+        const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'))
+        const fichaLink = `${baseUrl}/credito-view.html?${params.toString()}`
+
+        const mensaje =
+          `¡Hola Verito! 👋 Te envío mis datos para buscar una propiedad con crédito hipotecario 🏡\n\n` +
+          `📋 *MIS DATOS*\n` +
+          `• Nombre: ${nombre}\n` +
+          `• Teléfono: ${telefono}\n` +
+          `• ${creditoLineas}\n\n` +
+          `🔍 *MI BÚSQUEDA*\n` +
+          `• Localidad: ${localidad}\n` +
+          `• Ambientes: ${ambientesTexto}\n` +
+          `• Sup. total: ${supTotalTexto}\n` +
+          `• Sup. cubierta: ${supCubTexto}\n\n` +
+          `📄 *Ficha completa y PDF:*\n${fichaLink}\n\n` +
+          `Quedo a disposición. ¡Muchas gracias! 🙏`
+
+        return mensaje
+      }
+
+      // Enviar por WhatsApp con captura automática
+      document.getElementById('creditoForm').addEventListener('submit', async (event) => {
+        event.preventDefault()
+        if (!validarFormulario()) return
+
+        const btn = document.getElementById('btnWhatsapp')
+        const originalText = btn.innerHTML
+        btn.disabled = true
+        btn.innerHTML = `
+          <svg class="spinner" viewBox="0 0 50 50" style="width:20px; height:20px; animation: spin 1s linear infinite; stroke: #fff; fill: none; stroke-width: 5; stroke-linecap: round; margin-right: 8px;">
+            <circle cx="25" cy="25" r="20"></circle>
+          </svg>
+          Preparando captura...
+        `
+
+        // Agregar animación de rotación para el spinner si no existe en styles.css
+        if (!document.getElementById('spinnerStyle')) {
+          const style = document.createElement('style')
+          style.id = 'spinnerStyle'
+          style.textContent = `
+            @keyframes spin { 100% { transform: rotate(360deg); } }
+            .spinner circle { stroke: #fff; stroke-linecap: round; animation: dash 1.5s ease-in-out infinite; }
+            @keyframes dash { 0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; } 50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; } 100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; } }
+          `
+          document.head.appendChild(style)
+        }
+
+        try {
+          // Ocultar temporalmente los botones de acción y la nota para que no salgan en la captura
+          const actions = document.querySelector('.credito-actions')
+          const note = document.querySelector('.form-note')
+          
+          if (actions) actions.style.display = 'none'
+          if (note) note.style.display = 'none'
+
+          // Pequeña espera para que el navegador procese los cambios de visibilidad
+          await new Promise((resolve) => setTimeout(resolve, 150))
+
+          // Capturar el contenedor del formulario (.credito-wrap)
+          const wrap = document.querySelector('.credito-wrap')
+          const canvas = await window.html2canvas(wrap, {
+            backgroundColor: '#f2efe9',
+            scale: Math.min(window.devicePixelRatio || 1, 2),
+            useCORS: true
+          })
+
+          // Restaurar la visibilidad de los botones y la nota
+          if (actions) actions.style.display = 'flex'
+          if (note) note.style.display = 'block'
+
+          // Generar el blob de imagen PNG
+          const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'))
+          if (!blob) throw new Error('No se pudo generar el blob de la imagen.')
+
+          // Crear archivo a partir del blob
+          const file = new File([blob], `solicitud-credito-${Date.now()}.png`, { type: 'image/png' })
+          const mensaje = construirMensaje()
+
+          const canNativeShare =
+            navigator.canShare &&
+            navigator.canShare({ files: [file] }) &&
+            typeof navigator.share === 'function'
+
+          if (canNativeShare) {
+            // Compartir nativamente (celulares abrirán WhatsApp con el texto y la imagen adjunta)
+            await navigator.share({
+              title: 'Solicitud de Crédito Hipotecario',
+              text: mensaje,
+              files: [file]
+            })
+            return
+          }
+
+          // Fallback para dispositivos que no soportan compartir archivos nativos (ej. PC Chrome)
+          const blobUrl = URL.createObjectURL(blob)
+          const downloadLink = document.createElement('a')
+          downloadLink.href = blobUrl
+          downloadLink.download = file.name
+          downloadLink.click()
+          window.setTimeout(() => URL.revokeObjectURL(blobUrl), 1500)
+
+          const mensajeConIndicacion = `${mensaje}\n\n📸 (Se descargó la captura de la solicitud para adjuntarla)`
+          const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeConIndicacion)}`
+          
+          const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent)
+          if (isMobile) {
+            window.location.href = url
+          } else {
+            window.open(url, '_blank', 'noopener,noreferrer')
+          }
+        } catch (error) {
+          console.error('Error al generar la captura y compartir:', error)
+          // Fallback de emergencia enviando solo texto
+          const mensaje = construirMensaje()
+          const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`
+          window.open(url, '_blank', 'noopener,noreferrer')
+        } finally {
+          btn.innerHTML = originalText
+          btn.disabled = false
+        }
+      })
+    </script>
+
+  </body>
+</html>

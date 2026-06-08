@@ -397,6 +397,7 @@ function bootAdmin() {
     form.elements.priceUsd.value = property.price_usd || ''
     form.elements.location.value = property.location || ''
     form.elements.meters.value = property.meters || ''
+    form.elements.metersBuilt.value = property.meters_built || ''
     form.elements.rooms.value = property.rooms || ''
     form.elements.bathrooms.value = property.bathrooms || ''
     form.elements.extras.value = property.extras || ''
@@ -647,6 +648,7 @@ function bootAdmin() {
         price_usd: Number(formData.get('priceUsd') || 0),
         location: String(formData.get('location') || '').trim(),
         meters: Number(formData.get('meters') || 0),
+        meters_built: Number(formData.get('metersBuilt') || 0),
         rooms: Number(formData.get('rooms') || 0),
         bathrooms: Number(formData.get('bathrooms') || 0),
         extras: String(formData.get('extras') || '').trim(),

@@ -111,6 +111,7 @@ function normalizeProperty(row) {
     priceLabel: row.price_label || 'Consultar precio',
     location: row.location || 'Ubicacion a confirmar',
     meters: Number(row.meters || 0),
+    metersBuilt: Number(row.meters_built || 0),
     rooms: Number(row.rooms || 0),
     bathrooms: Number(row.bathrooms || 0),
     extras: row.extras || '',
@@ -166,9 +167,11 @@ function bootSite() {
     alquilerCount: document.getElementById('alquilerCount'),
     operation: document.getElementById('filterOperation'),
     location: document.getElementById('filterLocation'),
-    price: document.getElementById('filterPrice'),
+    priceMin: document.getElementById('filterPriceMin'),
+    priceMax: document.getElementById('filterPriceMax'),
     rooms: document.getElementById('filterRooms'),
     bathrooms: document.getElementById('filterBathrooms'),
+    search: document.getElementById('searchFilters'),
     clear: document.getElementById('clearFilters')
   }
 
@@ -336,58 +339,78 @@ function bootSite() {
       <p class="price">${property.priceLabel}</p>
       <p class="muted">${property.location}</p>
       <div class="card-actions">
-        <button class="more-btn" type="button">Ver mas</button>
+        <button class="more-btn" type="button">Ver más</button>
         <button class="more-btn map-btn" type="button">Ver mapa</button>
       </div>
       <div class="card-extra">
         <div class="card-extra-details">
-          <div class="details-section">
-            <h4>Datos básicos</h4>
-            <div class="details-grid">
-              <span><strong>Metros:</strong> ${property.meters} m²</span>
-              <span><strong>Ambientes:</strong> ${property.rooms}</span>
-              <span><strong>Baños:</strong> ${property.bathrooms}</span>
-              ${property.cochera ? `<span><strong>Cochera:</strong> ${property.cochera}</span>` : ''}
-            </div>
+
+          <div class="detail-chips-row">
+            ${property.meters ? `
+            <div class="detail-chip">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2h8v2H4v6H2V2z"/><path d="M22 22h-8v-2h6v-6h2v8z"/><path d="M2 22l20-20"/></svg>
+              <span><strong>${property.meters} m²</strong><em>Sup. total</em></span>
+            </div>` : ''}
+            ${property.metersBuilt ? `
+            <div class="detail-chip">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              <span><strong>${property.metersBuilt} m²</strong><em>Edificados</em></span>
+            </div>` : ''}
+            ${property.rooms ? `
+            <div class="detail-chip">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span><strong>${property.rooms}</strong><em>Ambientes</em></span>
+            </div>` : ''}
+            ${property.bathrooms ? `
+            <div class="detail-chip">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><line x1="10" y1="5" x2="8" y2="7"/><path d="M4 12h16"/></svg>
+              <span><strong>${property.bathrooms}</strong><em>Baños</em></span>
+            </div>` : ''}
+            ${property.cochera ? `
+            <div class="detail-chip">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              <span><strong>${property.cochera}</strong><em>Cochera</em></span>
+            </div>` : ''}
           </div>
+
           ${property.servicios.length ? `
           <div class="details-section">
             <h4>Servicios</h4>
             <div class="details-badges">
               ${property.servicios.map(s => `<span>${s}</span>`).join('')}
             </div>
-          </div>
-          ` : ''}
+          </div>` : ''}
+
           ${property.caractProp.length ? `
           <div class="details-section">
-            <h4>Características de la propiedad</h4>
+            <h4>Características</h4>
             <div class="details-badges">
               ${property.caractProp.map(c => `<span>${c}</span>`).join('')}
             </div>
-          </div>
-          ` : ''}
+          </div>` : ''}
+
           ${property.amenities.length ? `
           <div class="details-section">
             <h4>Amenities</h4>
             <div class="details-badges">
               ${property.amenities.map(a => `<span>${a}</span>`).join('')}
             </div>
-          </div>
-          ` : ''}
+          </div>` : ''}
+
           ${property.caractEdif.length ? `
           <div class="details-section">
-            <h4>Características del Edificio</h4>
+            <h4>Edificio</h4>
             <div class="details-badges">
               ${property.caractEdif.map(e => `<span>${e}</span>`).join('')}
             </div>
-          </div>
-          ` : ''}
+          </div>` : ''}
+
           ${property.extras ? `
-          <div class="details-section">
-            <h4>Adicionales / Descripción</h4>
-            <p class="details-text">${property.extras}</p>
-          </div>
-          ` : ''}
+          <div class="details-section details-section--desc">
+            <h4>Descripción</h4>
+            <p class="details-text">${property.extras.length > 120 ? property.extras.slice(0, 120).trim() + '…' : property.extras}</p>
+          </div>` : ''}
+
         </div>
       </div>
       <div class="map-box">${mapHtml}</div>
@@ -422,21 +445,48 @@ function bootSite() {
   function applyFilters(items) {
     const op = refs.operation?.value || 'all'
     const locationTerm = refs.location?.value.trim().toLowerCase() || ''
-    const maxPrice = Number(refs.price?.value || 0)
+    const minPrice = Number(refs.priceMin?.value || 0)
+    const maxPrice = Number(refs.priceMax?.value || 0)
     const minRooms = Number(refs.rooms?.value || 0)
     const minBathrooms = Number(refs.bathrooms?.value || 0)
 
     return items.filter((property) => {
       const matchOp = op === 'all' || property.operation === op
       const matchLocation = !locationTerm || property.location.toLowerCase().includes(locationTerm)
-      const matchPrice = !maxPrice || property.priceUsd <= maxPrice
+
+      // Filtro de precio: solo aplica si el precio USD es mayor a 0
+      const hasPrice = property.priceUsd > 0
+      const matchMinPrice = !minPrice || (hasPrice && property.priceUsd >= minPrice)
+      const matchMaxPrice = !maxPrice || (hasPrice && property.priceUsd <= maxPrice)
+
       const matchRooms = property.rooms >= minRooms
       const matchBathrooms = property.bathrooms >= minBathrooms
-      return matchOp && matchLocation && matchPrice && matchRooms && matchBathrooms
+      return matchOp && matchLocation && matchMinPrice && matchMaxPrice && matchRooms && matchBathrooms
     })
   }
 
-  function renderSection(container, list, emptyText) {
+  const PAGE_SIZE = 6
+  const pageState = { venta: 6, alquiler: 6 }
+
+  function showSkeletons(container, count = 3) {
+    if (!container) return
+    container.innerHTML = Array.from({ length: count }, () => `
+      <article class="card card-skeleton">
+        <div class="skeleton-img"></div>
+        <div class="card-body">
+          <div class="skeleton-line" style="width:55%; height:12px; margin-bottom:10px;"></div>
+          <div class="skeleton-line" style="width:80%; height:22px; margin-bottom:8px;"></div>
+          <div class="skeleton-line" style="width:45%; height:14px; margin-bottom:14px;"></div>
+          <div style="display:flex; gap:8px;">
+            <div class="skeleton-line" style="width:80px; height:32px;"></div>
+            <div class="skeleton-line" style="width:80px; height:32px;"></div>
+          </div>
+        </div>
+      </article>
+    `).join('')
+  }
+
+  function renderSection(container, list, emptyText, sectionKey) {
     if (!container) return
     container.innerHTML = ''
 
@@ -448,7 +498,22 @@ function bootSite() {
       return
     }
 
-    list.forEach((item) => container.appendChild(createCard(item)))
+    const visible = list.slice(0, pageState[sectionKey])
+    visible.forEach((item) => container.appendChild(createCard(item)))
+
+    if (list.length > pageState[sectionKey]) {
+      const remaining = list.length - pageState[sectionKey]
+      const loadMoreBtn = document.createElement('button')
+      loadMoreBtn.className = 'load-more-btn'
+      loadMoreBtn.type = 'button'
+      loadMoreBtn.textContent = `Ver más propiedades (${remaining} restantes)`
+      loadMoreBtn.addEventListener('click', () => {
+        pageState[sectionKey] += PAGE_SIZE
+        render()
+        loadMoreBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      })
+      container.appendChild(loadMoreBtn)
+    }
   }
 
   function render() {
@@ -456,24 +521,30 @@ function bootSite() {
     const venta = filtered.filter((property) => property.operation === 'venta')
     const alquiler = filtered.filter((property) => property.operation === 'alquiler')
 
-    renderSection(refs.ventaGrid, venta, 'No hay propiedades en venta con esos filtros.')
-    renderSection(refs.alquilerGrid, alquiler, 'No hay propiedades en alquiler con esos filtros.')
+    // Resetear paginación al filtrar
+    pageState.venta = PAGE_SIZE
+    pageState.alquiler = PAGE_SIZE
+
+    renderSection(refs.ventaGrid, venta, 'No hay propiedades en venta con esos filtros.', 'venta')
+    renderSection(refs.alquilerGrid, alquiler, 'No hay propiedades en alquiler con esos filtros.', 'alquiler')
 
     if (refs.ventaCount) refs.ventaCount.textContent = `${venta.length} resultado(s)`
     if (refs.alquilerCount) refs.alquilerCount.textContent = `${alquiler.length} resultado(s)`
   }
 
-  ;[refs.operation, refs.location, refs.price, refs.rooms, refs.bathrooms]
+  ;[refs.operation, refs.location, refs.priceMin, refs.priceMax, refs.rooms, refs.bathrooms]
     .filter(Boolean)
     .forEach((element) => {
-      element.addEventListener('input', render)
       element.addEventListener('change', render)
     })
+
+  refs.search?.addEventListener('click', render)
 
   refs.clear?.addEventListener('click', () => {
     if (refs.operation) refs.operation.value = 'all'
     if (refs.location) refs.location.value = ''
-    if (refs.price) refs.price.value = ''
+    if (refs.priceMin) refs.priceMin.value = ''
+    if (refs.priceMax) refs.priceMax.value = ''
     if (refs.rooms) refs.rooms.value = '0'
     if (refs.bathrooms) refs.bathrooms.value = '0'
     render()
@@ -481,6 +552,10 @@ function bootSite() {
 
   async function loadProperties() {
     supabase = await waitForSupabase()
+
+    // Mostrar skeletons inmediatamente
+    showSkeletons(refs.ventaGrid, 3)
+    showSkeletons(refs.alquilerGrid, 3)
 
     if (!supabase) {
       console.warn('Supabase no estuvo disponible. Se muestra la pagina sin propiedades remotas.')

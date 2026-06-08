@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Resumen de Solicitud de Crédito | Verito Garga Asesora Inmobiliaria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=1.4" />
+    <style>
+      /* Estilos específicos de la ficha de impresión/PDF */
+      body {
+        background: #f4f2eb;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: #1d2a36;
+        padding-bottom: 60px;
+      }
+
+      .no-print-bar {
+        background: #17344a;
+        color: #fff;
+        padding: 12px 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .no-print-bar-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .btn-back-view {
+        color: #deecf7;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-back-view:hover {
+        color: #f6d9a8;
+      }
+
+      .btn-print-pdf {
+        background: linear-gradient(135deg, #d3b17b, #b89052);
+        color: #17344a;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-weight: 800;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 10px rgba(184, 144, 82, 0.3);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .btn-print-pdf:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 14px rgba(184, 144, 82, 0.45);
+      }
+
+      .btn-print-pdf svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+      }
+
+      /* Contenedor tipo hoja A4 */
+      .pdf-container {
+        max-width: 760px;
+        margin: 30px auto;
+        padding: 0 15px;
+      }
+
+      .pdf-sheet {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(23, 52, 74, 0.08);
+        border: 1px solid #ddd5c8;
+        padding: 45px 50px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Barra dorada decorativa arriba */
+      .pdf-sheet::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #17344a, #b89052, #17344a);
+      }
+
+      /* Cabecera del PDF */
+      .pdf-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #f2efe9;
+        padding-bottom: 25px;
+        margin-bottom: 30px;
+        gap: 20px;
+      }
+
+      .pdf-logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .pdf-logo-wrap svg {
+        width: 38px;
+        height: 38px;
+        stroke: #b89052;
+        stroke-width: 1.8;
+      }
+
+      .pdf-logo-text h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 800;
+        color: #17344a;
+        line-height: 1.1;
+      }
+
+      .pdf-logo-text span {
+        font-size: 11px;
+        font-weight: 700;
+        color: #b89052;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .pdf-meta {
+        text-align: right;
+        font-size: 13px;
+        color: #5d6d7c;
+        line-height: 1.4;
+      }
+
+      .pdf-meta strong {
+        color: #17344a;
+      }
+
+      /* Título del documento */
+      .pdf-title-box {
+        text-align: center;
+        margin-bottom: 35px;
+      }
+
+      .pdf-title-box h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        color: #17344a;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        display: inline-block;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #b89052;
+      }
+
+      /* Secciones de la ficha */
+      .pdf-section {
+        margin-bottom: 28px;
+      }
+
+      .pdf-section-title {
+        font-size: 13px;
+        font-weight: 800;
+        color: #b89052;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid #f2efe9;
+        padding-bottom: 6px;
+      }
+
+      .pdf-section-title svg {
+        width: 14px;
+        height: 14px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 2.5;
+      }
+
+      /* Rejilla de campos */
+      .pdf-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .pdf-grid.full {
+        grid-template-columns: 1fr;
+      }
+
+      .pdf-item {
+        background: #f9f8f6;
+        border-radius: 10px;
+        padding: 12px 18px;
+        border: 1px solid #eeebe4;
+      }
+
+      .pdf-item.highlight-green {
+        background: #f0faf4;
+        border-color: #a8d9be;
+      }
+
+      .pdf-item.highlight-red {
+        background: #fef5f4;
+        border-color: #f5c2be;
+      }
+
+      .pdf-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #5d6d7c;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 3px;
+      }
+
+      .pdf-val {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1d2a36;
+      }
+
+      .pdf-val.val-green {
+        color: #0f7b43;
+      }
+
+      .pdf-val.val-red {
+        color: #c0392b;
+      }
+
+      /* Pie de página de la ficha */
+      .pdf-footer {
+        margin-top: 50px;
+        padding-top: 20px;
+        border-top: 2px solid #f2efe9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        font-size: 11px;
+        color: #5d6d7c;
+      }
+
+      .pdf-footer-contact {
+        display: flex;
+        gap: 15px;
+      }
+
+      .pdf-footer-contact span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      /* ──────────────── Vista de impresión / PDF ──────────────── */
+      @media print {
+        body {
+          background: #ffffff !important;
+          color: #000000 !important;
+          padding: 0 !important;
+        }
+
+        .no-print-bar {
+          display: none !important;
+        }
+
+        .pdf-container {
+          margin: 0 !important;
+          padding: 0 !important;
+          max-width: 100% !important;
+          width: 100% !important;
+        }
+
+        .pdf-sheet {
+          box-shadow: none !important;
+          border: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          border-radius: 0 !important;
+        }
+
+        .pdf-sheet::before {
+          display: none;
+        }
+
+        .pdf-item {
+          background: #fbfbfa !important;
+          border: 1px solid #e3e3df !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        .pdf-item.highlight-green {
+          background: #f2faf5 !important;
+          border-color: #a3d9bc !important;
+        }
+
+        .pdf-item.highlight-red {
+          background: #fff6f5 !important;
+          border-color: #f6c0bc !important;
+        }
+
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .pdf-sheet {
+          padding: 25px 20px;
+        }
+        .pdf-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        .pdf-meta {
+          text-align: left;
+        }
+        .pdf-grid {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        .pdf-footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- BARRA SUPERIOR (OCULTADA AL IMPRIMIR) -->
+    <div class="no-print-bar">
+      <div class="container no-print-bar-inner">
+        <a href="./index.html" class="btn-back-view">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Volver al Inicio
+        </a>
+        <button class="btn-print-pdf" onclick="window.print();">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Imprimir / Guardar como PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- DOCUMENTO FICHA -->
+    <div class="pdf-container">
+      <div class="pdf-sheet">
+        
+        <!-- CABECERA -->
+        <header class="pdf-header">
+          <div class="pdf-logo-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+            <div class="pdf-logo-text">
+              <h2>Verito Garga</h2>
+              <span>Asesora Inmobiliaria</span>
+            </div>
+          </div>
+          <div class="pdf-meta">
+            Fecha: <strong id="fechaFicha">—</strong><br />
+            ID Solicitud: <strong id="idFicha">—</strong>
+          </div>
+        </header>
+
+        <!-- TÍTULO -->
+        <div class="pdf-title-box">
+          <h1>Ficha de Solicitud de Crédito</h1>
+        </div>
+
+        <!-- SECCIÓN 1: DATOS PERSONALES -->
+        <section class="pdf-section">
+          <h3 class="pdf-section-title">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Datos de contacto del solicitante
+          </h3>
+          <div class="pdf-grid">
+            <div class="pdf-item">
+              <div class="pdf-label">Nombre Completo</div>
+              <div class="pdf-val" id="valNombre">—</div>
+            </div>
+            <div class="pdf-item">
+              <div class="pdf-label">Teléfono de Contacto</div>
+              <div class="pdf-val" id="valTelefono">—</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 2: ESTADO DEL CRÉDITO -->
+        <section class="pdf-section">
+          <h3 class="pdf-section-title">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            Estado del Crédito Hipotecario
+          </h3>
+          <div class="pdf-grid" id="creditoGrid">
+            <!-- Cargado dinámicamente -->
+          </div>
+        </section>
+
+        <!-- SECCIÓN 3: PREFERENCIAS DE BÚSQUEDA -->
+        <section class="pdf-section">
+          <h3 class="pdf-section-title">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Preferencias de Búsqueda
+          </h3>
+          <div class="pdf-grid">
+            <div class="pdf-item" style="grid-column: 1 / -1;">
+              <div class="pdf-label">Localidad de búsqueda</div>
+              <div class="pdf-val" id="valLocalidad">—</div>
+            </div>
+            <div class="pdf-item">
+              <div class="pdf-label">Cantidad de Ambientes</div>
+              <div class="pdf-val" id="valAmbientes">—</div>
+            </div>
+            <div class="pdf-item" style="display: none;"></div> <!-- Spacer -->
+            <div class="pdf-item">
+              <div class="pdf-label">Superficie Total</div>
+              <div class="pdf-val" id="valSupTotal">—</div>
+            </div>
+            <div class="pdf-item">
+              <div class="pdf-label">Superficie Cubierta</div>
+              <div class="pdf-val" id="valSupCub">—</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PIE DE PÁGINA -->
+        <footer class="pdf-footer">
+          <span>Verito Garga Asesora Inmobiliaria</span>
+          <div class="pdf-footer-contact">
+            <span>📞 +54 9 11 5317-5943</span>
+            <span>✉️ gargaglioneveronica@gmail.com</span>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+
+    <!-- SCRIPT DE CARGA DE DATOS -->
+    <script>
+      // Establecer fecha de hoy
+      const hoy = new Date()
+      document.getElementById('fechaFicha').textContent = hoy.toLocaleDateString('es-AR')
+
+      // Generar un código aleatorio para la solicitud
+      const randomId = 'CR-' + Math.floor(100000 + Math.random() * 900000)
+      document.getElementById('idFicha').textContent = randomId
+
+      // Leer parámetros del URL
+      const urlParams = new URLSearchParams(window.location.search)
+
+      const nombre = urlParams.get('nombre')
+      const telefono = urlParams.get('telefono')
+      const credito = urlParams.get('credito')
+      const banco = urlParams.get('banco')
+      const moneda = urlParams.get('moneda') || 'ARS'
+      const monto = urlParams.get('monto')
+      const localidad = urlParams.get('localidad')
+      const ambientes = urlParams.get('ambientes')
+      const supTotalMin = urlParams.get('supTotalMin')
+      const supTotalMax = urlParams.get('supTotalMax')
+      const supCubMin = urlParams.get('supCubMin')
+      const supCubMax = urlParams.get('supCubMax')
+
+      // Rellenar datos de contacto
+      document.getElementById('valNombre').textContent = nombre || 'No especificado'
+      document.getElementById('valTelefono').textContent = telefono || 'No especificado'
+
+      // Rellenar Crédito Hipotecario
+      const creditoGrid = document.getElementById('creditoGrid')
+      if (credito === 'si') {
+        let montoFormateado = 'Sin especificar'
+        if (monto) {
+          montoFormateado = (moneda === 'USD' ? 'U$D ' : '$ ') + Number(monto).toLocaleString('es-AR')
+        }
+
+        creditoGrid.innerHTML = `
+          <div class="pdf-item highlight-green" style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div class="pdf-label">Crédito Pre-Aprobado</div>
+              <div class="pdf-val val-green">SÍ ✅</div>
+            </div>
+          </div>
+          <div class="pdf-item">
+            <div class="pdf-label">Banco Otorgante</div>
+            <div class="pdf-val">${banco || 'No especificado'}</div>
+          </div>
+          <div class="pdf-item">
+            <div class="pdf-label">Monto Aprobado</div>
+            <div class="pdf-val" style="color: #0f7b43;">${montoFormateado}</div>
+          </div>
+        `
+      } else {
+        creditoGrid.innerHTML = `
+          <div class="pdf-item highlight-red" style="grid-column: 1 / -1;">
+            <div class="pdf-label">Crédito Pre-Aprobado</div>
+            <div class="pdf-val val-red">TODAVÍA NO ❌</div>
+          </div>
+        `
+      }
+
+      // Rellenar preferencias de búsqueda
+      document.getElementById('valLocalidad').textContent = localidad || 'No especificada'
+      
+      const ambientesTexto = ambientes ? `${ambientes} ambiente${ambientes !== '1' ? 's' : ''}` : 'Sin preferencia'
+      document.getElementById('valAmbientes').textContent = ambientesTexto
+
+      const totalTexto = (supTotalMin || supTotalMax) ? `${supTotalMin || '—'} a ${supTotalMax || '—'} m²` : 'Sin preferencia'
+      document.getElementById('valSupTotal').textContent = totalTexto
+
+      const cubTexto = (supCubMin || supCubMax) ? `${supCubMin || '—'} a ${supCubMax || '—'} m²` : 'Sin preferencia'
+      document.getElementById('valSupCub').textContent = cubTexto
+    </script>
+
+  </body>
+</html>
