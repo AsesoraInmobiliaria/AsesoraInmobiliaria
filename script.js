@@ -210,11 +210,18 @@ function bootSite() {
   }
 
   const trackedViews = new Set()
+  const pendingViews = new Set()
   let supabase = null
   let allProperties = []
 
   async function trackView(propertyId) {
-    if (!supabase || trackedViews.has(propertyId) || Number.isNaN(Number(propertyId))) return
+    if (Number.isNaN(Number(propertyId)) || trackedViews.has(propertyId)) return
+
+    if (!supabase) {
+      pendingViews.add(propertyId)
+      return
+    }
+
     trackedViews.add(propertyId)
 
     try {
@@ -551,17 +558,44 @@ function bootSite() {
   })
 
   async function loadProperties() {
+    // 1. Intentar cargar desde localStorage para visualización instantánea (caché)
+    let cachedData = null
+    try {
+      const rawCache = localStorage.getItem('vg_properties_cache')
+      if (rawCache) {
+        cachedData = JSON.parse(rawCache)
+      }
+    } catch (e) {
+      console.warn('Error leyendo caché local:', e)
+    }
+
+    if (Array.isArray(cachedData) && cachedData.length > 0) {
+      allProperties = cachedData.map(normalizeProperty)
+      render()
+    } else {
+      // Si no hay caché, mostrar skeletons inmediatamente
+      showSkeletons(refs.ventaGrid, 3)
+      showSkeletons(refs.alquilerGrid, 3)
+    }
+
+    // 2. Cargar en segundo plano desde Supabase
     supabase = await waitForSupabase()
 
-    // Mostrar skeletons inmediatamente
-    showSkeletons(refs.ventaGrid, 3)
-    showSkeletons(refs.alquilerGrid, 3)
-
     if (!supabase) {
-      console.warn('Supabase no estuvo disponible. Se muestra la pagina sin propiedades remotas.')
-      allProperties = []
-      render()
+      console.warn('Supabase no estuvo disponible. Se muestra la pagina con caché o vacía.')
+      if (!allProperties.length) {
+        allProperties = []
+        render()
+      }
       return
+    }
+
+    // Procesar vistas pendientes ahora que supabase está listo
+    if (pendingViews.size > 0) {
+      for (const propId of pendingViews) {
+        trackView(propId)
+      }
+      pendingViews.clear()
     }
 
     try {
@@ -572,12 +606,24 @@ function bootSite() {
 
       if (error) throw error
 
-      allProperties = (data || []).map(normalizeProperty)
+      const remoteProperties = data || []
+
+      // Guardar en localStorage para futuras visitas
+      try {
+        localStorage.setItem('vg_properties_cache', JSON.stringify(remoteProperties))
+      } catch (e) {
+        console.warn('Error guardando en caché local:', e)
+      }
+
+      allProperties = remoteProperties.map(normalizeProperty)
       render()
     } catch (error) {
-      console.error('Error cargando propiedades:', error)
-      allProperties = []
-      render()
+      console.error('Error cargando propiedades desde Supabase:', error)
+      // Si falló pero teníamos caché, la dejamos. Si no, limpiamos
+      if (!allProperties.length) {
+        allProperties = []
+        render()
+      }
     }
   }
 

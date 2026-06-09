@@ -3,8 +3,8 @@ const SUPABASE_KEY = 'sb_publishable_KiAQsHfP0ACCEWhAI2_qZg_Ng2KDSas'
 const WHATSAPP_NUMBER = '5491153175943'
 const STATS_KEY = 'vg_stats'
 const MAX_PHOTOS = 10
-const MAX_IMAGE_SIDE = 1600
-const JPEG_QUALITY = 0.82
+const MAX_IMAGE_SIDE = 1200
+const JPEG_QUALITY = 0.80
 
 function waitForSupabase(maxAttempts = 40, delayMs = 150) {
   return new Promise((resolve) => {
